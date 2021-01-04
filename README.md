@@ -1,6 +1,6 @@
 PODACI UNUTAR APLIKACIJE:
 -------------------------
-Gorivo
+Gorivo<br />
     -gorivo
         ! kilometraza, ukupna cijena, br litara, (popust (checkbox) i cijena po litru)
 Troskovi Registracije i Osiguranje
