@@ -13,7 +13,7 @@ const App = () => {
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-        <MyProfileScreen />
+        <TravelInfoScreen />
       </SafeAreaView>
     </View>
   );
