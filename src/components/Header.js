@@ -1,11 +1,12 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import Constants from '../constants/Constants';
+import AppText from '../components/AppText'
 
 const Header = () => {
   return (
     <View style={styles.header}>
-      <Text>H</Text>
+      <AppText style={styles.text}>AppMobile</AppText>
     </View>
   );
 };
@@ -15,8 +16,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '8%',
     flexDirection: 'row',
-    backgroundColor: 'black',
+    alignItems: 'center',
+    backgroundColor: Constants.primaryDark,
   },
+  text: {
+    fontSize: 22,
+    color: 'white',
+    textAlign: 'center'
+  }
 });
 
 export default Header;
