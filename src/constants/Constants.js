@@ -23,6 +23,7 @@ export default {
   // COOLORS palette 18 (watermellon)
   background: '#f2e8cf',
   red: '#bc4749',
+  redDark: '#a32e30',
   primary: '#6a994e',
   primaryDark: '#386641',
   primaryLight: '#a7c957',

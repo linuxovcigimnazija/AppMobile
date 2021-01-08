@@ -1,5 +1,6 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
+import Constants from './src/constants/Constants';
 
 // SCREENS
 import HomeScreen from './src/screens/HomeScreen';
@@ -12,6 +13,7 @@ const App = () => {
   // ovdje samo postavite koji screen radite i to ce se renderovati
   return (
     <View style={styles.container}>
+      <View style={styles.notch} />
       <SafeAreaView style={styles.safeArea}>
         <RegisterScreen />
       </SafeAreaView>
@@ -22,9 +24,19 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // svrha ovog je da se postavi boja notification bara u slucaju notch-a
-    backgroundColor: 'white',
+    // background color sets the color of screen
+    // out of safeareaview on the bottom half
+    backgroundColor: Constants.black,
   },
+  notch: {
+    position: 'absolute',
+    width: '100%',
+    height: '50%',
+    // background color sets the color of screen
+    // out of safeareaview on the upper half
+    backgroundColor: Constants.red,
+  },
+
   safeArea: {
     flex: 1,
   },
