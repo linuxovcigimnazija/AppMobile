@@ -15,7 +15,7 @@ const App = () => {
     <View style={styles.container}>
       <View style={styles.notch} />
       <SafeAreaView style={styles.safeArea}>
-        <RegisterScreen />
+        <LoginScreen />
       </SafeAreaView>
     </View>
   );

@@ -21,17 +21,18 @@ export default {
   gray: '#888888',
 
   // COOLORS palette 18 (watermellon)
-  background: '#f2e8cf',
-  red: '#bc4749',
-  redDark: '#a32e30',
-  primary: '#6a994e',
-  primaryDark: '#386641',
-  primaryLight: '#a7c957',
+  // background: '#f2e8cf',
+  // red: '#bc4749',
+  // redDark: '#a32e30',
+  // primary: '#6a994e',
+  // primaryDark: '#386641',
+  // primaryLight: '#a7c957',
 
   // COOLORS palette 14 (sea ship)
-  // background: '#e9fff9',
-  // red: '#d64045',
-  // primary: '#467559',
-  // primaryDark: '#1d3354',
-  // primaryLight: '#9ed8db',
+  background: '#e9fff9',
+  red: '#d64045',
+  redDark: '#a32e30',
+  primary: '#467559',
+  primaryDark: '#1d3354',
+  primaryLight: '#9ed8db',
 };
