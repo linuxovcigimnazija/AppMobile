@@ -35,4 +35,9 @@ export default {
   primary: '#467559',
   primaryDark: '#1d3354',
   primaryLight: '#9ed8db',
+
+  fuelGreen: '#ade6bb',
+  fuelOrange: '#ffa630',
+  fuelBlue: '#9ed8db',
+  fuelYellow: 'yellow',
 };

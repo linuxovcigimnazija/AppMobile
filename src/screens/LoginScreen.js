@@ -12,8 +12,6 @@ import Header from '../components/Header';
 import AppText from '../components/AppText';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import DashboardInput from '../components/DashboardInput';
-import DropDownPicker from 'react-native-dropdown-picker';
-import Countries from '../constants/Countries';
 import Hyperlink from 'react-native-hyperlink';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';

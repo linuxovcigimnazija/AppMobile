@@ -15,7 +15,7 @@ const App = () => {
     <View style={styles.container}>
       <View style={styles.notch} />
       <SafeAreaView style={styles.safeArea}>
-        <LoginScreen />
+        <HomeScreen />
       </SafeAreaView>
     </View>
   );
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     height: '50%',
     // background color sets the color of screen
     // out of safeareaview on the upper half
-    backgroundColor: Constants.red,
+    backgroundColor: Constants.primaryDark,
   },
 
   safeArea: {
