@@ -14,6 +14,7 @@ import {getLogo, getFuelIcon} from '../utils/Functions';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import InputTypeColors from '../constants/InputTypeColors';
 
 const AutoScreen = ({navigation}) => {
   const car = {
@@ -121,8 +122,15 @@ const AutoScreen = ({navigation}) => {
               <View style={styles.overflow}>
                 <Button
                   activeOpacity={0.8}
-                  style={[styles.smallButton, {backgroundColor: 'blue'}]}>
-                  <View style={[styles.smallButton, {backgroundColor: 'blue'}]}>
+                  style={[
+                    styles.smallButton,
+                    {backgroundColor: InputTypeColors.registration},
+                  ]}>
+                  <View
+                    style={[
+                      styles.smallButton,
+                      {backgroundColor: InputTypeColors.registration},
+                    ]}>
                     <Ionicon
                       name="documents"
                       color={Constants.white}
@@ -144,9 +152,15 @@ const AutoScreen = ({navigation}) => {
               <View style={styles.overflow}>
                 <Button
                   activeOpacity={0.8}
-                  style={[styles.smallButton, {backgroundColor: 'orange'}]}>
+                  style={[
+                    styles.smallButton,
+                    {backgroundColor: InputTypeColors.maintainance},
+                  ]}>
                   <View
-                    style={[styles.smallButton, {backgroundColor: 'orange'}]}>
+                    style={[
+                      styles.smallButton,
+                      {backgroundColor: InputTypeColors.maintainance},
+                    ]}>
                     <MaterialCommunityIcon
                       name="hammer-wrench"
                       color={Constants.white}
@@ -174,9 +188,15 @@ const AutoScreen = ({navigation}) => {
               <View style={styles.overflow}>
                 <Button
                   activeOpacity={0.8}
-                  style={[styles.smallButton, {backgroundColor: 'crimson'}]}>
+                  style={[
+                    styles.smallButton,
+                    {backgroundColor: InputTypeColors.crashes},
+                  ]}>
                   <View
-                    style={[styles.smallButton, {backgroundColor: 'crimson'}]}>
+                    style={[
+                      styles.smallButton,
+                      {backgroundColor: InputTypeColors.crashes},
+                    ]}>
                     <FontAwesome5Icon
                       name="car-crash"
                       color={Constants.white}
@@ -200,12 +220,12 @@ const AutoScreen = ({navigation}) => {
                   activeOpacity={0.8}
                   style={[
                     styles.smallButton,
-                    {backgroundColor: 'mediumturquoise'},
+                    {backgroundColor: InputTypeColors.equipment},
                   ]}>
                   <View
                     style={[
                       styles.smallButton,
-                      {backgroundColor: 'mediumturquoise'},
+                      {backgroundColor: InputTypeColors.equipment},
                     ]}>
                     <FontAwesome5Icon
                       name="luggage-cart"
@@ -315,7 +335,7 @@ const styles = StyleSheet.create({
   bigButton: {
     width: Constants.width - 40,
     justifyContent: 'center',
-    backgroundColor: 'lightgreen',
+    backgroundColor: InputTypeColors.fuel,
     borderRadius: 10,
     paddingVertical: 10,
     height: Constants.height * 0.8 * 0.16,
