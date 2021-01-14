@@ -10,8 +10,7 @@ import AppText from '../components/AppText';
 import Header from '../components/Header';
 import Constants from '../constants/Constants';
 import FastImage from 'react-native-fast-image';
-import {getLogo} from '../utils/Functions';
-
+import {getLogo, getFuelIcon} from '../utils/Functions';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const dummyData = [
@@ -82,32 +81,7 @@ const HomeScreen = () => {
 
   const renderCar = (car) => {
     const item = car.item;
-    const fuelIcon =
-      item.fuel === 'benzin' ? (
-        <MaterialCommunityIcon
-          name="fuel"
-          color={Constants.fuelOrange}
-          style={styles.fuelIcon}
-        />
-      ) : item.fuel === 'dizel' ? (
-        <MaterialCommunityIcon
-          name="gas-station"
-          color={Constants.fuelGreen}
-          style={styles.fuelIcon}
-        />
-      ) : item.fuel === 'struja' ? (
-        <MaterialCommunityIcon
-          name="lightning-bolt"
-          color={Constants.fuelYellow}
-          style={styles.fuelIcon}
-        />
-      ) : (
-        <MaterialCommunityIcon
-          name="gas-cylinder"
-          color={Constants.fuelBlue}
-          style={styles.fuelIcon}
-        />
-      );
+    const fuelIcon = getFuelIcon(item.fuel);
 
     return (
       <TouchableHighlight
@@ -141,7 +115,13 @@ const HomeScreen = () => {
                 alignItems: item.id % 2 === 0 ? 'flex-start' : 'flex-end',
               },
             ]}>
-            <AppText size={20} bold color={Constants.white}>
+            <AppText
+              size={20}
+              bold
+              color={Constants.white}
+              style={{
+                textAlign: item.id % 2 === 0 ? 'left' : 'right',
+              }}>
               {item.name}
             </AppText>
             <AppText size={16} color={Constants.background}>
@@ -235,10 +215,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
     paddingHorizontal: 10,
-  },
-  fuelIcon: {
-    fontSize: 40,
-    alignSelf: 'center',
   },
   addCarButton: {
     alignSelf: 'center',
