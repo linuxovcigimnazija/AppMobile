@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   ScrollView,
+  TouchableWithoutFeedback,
+  Text,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import AppText from '../components/AppText';
@@ -15,6 +17,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import InputTypeColors from '../constants/InputTypeColors';
+import LinearGradient from 'react-native-linear-gradient';
 
 const AutoScreen = ({navigation}) => {
   const car = {
@@ -27,6 +30,27 @@ const AutoScreen = ({navigation}) => {
     id: 0,
   };
 
+  const averageFuelConsumption = 16;
+  const totalFuel = 170;
+  const moneySpentLastMonth = 890;
+  const currency = 'EUR';
+
+  let scrollViewRef;
+
+  const onArrowPressHandler = (way = 'down') => {
+    way === 'down'
+      ? scrollViewRef.scrollToEnd()
+      : scrollViewRef.scrollTo({x: 0, y: 0, animated: true});
+  };
+
+  const goToAnalytics = () => {
+    // navigation.navigate('Analytics');
+  };
+
+  const goToCategory = (categoryName) => {
+    // navigation.navigate(categoryName);
+  };
+
   const Button =
     Constants.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity;
 
@@ -37,228 +61,393 @@ const AutoScreen = ({navigation}) => {
         <View style={styles.imageContainer}>
           <FastImage source={getLogo(car.brand)} style={styles.image} />
         </View>
-        <View style={styles.headerTextContainer}>
-          <AppText color={Constants.white} size={26} bold>
-            {car.name}
-          </AppText>
-          <AppText color={Constants.primaryLight} size={20} bold>
-            {car.brand}
-          </AppText>
-          <View
-            style={[
-              styles.flexRow,
-              {paddingBottom: 5, flex: 1, alignItems: 'flex-end'},
-            ]}>
-            <View style={styles.flexRow}>
-              <AppText color={Constants.primaryLight} size={18} bold>
-                {car.fuel}
-              </AppText>
-              {getFuelIcon(car.fuel, {fontSize: 20, marginLeft: 10})}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            flex: 1,
+            height: '100%',
+          }}>
+          <View style={styles.headerTextContainer}>
+            <AppText color={Constants.white} size={26} bold>
+              {car.name}
+            </AppText>
+            <AppText
+              style={{marginTop: 3}}
+              color={Constants.primaryLight}
+              size={18}>
+              {car.brand}
+            </AppText>
+            <View
+              style={[
+                styles.flexRow,
+                {
+                  width: undefined,
+                  paddingBottom: 5,
+                  flex: 1,
+                  alignItems: 'flex-end',
+                },
+              ]}>
+              <View style={[styles.flexRow, {width: undefined}]}>
+                <AppText color={Constants.primaryLight} size={16}>
+                  {car.fuel.toUpperCase()}
+                </AppText>
+                {getFuelIcon(car.fuel, {fontSize: 20, marginLeft: 10})}
+              </View>
             </View>
           </View>
-        </View>
 
-        <View style={styles.headerTextContainer2}>
-          <View>
-            <AppText
-              color={Constants.white}
-              size={16}
-              style={{textAlign: 'right'}}>
-              Presao:
-            </AppText>
-            <AppText
-              color={Constants.white}
-              size={14}
-              bold
-              style={{textAlign: 'right'}}>
-              {car.km}km
-            </AppText>
-          </View>
-          <View>
-            <AppText
-              style={[styles.marginTop, {textAlign: 'right'}]}
-              color={Constants.background}
-              size={14}>
-              {car.horsepower} KS
-            </AppText>
-            <AppText
-              color={Constants.background}
-              size={14}
-              style={{textAlign: 'right'}}>
-              {car.sizeInLiters}L
-            </AppText>
+          <View style={styles.headerTextContainer2}>
+            <View>
+              <AppText
+                color={Constants.white}
+                size={16}
+                style={{textAlign: 'right'}}>
+                Kilometri:
+              </AppText>
+              <AppText
+                color={Constants.white}
+                size={14}
+                bold
+                style={{textAlign: 'right'}}>
+                {car.km}km
+              </AppText>
+            </View>
+            <View>
+              <AppText
+                style={[styles.marginTop, {textAlign: 'right'}]}
+                color={Constants.background}
+                size={14}>
+                {car.horsepower} KS
+              </AppText>
+              <AppText
+                color={Constants.background}
+                size={14}
+                style={{textAlign: 'right'}}>
+                {car.sizeInLiters}L
+              </AppText>
+            </View>
           </View>
         </View>
       </View>
 
       <></>
 
-      <View style={styles.bodyRadius} />
-      <View style={styles.bodyContainer}>
-        {/* <ScrollView contentContainerStyle={styles.scrollView}> */}
-        <View style={styles.body}>
-          <View style={[styles.shadow, {bottom: '2%'}]}>
-            <View style={[styles.overflow, {bottom: '2%'}]}>
-              <Button
-                activeOpacity={0.8}
-                style={[styles.flexRow, styles.center, styles.bigButton]}>
-                <View style={[styles.flexRow, styles.center, styles.bigButton]}>
-                  <AppText bold size={38}>
-                    Unesi Gorivo
-                  </AppText>
-                  <Ionicon
-                    style={{marginLeft: 10}}
-                    name="color-fill"
-                    color={Constants.black}
-                    size={Constants.height * 0.8 * 0.1}
-                  />
+      <View
+        style={{
+          flex: 10,
+          backgroundColor: Constants.primaryDark,
+        }}>
+        <View
+          style={{
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            backgroundColor: Constants.background,
+            overflow: 'hidden',
+          }}>
+          <ScrollView
+            ref={(ref) => (scrollViewRef = ref)}
+            scrollEnabled={false}
+            contentContainerStyle={styles.scrollView}>
+            <View style={styles.bodyFade} />
+            <View style={styles.bodyContainer}>
+              <View style={styles.body}>
+                <View style={[styles.shadow, {bottom: '2%'}]}>
+                  <View style={[styles.overflow, {bottom: '2%'}]}>
+                    <Button
+                      activeOpacity={0.8}
+                      style={[styles.flexRow, styles.center, styles.bigButton]}
+                      onPress={() => goToCategory('Gorivo')}>
+                      <View
+                        style={[
+                          styles.flexRow,
+                          styles.center,
+                          styles.bigButton,
+                        ]}>
+                        <AppText bold size={36}>
+                          Unesi Gorivo
+                        </AppText>
+                        <MaterialCommunityIcon
+                          style={{marginLeft: 10}}
+                          name="fuel"
+                          color={Constants.black}
+                          size={Constants.height * 0.8 * 0.1}
+                        />
+                      </View>
+                    </Button>
+                  </View>
                 </View>
-              </Button>
-            </View>
-          </View>
 
-          <View style={[styles.flexRow, {justifyContent: 'space-between'}]}>
-            <View style={styles.shadow}>
-              <View style={styles.overflow}>
-                <Button
-                  activeOpacity={0.8}
-                  style={[
-                    styles.smallButton,
-                    {backgroundColor: InputTypeColors.registration},
-                  ]}>
-                  <View
-                    style={[
-                      styles.smallButton,
-                      {backgroundColor: InputTypeColors.registration},
-                    ]}>
-                    <Ionicon
-                      name="documents"
-                      color={Constants.white}
-                      size={Constants.height * 0.8 * 0.1}
-                    />
-                    <AppText
-                      style={styles.buttonText}
-                      bold
-                      color={Constants.white}
-                      size={16}>
-                      Troskovi Registracije
-                    </AppText>
+                <View
+                  style={[styles.flexRow, {justifyContent: 'space-between'}]}>
+                  <View style={styles.shadow}>
+                    <View style={styles.overflow}>
+                      <Button
+                        activeOpacity={0.8}
+                        style={[
+                          styles.smallButton,
+                          {backgroundColor: InputTypeColors.registration},
+                        ]}
+                        onPress={() => goToCategory('TroskoviRegistracije')}>
+                        <View
+                          style={[
+                            styles.smallButton,
+                            {backgroundColor: InputTypeColors.registration},
+                          ]}>
+                          <Ionicon
+                            name="documents"
+                            color={Constants.white}
+                            size={Constants.height * 0.8 * 0.1}
+                          />
+                          <AppText
+                            style={styles.buttonText}
+                            bold
+                            color={Constants.white}
+                            size={16}>
+                            Troskovi Registracije
+                          </AppText>
+                        </View>
+                      </Button>
+                    </View>
                   </View>
-                </Button>
-              </View>
-            </View>
 
-            <View style={styles.shadow}>
-              <View style={styles.overflow}>
-                <Button
-                  activeOpacity={0.8}
-                  style={[
-                    styles.smallButton,
-                    {backgroundColor: InputTypeColors.maintainance},
-                  ]}>
-                  <View
-                    style={[
-                      styles.smallButton,
-                      {backgroundColor: InputTypeColors.maintainance},
-                    ]}>
-                    <MaterialCommunityIcon
-                      name="hammer-wrench"
-                      color={Constants.white}
-                      size={Constants.height * 0.8 * 0.1}
-                    />
-                    <AppText
-                      style={styles.buttonText}
-                      bold
-                      color={Constants.white}
-                      size={16}>
-                      Odrzavanje i Popravke
-                    </AppText>
+                  <View style={styles.shadow}>
+                    <View style={styles.overflow}>
+                      <Button
+                        activeOpacity={0.8}
+                        style={[
+                          styles.smallButton,
+                          {backgroundColor: InputTypeColors.maintainance},
+                        ]}
+                        onPress={() => goToCategory('OdrzavanjeIPopravke')}>
+                        <View
+                          style={[
+                            styles.smallButton,
+                            {backgroundColor: InputTypeColors.maintainance},
+                          ]}>
+                          <MaterialCommunityIcon
+                            name="hammer-wrench"
+                            color={Constants.white}
+                            size={Constants.height * 0.8 * 0.1}
+                          />
+                          <AppText
+                            style={styles.buttonText}
+                            bold
+                            color={Constants.white}
+                            size={16}>
+                            Odrzavanje i Popravke
+                          </AppText>
+                        </View>
+                      </Button>
+                    </View>
                   </View>
-                </Button>
-              </View>
-            </View>
-          </View>
+                </View>
 
-          <View
-            style={[
-              styles.flexRow,
-              {justifyContent: 'space-between', marginTop: '3%'},
-            ]}>
-            <View style={styles.shadow}>
-              <View style={styles.overflow}>
-                <Button
-                  activeOpacity={0.8}
+                <View
                   style={[
-                    styles.smallButton,
-                    {backgroundColor: InputTypeColors.crashes},
+                    styles.flexRow,
+                    {
+                      justifyContent: 'space-between',
+                      marginTop: '3%',
+                    },
                   ]}>
-                  <View
-                    style={[
-                      styles.smallButton,
-                      {backgroundColor: InputTypeColors.crashes},
-                    ]}>
+                  <View style={styles.shadow}>
+                    <View style={styles.overflow}>
+                      <Button
+                        activeOpacity={0.8}
+                        style={[
+                          styles.smallButton,
+                          {backgroundColor: InputTypeColors.crashes},
+                        ]}
+                        onPress={() => goToCategory('Ostecenja')}>
+                        <View
+                          style={[
+                            styles.smallButton,
+                            {backgroundColor: InputTypeColors.crashes},
+                          ]}>
+                          <FontAwesome5Icon
+                            name="car-crash"
+                            color={Constants.white}
+                            size={Constants.height * 0.8 * 0.095}
+                          />
+                          <AppText
+                            style={styles.buttonText}
+                            bold
+                            color={Constants.white}
+                            size={18}>
+                            Ostecenja
+                          </AppText>
+                        </View>
+                      </Button>
+                    </View>
+                  </View>
+
+                  <View style={styles.shadow}>
+                    <View style={styles.overflow}>
+                      <Button
+                        activeOpacity={0.8}
+                        style={[
+                          styles.smallButton,
+                          {backgroundColor: InputTypeColors.equipment},
+                        ]}
+                        onPress={() => goToCategory('OpremaIOstalo')}>
+                        <View
+                          style={[
+                            styles.smallButton,
+                            {backgroundColor: InputTypeColors.equipment},
+                          ]}>
+                          <FontAwesome5Icon
+                            name="luggage-cart"
+                            color={Constants.white}
+                            size={Constants.height * 0.8 * 0.09}
+                          />
+                          <AppText
+                            style={styles.buttonText}
+                            bold
+                            color={Constants.white}
+                            size={16}>
+                            Oprema i Ostalo
+                          </AppText>
+                        </View>
+                      </Button>
+                    </View>
+                  </View>
+                </View>
+
+                <View style={styles.arrowButtonContainer}>
+                  <TouchableOpacity
+                    onPress={() => onArrowPressHandler('down')}
+                    activeOpacity={0.7}
+                    style={styles.arrowButton}>
                     <FontAwesome5Icon
-                      name="car-crash"
-                      color={Constants.white}
-                      size={Constants.height * 0.8 * 0.095}
+                      name="arrow-down"
+                      size={50}
+                      color={Constants.black}
                     />
-                    <AppText
-                      style={styles.buttonText}
-                      bold
-                      color={Constants.white}
-                      size={18}>
-                      Ostecenja
-                    </AppText>
-                  </View>
-                </Button>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
 
-            <View style={styles.shadow}>
-              <View style={styles.overflow}>
-                <Button
-                  activeOpacity={0.8}
-                  style={[
-                    styles.smallButton,
-                    {backgroundColor: InputTypeColors.equipment},
-                  ]}>
-                  <View
-                    style={[
-                      styles.smallButton,
-                      {backgroundColor: InputTypeColors.equipment},
-                    ]}>
+              <View style={styles.body2}>
+                <TouchableWithoutFeedback onPress={() => goToAnalytics()}>
+                  <View style={styles.preview}>
+                    <AppText
+                      style={{marginBottom: 5}}
+                      size={42}
+                      bold
+                      color={Constants.white}>
+                      Analitika
+                    </AppText>
+
+                    <View
+                      style={{
+                        justifyContent: 'space-evenly',
+                        flex: 1,
+                        marginBottom: '10%',
+                      }}>
+                      <View>
+                        <AppText color={Constants.white} size={20}>
+                          Prosjecna potrosnja goriva:
+                        </AppText>
+                        <View
+                          style={{
+                            marginLeft: 15,
+                            flexDirection: 'row',
+                          }}>
+                          <Text>
+                            <AppText
+                              color={Constants.background}
+                              bold
+                              size={26}>
+                              {averageFuelConsumption + ' '}
+                            </AppText>
+                            <AppText color={Constants.background} size={20}>
+                              l /100km
+                            </AppText>
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View>
+                        <AppText color={Constants.white} size={20}>
+                          Ukupno nasuto litara:
+                        </AppText>
+                        <View
+                          style={{
+                            marginLeft: 15,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                          }}>
+                          <Text>
+                            <AppText
+                              color={Constants.background}
+                              bold
+                              size={26}>
+                              {totalFuel + ' '}
+                            </AppText>
+                            <AppText color={Constants.background} size={20}>
+                              litara
+                            </AppText>
+                          </Text>
+                        </View>
+                      </View>
+
+                      <View>
+                        <AppText color={Constants.white} size={20}>
+                          Novca potroseno zadnjih 30 dana:
+                        </AppText>
+                        <View
+                          style={{
+                            marginLeft: 15,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                          }}>
+                          <AppText color={Constants.background} size={26}>
+                            {moneySpentLastMonth + ' ' + currency}
+                          </AppText>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View
+                      style={[
+                        styles.flexRow,
+                        {
+                          justifyContent: 'space-between',
+                          width: '25%',
+                          alignSelf: 'center',
+                          position: 'absolute',
+                          bottom: '10%',
+                        },
+                      ]}>
+                      <View style={styles.dot} />
+                      <View style={styles.dot} />
+                      <View style={styles.dot} />
+                    </View>
+                  </View>
+                </TouchableWithoutFeedback>
+
+                <View style={styles.arrowButtonContainer2}>
+                  <TouchableOpacity
+                    onPress={() => onArrowPressHandler('up')}
+                    activeOpacity={0.7}
+                    style={styles.arrowButton}>
                     <FontAwesome5Icon
-                      name="luggage-cart"
-                      color={Constants.white}
-                      size={Constants.height * 0.8 * 0.09}
+                      name="arrow-up"
+                      size={50}
+                      color={Constants.black}
                     />
-                    <AppText
-                      style={styles.buttonText}
-                      bold
-                      color={Constants.white}
-                      size={16}>
-                      Oprema i Ostalo
-                    </AppText>
-                  </View>
-                </Button>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
+          </ScrollView>
 
-          <View style={styles.arrowButtonContainer}>
-            <TouchableOpacity
-              onPress={() => {}}
-              activeOpacity={0.7}
-              style={styles.arrowButton}>
-              <FontAwesome5Icon
-                name="arrow-down"
-                size={50}
-                color={Constants.black}
-              />
-            </TouchableOpacity>
-          </View>
+          {/* <LinearGradient
+            colors={[Constants.background, Constants.background + '00']}
+            style={[styles.bodyFade, {position: 'absolute'}]}
+          /> */}
         </View>
-        {/* </ScrollView> */}
       </View>
     </View>
   );
@@ -277,7 +466,7 @@ const styles = StyleSheet.create({
 
   screenContainer: {
     flex: 1,
-    backgroundColor: Constants.primaryDark,
+    backgroundColor: Constants.background,
   },
   autoHeader: {
     backgroundColor: Constants.primaryDark,
@@ -300,13 +489,9 @@ const styles = StyleSheet.create({
     borderRadius: 10, // maybe this could look good
   },
   headerTextContainer: {
-    flex: 2,
-    height: '100%',
     paddingLeft: 15,
   },
   headerTextContainer2: {
-    flex: 1,
-    height: '100%',
     justifyContent: 'space-between',
     paddingBottom: 5,
     alignItems: 'flex-end',
@@ -315,22 +500,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 
-  bodyRadius: {
-    width: '100%',
-    flex: 0.4,
-    borderTopLeftRadius: 10000,
-    borderTopRightRadius: 10000,
-    backgroundColor: Constants.background,
-  },
   bodyContainer: {
     flex: 10,
     backgroundColor: Constants.background,
     alignItems: 'center',
-    padding: 20,
   },
   body: {
     width: '100%',
-    height: '100%',
+    height: Constants.height * 0.73 - 20,
+    padding: 20,
+    paddingBottom: 0,
   },
   bigButton: {
     width: Constants.width - 40,
@@ -370,7 +549,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   arrowButtonContainer: {
-    flex: 1,
+    height: Constants.height * 0.721 * 0.2,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -386,17 +565,53 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  body2: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'teal',
-  },
-
   scrollView: {
     flexGrow: 1,
+  },
+  bodyFade: {
     width: '100%',
-    backgroundColor: 'teal',
+    height: Constants.height * 0.015,
+  },
+
+  body2: {
+    width: '100%',
+    height: Constants.height * 0.7,
+    alignItems: 'center',
     padding: 20,
+    paddingTop:
+      Constants.height > 800
+        ? Constants.height * 0.06
+        : Constants.height * 0.01,
+  },
+  preview: {
+    width: '100%',
+    backgroundColor: Constants.primaryDark,
+    borderRadius: 25,
+    flex: 2,
+    padding: 30,
+    paddingTop: 20,
+
+    elevation: 5,
+    shadowColor: Constants.primaryDark,
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowRadius: 4,
+    shadowOpacity: 0.4,
+  },
+  dot: {
+    backgroundColor: Constants.white,
+    aspectRatio: 1,
+    borderRadius: 100,
+    width: 13,
+  },
+
+  arrowButtonContainer2: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

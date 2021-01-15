@@ -25,7 +25,8 @@ export const getFuelIcon = (fuelType, style) => {
     />
   ) : fuelType === 'dizel' ? (
     <MaterialCommunityIcon
-      name="gas-station"
+      // name="gas-station"
+      name="fuel"
       color={Constants.fuelGreen}
       style={[styles.fuelIcon, style]}
     />
