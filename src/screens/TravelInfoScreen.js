@@ -5,6 +5,8 @@ import Constants from '../constants/Constants';
 import {Picker} from '@react-native-picker/picker';
 import {TravellInfoData} from '../constants/TravellInfoData';
 import Hyperlink from 'react-native-hyperlink';
+import AppText from '../components/AppText';
+import LinearGradient from 'react-native-linear-gradient';
 
 const TravelInfoScreen = () => {
   const list = TravellInfoData;
@@ -30,11 +32,11 @@ const TravelInfoScreen = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: Constants.background}}>
       <Header />
       <View style={styles.lowerView}>
         <View style={styles.numbersView}>
-          <Text style={styles.titleText}>POMOC NA PUTU ZA...</Text>
+          <AppText style={styles.titleText}>POMOC NA PUTU ZA...</AppText>
           <View style={styles.dropDownPickerStyle}>
             <Picker
               selectedValue={number}
@@ -96,10 +98,6 @@ const TravelInfoScreen = () => {
               Vise informacija na ovaj {link}
             </Text>
           </Hyperlink>
-
-          <View>
-            <Text></Text>
-          </View>
         </View>
       </View>
     </View>
