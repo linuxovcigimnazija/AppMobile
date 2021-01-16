@@ -34,12 +34,27 @@ const TravelInfoScreen = () => {
   return (
     <View style={{flex: 1, backgroundColor: Constants.background}}>
       <Header />
-      <View style={styles.lowerView}>
+      <LinearGradient
+        colors={[
+          Constants.primaryLight,
+          Constants.primary,
+          Constants.primaryDark,
+        ]}
+        style={styles.lowerView}>
         <View style={styles.numbersView}>
-          <AppText style={styles.titleText}>POMOC NA PUTU ZA...</AppText>
-          <View style={styles.dropDownPickerStyle}>
+          <AppText style={styles.titleText}>POMOĆ NA PUTU ZA...</AppText>
+          <View
+            style={[
+              {
+                borderWidth: 2,
+                borderColor: Constants.primary,
+              },
+              styles.dropDownPickerViewStyle,
+            ]}>
             <Picker
               selectedValue={number}
+              style={styles.dropDownPickerViewStyle}
+              mode="dropdown"
               onValueChange={(itemValue, itemIndex) => numberChange(itemIndex)}>
               <Picker.Item label={list[0].label} value={list[0].value} />
               <Picker.Item label={list[1].label} value={list[1].value} />
@@ -47,32 +62,43 @@ const TravelInfoScreen = () => {
             </Picker>
           </View>
 
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text>Policija:</Text>
-            <Text>{number.milicija}</Text>
+          <View style={styles.numberStyles}>
+            <AppText>Policija:</AppText>
+            <AppText color={Constants.red}>{number.milicija}</AppText>
           </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text>Vatrogasci:</Text>
-            <Text>{number.vatrogasci}</Text>
+          <View style={styles.numberStyles}>
+            <AppText>Vatrogasci:</AppText>
+            <AppText color={Constants.red}>{number.vatrogasci}</AppText>
           </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text>Hitna Pomoc:</Text>
-            <Text>{number.hitna}</Text>
+          <View style={styles.numberStyles}>
+            <AppText>Hitna pomoć:</AppText>
+            <AppText color={Constants.red}>{number.hitna}</AppText>
           </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text>Pomoc na putu:</Text>
-            <Text>{number.ams}</Text>
+          <View style={styles.numberStyles}>
+            <AppText>Pomoć na putu:</AppText>
+            <AppText color={Constants.red}>{number.ams}</AppText>
           </View>
         </View>
-      </View>
-      <View style={styles.lowerView}>
+      </LinearGradient>
+      <LinearGradient
+        colors={[
+          Constants.primaryLight,
+          Constants.primary,
+          Constants.primaryDark,
+        ]}
+        style={styles.lowerView}>
         <View style={styles.numbersView}>
-          <Text style={styles.titleText}>ZELITE DA PUTUJETE?</Text>
-          <Text style={styles.textStyle}>
+          <AppText style={styles.titleText}>ŽELITE DA PUTUJETE?</AppText>
+          <AppText style={styles.textStyle}>
             NAJNOVIJE INFORMACIJE VEZANE{'\n'}ZA PUTOVANJE U PANDEMIJI
-          </Text>
-          <View style={styles.dropDownPickerStyle}>
+          </AppText>
+          <View
+            style={[
+              styles.dropDownPickerViewStyle,
+              {borderWidth: 2, borderColor: Constants.primary, marginTop: 15},
+            ]}>
             <Picker
+              mode="dropdown"
               onValueChange={(itemValue, itemIndex) => linkChange(itemIndex)}
               selectedValue={link}>
               <Picker.Item
@@ -89,17 +115,25 @@ const TravelInfoScreen = () => {
               />
             </Picker>
           </View>
-          <Hyperlink
-            linkDefault={true}
-            linkStyle={{color: Constants.black, fontSize: 14}}
-            linkText={(url) => (url === link ? 'link' : url)}>
-            <Text
-              style={{alignSelf: 'center', textDecorationLine: 'underline'}}>
-              Vise informacija na ovaj {link}
-            </Text>
-          </Hyperlink>
+          <View>
+            <Hyperlink
+              linkDefault={true}
+              linkStyle={{color: Constants.black, fontSize: 14}}
+              linkText={(url) => (url === link ? 'link' : url)}>
+              <AppText
+                style={{
+                  alignSelf: 'center',
+                  textDecorationLine: 'underline',
+                  marginVertical: 20,
+                  justifyContent: 'flex-end',
+                  alignSelf: 'center',
+                }}>
+                Više informacija na ovaj {link}
+              </AppText>
+            </Hyperlink>
+          </View>
         </View>
-      </View>
+      </LinearGradient>
     </View>
   );
 };
@@ -109,10 +143,9 @@ const styles = StyleSheet.create({
     //flex: 1,
     width: Constants.screenWidth * 0.9,
     height: Constants.screenHeight * 0.35,
-    backgroundColor: 'blue',
     borderRadius: 15,
     alignSelf: 'center',
-    margin: 10,
+    margin: 15,
     padding: 10,
     justifyContent: 'center',
   },
@@ -121,8 +154,9 @@ const styles = StyleSheet.create({
     width: Constants.screenWidth * 0.8,
     height: Constants.screenHeight * 0.3,
     alignSelf: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Constants.background,
     padding: 10,
+    margin: 5,
     borderRadius: 15,
     alignContent: 'center',
   },
@@ -138,27 +172,19 @@ const styles = StyleSheet.create({
     color: Constants.black,
     textAlign: 'center',
   },
-  dropDownPickerStyle: {
+  dropDownPickerViewStyle: {
     width: Constants.screenWidth * 0.7,
     height: 40,
     marginVertical: 10,
     alignSelf: 'center',
     borderRadius: 25,
-    borderWidth: 2,
-    borderColor: 'blue',
     justifyContent: 'center',
+  },
+  numberStyles: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: 5,
   },
 });
 
 export default TravelInfoScreen;
-
-/*pickerChange(index){
- this.state.currencies.map( (v,i)=>{
-  if( index === i ){
-    this.setState({
-    currentLabel: this.state.currencies[index].currencyLabel,
-    currency: this.state.currencies[index].currency
-   })
-  }
- })
-} */
