@@ -11,11 +11,19 @@ import RegisterScreen from './src/screens/RegisterScreen';
 const App = () => {
   // ovdje samo postavite koji screen radite i to ce se renderovati
   return (
+<<<<<<< HEAD
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
         <HomeScreen />
       </SafeAreaView>
     </View>
+=======
+    /*<View style={styles.container}>*/
+    /*<SafeAreaView style={styles.safeArea}>*/
+    <TravelInfoScreen />
+    /*</SafeAreaView>*/
+    /* </View>*/
+>>>>>>> 3481875b123b13774ae959eda8d469f65165dc1b
   );
 };
 
