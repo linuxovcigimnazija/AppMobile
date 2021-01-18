@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, Linking} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import Header from '../components/Header';
 import Constants from '../constants/Constants';
-import {Picker} from '@react-native-picker/picker';
 import {TravellInfoData} from '../constants/TravellInfoData';
 import Hyperlink from 'react-native-hyperlink';
 import AppText from '../components/AppText';
