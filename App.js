@@ -10,9 +10,6 @@ import RegisterScreen from './src/screens/RegisterScreen';
 
 const App = () => {
   // ovdje samo postavite koji screen radite i to ce se renderovati
-<<<<<<< HEAD
-  return <TravelInfoScreen />;
-=======
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
@@ -20,7 +17,6 @@ const App = () => {
       </SafeAreaView>
     </View>
   );
->>>>>>> 0a6db7743b1da140c3b0f740a97bcca1f9accf10
 };
 
 const styles = StyleSheet.create({
