@@ -41,23 +41,12 @@ const TravelInfoScreen = () => {
 
           <DropDownPicker
             items={list}
-            containerStyle={{
-              width: Constants.screenWidth * 0.7,
-              height: 45,
-              alignSelf: 'center',
-            }}
+            containerStyle={styles.dropContainer}
             style={styles.dropDownPickerViewStyle}
             placeholder={number.label}
-            dropDownStyle={{
-              backgroundColor: Constants.background + '80',
-              alignContent: 'center',
-              fontFamily: 'Ubuntu-Regular',
-            }}
-            placeholderStyle={{
-              fontFamily: 'Ubuntu-Regular',
-              color: Constants.red,
-            }}
-            labelStyle={{fontFamily: 'Ubuntu-Regular', color: Constants.red}}
+            dropDownStyle={styles.dropDownStyle}
+            placeholderStyle={styles.labelStyle}
+            labelStyle={styles.labelStyle}
             onChangeItem={(item) => {
               setNumber(item);
             }}
@@ -95,24 +84,12 @@ const TravelInfoScreen = () => {
           </AppText>
           <DropDownPicker
             items={list}
-            containerStyle={{
-              width: Constants.screenWidth * 0.7,
-              height: 45,
-              alignSelf: 'center',
-            }}
+            containerStyle={styles.dropContainer}
             style={styles.dropDownPickerViewStyle}
             placeholder={link.label}
-            dropDownStyle={{
-              backgroundColor: Constants.background + '80',
-              alignContent: 'center',
-              fontFamily: 'Ubuntu-Regular',
-            }}
-            placeholderStyle={{
-              fontFamily: 'Ubuntu-Regular',
-              color: Constants.red,
-              color: Constants.red,
-            }}
-            labelStyle={{fontFamily: 'Ubuntu-Regular', color: Constants.red}}
+            dropDownStyle={styles.dropDownStyle}
+            placeholderStyle={styles.labelStyle}
+            labelStyle={styles.labelStyle}
             onChangeItem={(item) => {
               setLink(item);
             }}
@@ -190,6 +167,20 @@ const styles = StyleSheet.create({
     backgroundColor: Constants.background,
     borderWidth: 1,
     borderColor: Constants.primary,
+  },
+  dropContainer: {
+    width: Constants.screenWidth * 0.7,
+    height: 45,
+    alignSelf: 'center',
+  },
+  dropDownStyle: {
+    backgroundColor: Constants.background, //+ '80',
+    alignContent: 'center',
+    fontFamily: 'Ubuntu-Regular',
+  },
+  labelStyle: {
+    fontFamily: 'Ubuntu-Regular',
+    color: Constants.red,
   },
   numberStyles: {
     flexDirection: 'row',
