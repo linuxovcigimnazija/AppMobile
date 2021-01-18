@@ -9,7 +9,11 @@ const AppText = (props) => {
     color: props.color ? props.color : Constants.black,
   };
 
-  return <Text style={[textStyle, props.style]}>{props.children}</Text>;
+  return (
+    <Text maxFontSizeMultiplier={1.1} style={[textStyle, props.style]}>
+      {props.children}
+    </Text>
+  );
 };
 
 export default AppText;

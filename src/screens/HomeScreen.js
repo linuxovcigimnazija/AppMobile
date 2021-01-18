@@ -140,7 +140,7 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.screenContainer}>
-      <Header />
+      <Header fade />
       <View style={styles.body}>
         <FlatList
           data={cars}

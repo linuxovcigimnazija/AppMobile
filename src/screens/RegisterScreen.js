@@ -148,9 +148,9 @@ const RegisterScreen = () => {
                     <DropDownPicker
                       items={Countries}
                       placeholder="Odaberite Drzavu"
-                      arrowColor={DashboardColors.white}
-                      arrowSize={20}
-                      showArrow={false}
+                      arrowColor={DashboardColors.black}
+                      arrowSize={14}
+                      showArrow={true}
                       style={styles.dropDownPickerStyle}
                       containerStyle={styles.dropDownPickerContainerStyle}
                       dropDownStyle={styles.dropDownStyle}
@@ -399,7 +399,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   dropDownPickerContainerStyle: {
-    width: '64%',
+    width: '70%',
     height: 30,
     alignSelf: 'center',
     marginBottom: '1%',
@@ -412,6 +412,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 7.5,
     borderTopRightRadius: 7.5,
     borderBottomRightRadius: 7.5,
+    paddingStart: 0,
   },
   dropDownStyle: {
     backgroundColor: DashboardColors.grayData,
@@ -422,6 +423,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Ubuntu-Bold',
     color: DashboardColors.black,
     fontSize: 14,
+    textAlign: 'center',
   },
   dropDownPickerLabel: {
     fontFamily: 'Ubuntu-Regular',

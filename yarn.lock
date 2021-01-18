@@ -5631,10 +5631,10 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   "version" "16.13.1"
 
-"react-native-dropdown-picker@^3.7.8":
-  "integrity" "sha512-9WKUgvVK0Pv1ujwp71DikKyjF7ftxQGJLPRizD6LaDcoHxgxtqsnDQcj92PV1iEydwfEDynL7ogy2h/HG0ETbA=="
-  "resolved" "https://registry.npmjs.org/react-native-dropdown-picker/-/react-native-dropdown-picker-3.7.8.tgz"
-  "version" "3.7.8"
+"react-native-dropdown-picker@^3.7.5":
+  "integrity" "sha512-eIOt5FdwBRIETZ0f3wJrdEAexXq02APdQS3ojILIyBEAorI49iq1q03GNahXx4ygMdNlI0TTEvXbZELHZ8ZUlg=="
+  "resolved" "https://registry.npmjs.org/react-native-dropdown-picker/-/react-native-dropdown-picker-3.7.5.tgz"
+  "version" "3.7.5"
   dependencies:
     "react-native-vector-icons" "^7.0.0"
 

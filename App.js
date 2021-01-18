@@ -9,6 +9,7 @@ import MyProfileScreen from './src/screens/MyProfileScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import AutoScreen from './src/screens/AutoScreen';
+import InputScreen from './src/screens/InputScreen';
 
 const App = () => {
   // ovdje samo postavite koji screen radite i to ce se renderovati
@@ -16,7 +17,7 @@ const App = () => {
     <View style={styles.container}>
       <View style={styles.notch} />
       <SafeAreaView style={styles.safeArea}>
-        <AutoScreen />
+        <InputScreen />
       </SafeAreaView>
     </View>
   );

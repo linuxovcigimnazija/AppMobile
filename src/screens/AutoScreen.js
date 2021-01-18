@@ -56,7 +56,7 @@ const AutoScreen = ({navigation}) => {
 
   return (
     <View style={styles.screenContainer}>
-      <Header navigation={navigation} backButtonVisible fade={false} />
+      <Header navigation={navigation} backButtonVisible />
       <View style={styles.autoHeader}>
         <View style={styles.imageContainer}>
           <FastImage source={getLogo(car.brand)} style={styles.image} />
@@ -157,7 +157,7 @@ const AutoScreen = ({navigation}) => {
                     <Button
                       activeOpacity={0.8}
                       style={[styles.flexRow, styles.center, styles.bigButton]}
-                      onPress={() => goToCategory('Gorivo')}>
+                      onPress={() => goToCategory('Fuel')}>
                       <View
                         style={[
                           styles.flexRow,
@@ -188,7 +188,7 @@ const AutoScreen = ({navigation}) => {
                           styles.smallButton,
                           {backgroundColor: InputTypeColors.registration},
                         ]}
-                        onPress={() => goToCategory('TroskoviRegistracije')}>
+                        onPress={() => goToCategory('Registration')}>
                         <View
                           style={[
                             styles.smallButton,
@@ -204,7 +204,7 @@ const AutoScreen = ({navigation}) => {
                             bold
                             color={Constants.white}
                             size={16}>
-                            Troskovi Registracije
+                            Registracija I Osiguranje
                           </AppText>
                         </View>
                       </Button>
@@ -219,7 +219,7 @@ const AutoScreen = ({navigation}) => {
                           styles.smallButton,
                           {backgroundColor: InputTypeColors.maintainance},
                         ]}
-                        onPress={() => goToCategory('OdrzavanjeIPopravke')}>
+                        onPress={() => goToCategory('Maintainance')}>
                         <View
                           style={[
                             styles.smallButton,
@@ -259,7 +259,7 @@ const AutoScreen = ({navigation}) => {
                           styles.smallButton,
                           {backgroundColor: InputTypeColors.crashes},
                         ]}
-                        onPress={() => goToCategory('Ostecenja')}>
+                        onPress={() => goToCategory('Crashes')}>
                         <View
                           style={[
                             styles.smallButton,
@@ -290,7 +290,7 @@ const AutoScreen = ({navigation}) => {
                           styles.smallButton,
                           {backgroundColor: InputTypeColors.equipment},
                         ]}
-                        onPress={() => goToCategory('OpremaIOstalo')}>
+                        onPress={() => goToCategory('Equipment')}>
                         <View
                           style={[
                             styles.smallButton,

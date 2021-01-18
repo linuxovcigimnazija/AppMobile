@@ -5,7 +5,7 @@ import Constants from '../constants/Constants';
 import AppText from './AppText';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
-const Header = ({navigation, backButtonVisible = false, fade = true}) => {
+const Header = ({navigation, backButtonVisible = false, fade = false}) => {
   const onBackPressed = () => {
     navigation.goBack();
   };
@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     height: Constants.windowHeight * 0.08,
-    maxHeight: 80,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Constants.primaryDark,

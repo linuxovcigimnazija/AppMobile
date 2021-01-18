@@ -1,7 +1,9 @@
 import React from 'react';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Constants from '../constants/Constants';
 import {StyleSheet} from 'react-native';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 export const getLogo = (brand) => {
   switch (brand) {
@@ -43,6 +45,27 @@ export const getFuelIcon = (fuelType, style) => {
       style={[styles.fuelIcon, style]}
     />
   );
+};
+
+export const getCategoryIcon = (
+  categoryName,
+  color,
+  size = Constants.width * 0.15,
+) => {
+  switch (categoryName) {
+    case 'fuel':
+      return <MaterialCommunityIcon name="fuel" size={size} color={color} />;
+    case 'registration':
+      return <Ionicon name="documents" size={size} color={color} />;
+    case 'maintainance':
+      return (
+        <MaterialCommunityIcon name="hammer-wrench" size={size} color={color} />
+      );
+    case 'crashes':
+      return <FontAwesome5Icon name="car-crash" size={size} color={color} />;
+    case 'equipment':
+      return <FontAwesome5Icon name="luggage-cart" size={size} color={color} />;
+  }
 };
 
 const styles = StyleSheet.create({
