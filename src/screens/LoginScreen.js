@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -15,6 +15,8 @@ import DashboardInput from '../components/DashboardInput';
 import Hyperlink from 'react-native-hyperlink';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
+import Toast from 'react-native-simple-toast';
+import {useForm, Controller} from 'react-hook-form';
 
 const mirrorHeight = 50;
 const mirrorBottom = 10.7;
@@ -23,6 +25,14 @@ const pineBottom = 21.5;
 const downScale = 0.8;
 
 const LoginScreen = () => {
+  const {control, handleSubmit, errors} = useForm();
+  const [data, setData] = useState('');
+
+  const onNextStepHandler = (d) => {
+    setData(d);
+    //Ovdje ide Navigation funkcijaz
+  };
+
   return (
     <TouchableWithoutFeedback
       style={styles.screenContainer}
@@ -113,17 +123,57 @@ const LoginScreen = () => {
                   </View>
 
                   <View style={styles.textInputFields}>
-                    <DashboardInput
-                      text="Ime"
-                      placeholder="Unesi Korisnicko Ime"
-                      maxLength={12}
+                    <Controller
+                      control={control}
+                      defaultValue=""
+                      name="userName"
+                      render={({onChange, value}) => (
+                        <DashboardInput
+                          text="Ime"
+                          placeholder="Unesi Korisnicko Ime"
+                          maxLength={12}
+                          onChangeText={(value) => onChange(value)}
+                          value={value}
+                          error={errors.userName}
+                        />
+                      )}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: 'Ime je obavezno',
+                        },
+                      }}
                     />
-                    <DashboardInput
-                      text="Sifra"
-                      placeholder="Unesi Sifru"
-                      secureTextEntry={true}
-                      maxLength={16}
+
+                    <Controller
+                      control={control}
+                      defaultValue=""
+                      name="userPassword"
+                      render={({onChange, value}) => (
+                        <DashboardInput
+                          text="Sifra"
+                          placeholder="Unesi Sifru"
+                          secureTextEntry={true}
+                          maxLength={16}
+                          onChangeText={(value) => onChange(value)}
+                          value={value}
+                          error={errors.userPassword}
+                        />
+                      )}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: 'Sifra je obavezna',
+                        },
+                        minLength: {
+                          value: 8,
+                          message: 'Sifra nije dovoljno dugacka',
+                        },
+                      }}
                     />
+                    {(errors.userPassword &&
+                      Toast.show(errors.userPassword.message)) ||
+                      (errors.userName && Toast.show(errors.userName.message))}
                   </View>
 
                   <View style={styles.buttonsContainer}>
@@ -146,7 +196,8 @@ const LoginScreen = () => {
                           width: '100%',
                           justifyContent: 'center',
                           alignItems: 'center',
-                        }}>
+                        }}
+                        onPress={handleSubmit(onNextStepHandler)}>
                         <FontAwesome5Icon name="arrow-right" size={18} />
                       </TouchableOpacity>
                     </View>

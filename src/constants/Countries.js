@@ -1,16 +1,20 @@
-const Countries = [
-  {
-    value: 'sr',
-    label: 'Srbija',
-  },
-  {
-    value: 'mn',
-    label: 'Crna Gora',
-  },
-  {
-    value: 'bih',
-    label: 'BiH',
-  },
-];
+const Countries = {
+  defLabel: 'Odaberite drzavu',
+  defValue: null,
+  countriesList: [
+    {
+      value: 'RSD',
+      label: 'Srbija',
+    },
+    {
+      value: 'EUR',
+      label: 'Crna Gora',
+    },
+    {
+      value: 'BAM',
+      label: 'BiH',
+    },
+  ],
+};
 
 export default Countries;

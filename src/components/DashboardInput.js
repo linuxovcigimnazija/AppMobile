@@ -3,12 +3,17 @@ import {View, TextInput, StyleSheet} from 'react-native';
 import AppText from './AppText';
 import DashboardColors from '../constants/DashboardColors';
 import LinearGradient from 'react-native-linear-gradient';
+import Constants from '../constants/Constants';
 
 const inputHeight = 35;
 
 export default function DashboardInput(props) {
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        props.error && {borderColor: Constants.redDark},
+      ]}>
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 1, y: 0}}
@@ -54,6 +59,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   triangleCorner: {
     // codedaily.io

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -17,6 +17,8 @@ import Countries from '../constants/Countries';
 import Hyperlink from 'react-native-hyperlink';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
+import Toast from 'react-native-simple-toast';
+import {useForm, Controller} from 'react-hook-form';
 
 const mirrorHeight = 50;
 const mirrorBottom = 10.7;
@@ -25,6 +27,22 @@ const pineBottom = 21.5;
 const downScale = 0.8;
 
 const RegisterScreen = () => {
+  const {control, handleSubmit, errors, watch} = useForm();
+  const [data, setData] = useState('');
+
+  const [countryPicker, setCountryPicker] = useState({
+    value: Countries.defValue,
+    label: Countries.defLabel,
+  });
+
+  const userPassword = useRef({});
+  userPassword.current = watch('userPassword', '');
+
+  const onNextStepHandler = (d) => {
+    setData(d);
+    //Navigation funkcija
+  };
+
   return (
     <TouchableWithoutFeedback
       style={styles.screenContainer}
@@ -113,51 +131,162 @@ const RegisterScreen = () => {
                       </View>
                     </LinearGradient>
                   </View>
-
                   <View style={styles.textInputFields}>
-                    <DashboardInput
-                      text="Ime"
-                      placeholder="npr. Vujke"
-                      maxLength={12}
+                    <Controller
+                      control={control}
+                      defaultValue=""
+                      name="userName"
+                      render={({onChange, value}) => (
+                        <DashboardInput
+                          text="Ime"
+                          placeholder="npr. Vujke"
+                          maxLength={12}
+                          onChangeText={(value) => onChange(value)}
+                          value={value}
+                          error={errors.userName}
+                        />
+                      )}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: 'Ime je obavezno',
+                        },
+                      }}
                     />
-                    <DashboardInput
-                      text="Mail"
-                      placeholder="npr@gmail.com"
-                      keyboardType="email-address"
+
+                    <Controller
+                      control={control}
+                      defaultValue=""
+                      name="userMail"
+                      render={({onChange, value}) => (
+                        <DashboardInput
+                          text="Mail"
+                          placeholder="npr@gmail.com"
+                          keyboardType="email-address"
+                          onChangeText={(value) => onChange(value)}
+                          value={value}
+                          error={errors.userMail}
+                        />
+                      )}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: 'Email je obavezan',
+                        },
+                        pattern: {
+                          value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message: 'Nije validna emial adresa',
+                        },
+                      }}
                     />
-                    <DashboardInput
-                      text="Sifra"
-                      placeholder="Unesi Sifru"
-                      secureTextEntry={true}
-                      maxLength={16}
+
+                    <Controller
+                      control={control}
+                      defaultValue=""
+                      name="userPassword"
+                      render={({onChange, value}) => (
+                        <DashboardInput
+                          text="Sifra"
+                          placeholder="Unesi Sifru"
+                          secureTextEntry={true}
+                          maxLength={16}
+                          onChangeText={(value) => onChange(value)}
+                          value={value}
+                          error={errors.userName}
+                        />
+                      )}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: 'Sifra je obavezna',
+                        },
+                        minLength: {
+                          value: 8,
+                          message: 'Sifra nije dovoljno dugacka',
+                        },
+                      }}
                     />
-                    <DashboardInput
-                      text="Sifra"
-                      placeholder="Unesi Ponovo Sifru"
-                      secureTextEntry={true}
-                      maxLength={16}
+
+                    <Controller
+                      control={control}
+                      defaultValue=""
+                      name="userPasswordConfrim"
+                      render={({onChange, value}) => (
+                        <DashboardInput
+                          text="Sifra"
+                          placeholder="Unesi ponovo Sifru"
+                          secureTextEntry={true}
+                          maxLength={16}
+                          onChangeText={(value) => onChange(value)}
+                          value={value}
+                          error={errors.userPasswordConfrim}
+                        />
+                      )}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: 'Potvrda sifre je obavezna',
+                        },
+
+                        validate: (value) =>
+                          value === userPassword.current ||
+                          'Sifre se ne poklapaju',
+                      }}
                     />
                   </View>
-
                   <View
                     style={
                       Constants.OS === 'ios'
                         ? {zIndex: 22, width: '100%'}
                         : {width: '100%'}
                     }>
-                    <DropDownPicker
-                      items={Countries}
-                      placeholder="Odaberite Drzavu"
-                      arrowColor={DashboardColors.white}
-                      arrowSize={20}
-                      showArrow={false}
-                      style={styles.dropDownPickerStyle}
-                      containerStyle={styles.dropDownPickerContainerStyle}
-                      dropDownStyle={styles.dropDownStyle}
-                      placeholderStyle={styles.dropDownPickerPlaceholder}
-                      labelStyle={styles.dropDownPickerLabel}
-                      selectedLabelStyle={styles.dropDownPickerSelectedLabel}
+                    <Controller
+                      control={control}
+                      defaultValue={countryPicker.value}
+                      name="userCountry"
+                      render={({onChange, value}) => (
+                        <DropDownPicker
+                          items={Countries.countriesList}
+                          placeholder={countryPicker.label}
+                          arrowColor={DashboardColors.white}
+                          arrowSize={20}
+                          showArrow={false}
+                          style={styles.dropDownPickerStyle}
+                          containerStyle={styles.dropDownPickerContainerStyle}
+                          dropDownStyle={styles.dropDownStyle}
+                          placeholderStyle={styles.dropDownPickerPlaceholder}
+                          labelStyle={styles.dropDownPickerLabel}
+                          selectedLabelStyle={
+                            styles.dropDownPickerSelectedLabel
+                          }
+                          value={value}
+                          onChangeItem={(item, value) => {
+                            setCountryPicker({
+                              label: item.label,
+                              value: item.value,
+                            });
+                            onChange(Countries.countriesList[value].value);
+                          }}
+                        />
+                      )}
+                      rules={{
+                        validate: (value) =>
+                          value !== null || 'Odabir drazve je obavezan',
+                      }}
                     />
+                    {(errors.userName &&
+                      Toast.show(errors.userName.message, Toast.TOP)) ||
+                      (errors.userMail &&
+                        Toast.show(errors.userMail.message, Toast.TOP)) ||
+                      (errors.userPassword &&
+                        Toast.show(errors.userPassword.message, Toast.TOP)) ||
+                      (errors.userPasswordConfrim &&
+                        Toast.show(
+                          errors.userPasswordConfrim.message,
+                          Toast.TOP,
+                        )) ||
+                      (errors.userCountry &&
+                        Toast.show(errors.userCountry.message, Toast.TOP))}
                   </View>
 
                   <View style={styles.buttonsContainer}>
@@ -180,12 +309,12 @@ const RegisterScreen = () => {
                           width: '100%',
                           justifyContent: 'center',
                           alignItems: 'center',
-                        }}>
+                        }}
+                        onPress={handleSubmit(onNextStepHandler)}>
                         <FontAwesome5Icon name="arrow-right" size={18} />
                       </TouchableOpacity>
                     </View>
                   </View>
-
                   <View style={styles.decorationContainer}>
                     <LinearGradient
                       colors={[
@@ -209,7 +338,6 @@ const RegisterScreen = () => {
                       ]}
                     />
                   </View>
-
                   <Hyperlink
                     onPress={(url, text) => alert(url + ', ' + text)}
                     linkText={(url) =>
