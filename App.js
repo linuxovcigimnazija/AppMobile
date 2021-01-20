@@ -7,7 +7,7 @@ import {
   createBottomTabNavigator,
   BottomTabBar,
 } from '@react-navigation/bottom-tabs';
-import {createStackNavigator, TransitionSpecs} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 // SCREENS
 import HomeScreen from './src/screens/HomeScreen';
