@@ -386,10 +386,10 @@ const styles = StyleSheet.create({
   },
   display: {
     width: '100%',
+    height: 40,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 15,
     backgroundColor: DashboardColors.displayBlue,
     borderRadius: 3,
   },

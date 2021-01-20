@@ -78,7 +78,7 @@ const App = () => {
       <View style={styles.notch} />
       <SafeAreaView style={styles.safeArea}>
         <NavigationContainer>
-          <AppStack.Navigator mode="modal" screenOptions={{headerShown: false}}>
+          <AppStack.Navigator screenOptions={{headerShown: false}}>
             <AppStack.Screen name="TabNavigation" component={TabNavigator} />
             <AppStack.Screen name="Register" component={RegisterScreen} />
             <AppStack.Screen name="Login" component={LoginScreen} />

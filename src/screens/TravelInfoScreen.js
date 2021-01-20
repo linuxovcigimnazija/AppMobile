@@ -11,7 +11,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 const TravelInfoScreen = () => {
   const list = TravellInfoData;
   const [number, setNumber] = useState({
-    label: 'Bosna i Hercegovina',
+    label: 'Bosnu i Hercegovinu',
     value: {
       milicija: 122,
       vatrogasci: 123,
@@ -20,7 +20,7 @@ const TravelInfoScreen = () => {
     },
   });
   const [link, setLink] = useState({
-    label: 'Bosna i Hercegovina',
+    label: 'Bosnu i Hercegovinu',
     putovanje:
       'http://www.mvp.gov.ba/konzularne_informacije/sta_konzul_moze_uciniti_za_vas/?id=17675',
   });
@@ -32,7 +32,7 @@ const TravelInfoScreen = () => {
         colors={[Constants.primaryLight, Constants.primaryDark]}
         style={styles.lowerView}>
         <View style={styles.numbersView}>
-          <AppText style={styles.titleText}>POMOĆ NA PUTU ZA...</AppText>
+          <AppText style={styles.titleText}>Pomoc na putu za...</AppText>
 
           <DropDownPicker
             items={list}
@@ -40,8 +40,9 @@ const TravelInfoScreen = () => {
             style={styles.dropDownPickerViewStyle}
             placeholder={number.label}
             dropDownStyle={styles.dropDownStyle}
-            placeholderStyle={styles.labelStyle}
+            placeholderStyle={styles.selectedLabelStyle}
             labelStyle={styles.labelStyle}
+            selectedLabelStyle={styles.selectedLabelStyle}
             onChangeItem={(item) => {
               setNumber(item);
             }}
@@ -49,19 +50,27 @@ const TravelInfoScreen = () => {
 
           <View style={styles.numberStyles}>
             <AppText>Policija:</AppText>
-            <AppText color={Constants.red}>{number.value.milicija}</AppText>
+            <AppText color={Constants.red} size={18} bold>
+              {number.value.milicija}
+            </AppText>
           </View>
           <View style={styles.numberStyles}>
             <AppText>Vatrogasci:</AppText>
-            <AppText color={Constants.red}>{number.value.vatrogasci}</AppText>
+            <AppText color={Constants.red} size={18} bold>
+              {number.value.vatrogasci}
+            </AppText>
           </View>
           <View style={styles.numberStyles}>
             <AppText>Hitna pomoć:</AppText>
-            <AppText color={Constants.red}>{number.value.hitna}</AppText>
+            <AppText color={Constants.red} size={18} bold>
+              {number.value.hitna}
+            </AppText>
           </View>
           <View style={styles.numberStyles}>
             <AppText>Pomoć na putu:</AppText>
-            <AppText color={Constants.red}>{number.value.ams}</AppText>
+            <AppText color={Constants.red} size={18} bold>
+              {number.value.ams}
+            </AppText>
           </View>
         </View>
       </LinearGradient>
@@ -69,18 +78,20 @@ const TravelInfoScreen = () => {
         colors={[Constants.primary, Constants.primaryDark]}
         style={styles.lowerView}>
         <View style={styles.numbersView}>
-          <AppText style={styles.titleText}>ŽELITE DA PUTUJETE?</AppText>
+          <AppText style={styles.titleText}>Želite da putujete?</AppText>
           <AppText style={styles.textStyle}>
-            NAJNOVIJE INFORMACIJE VEZANE{'\n'}ZA PUTOVANJE U PANDEMIJI
+            NAJNOVIJE informacije vezane za Putovanje u Pandemiji za...
           </AppText>
           <DropDownPicker
             items={list}
             containerStyle={styles.dropContainer}
+            arrowColor={Constants.primaryDark}
             style={styles.dropDownPickerViewStyle}
             placeholder={link.label}
             dropDownStyle={styles.dropDownStyle}
-            placeholderStyle={styles.labelStyle}
+            placeholderStyle={styles.selectedLabelStyle}
             labelStyle={styles.labelStyle}
+            selectedLabelStyle={styles.selectedLabelStyle}
             onChangeItem={(item) => {
               setLink(item);
             }}
@@ -88,7 +99,11 @@ const TravelInfoScreen = () => {
           <View>
             <Hyperlink
               linkDefault={true}
-              linkStyle={{color: Constants.black, fontSize: 16}}
+              linkStyle={{
+                color: Constants.black,
+                fontSize: 16,
+                fontFamily: 'Ubuntu-Bold',
+              }}
               linkText={(url) =>
                 url === link.putovanje ? 'Više informacija na ovaj link' : url
               }>
@@ -129,14 +144,15 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: Constants.black,
-    alignSelf: 'center',
+    color: Constants.primaryDark,
+    alignSelf: 'flex-start',
     marginBottom: 10,
   },
   textStyle: {
     fontSize: 16,
     color: Constants.black,
     textAlign: 'center',
+    marginBottom: 5,
   },
   dropDownPickerViewStyle: {
     //flex: 1,
@@ -165,7 +181,13 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontFamily: 'Ubuntu-Regular',
-    color: Constants.red,
+    color: Constants.primary,
+    fontSize: 14,
+  },
+  selectedLabelStyle: {
+    fontFamily: 'Ubuntu-Bold',
+    fontSize: 16,
+    color: Constants.primary,
   },
   numberStyles: {
     flexDirection: 'row',

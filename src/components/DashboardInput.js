@@ -3,8 +3,9 @@ import {View, TextInput, StyleSheet} from 'react-native';
 import AppText from './AppText';
 import DashboardColors from '../constants/DashboardColors';
 import LinearGradient from 'react-native-linear-gradient';
+import Constants from '../constants/Constants';
 
-const inputHeight = 35;
+const inputHeight = Constants.height > 700 ? 35 : 30;
 
 export default function DashboardInput(props) {
   return (

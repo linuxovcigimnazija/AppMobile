@@ -18,6 +18,6 @@ export default {
   ticketsAccent: 'turquoise',
   carWash: 'white',
   carWashAccent: 'steelblue',
-  other: 'yellow',
+  other: 'sandybrown',
   otherAccent: 'orange',
 };
