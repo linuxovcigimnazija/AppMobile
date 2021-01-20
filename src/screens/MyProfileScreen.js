@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Text, View, StyleSheet, Button, TouchableOpacity, ScrollView, SafeAreaView} from 'react-native';
 import AppText from '../components/AppText'
 import Constants from '../constants/Constants';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import Pie from 'react-native-pie'
+import { themes } from '../constants/colors';
+
 
 var name, email, numberOfCars, online;
 var fuelConsumption, moneySpent;
@@ -29,15 +31,27 @@ function data_function()
 
 const MyProfileScreen = () => {
 
+  const[color, setColor]=useState(themes.seaship);
+
+  function changeTheme(){
+    if(color==themes.seaship) {
+      setColor(themes.watermellon);
+    }
+    else{
+      setColor(themes.seaship);
+    }
+    appTheme=color;
+  }
+
   data_function();
 
   return (
     <View style={styles.wholescreen}>
-      <LinearGradient colors={[Constants.primaryDark, Constants.primaryLight]}
-        style={styles.linearGradient}>
+      <LinearGradient colors={[color.primaryDark, color.primaryLight]}
+        style={styles.biglinearGradient}>
       <View style={styles.upperContainer}>
 
-        <Icon name='account-circle' size={140} color= {Constants.primaryDark} />
+        <Icon name='account-circle' size={140} color= {color.primaryDark} />
         <View style={styles.upperrightContainer}>
           <View style={styles.nameContainer}>
           <AppText style={styles.firstText}>{name}</AppText>
@@ -65,7 +79,7 @@ const MyProfileScreen = () => {
         
         <View style={{flex: 1}}>
 
-          <TouchableOpacity style={styles.themeButton}>
+          <TouchableOpacity style={styles.themeButton} onPress={() => {changeTheme()}}>
             <LinearGradient style={styles.linearGradient} colors={['#00ee22', '#00ff88']}
             >
             <AppText style={styles.themebuttonText}>Promijeni temu</AppText>
@@ -74,12 +88,12 @@ const MyProfileScreen = () => {
 
           <View style={styles.twoboxContainer}>
             <View style={styles.smallBox}>
-              <Icon name='fuel' size={30} color= {Constants.primaryDark} />
+              <Icon name='fuel' size={30} color= {color.primaryDark} />
               <AppText>Ukupno nasuto</AppText>
               <AppText style={styles.boxText}>{fuelConsumption}</AppText>
             </View>
             <View style={styles.smallBox}>
-              <Icon name='cash' size={30} color= {Constants.primaryDark} />
+              <Icon name='cash' size={30} color= {color.primaryDark} />
               <AppText>Ukupno potrošeno</AppText>
               <AppText style={styles.boxText}>{moneySpent}</AppText>
             </View>
@@ -156,14 +170,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   secondText: {
-    fontSize: 11,
+    fontSize: 12,
     textAlignVertical: 'top'
   },
   thirdText: {
-    fontSize: 14
+    fontSize: 15
   },
   fourthText: {
-    fontSize: 14
+    fontSize: 15
   },
   eightSpacing: {
     height: 8
@@ -180,7 +194,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   syncbuttonText: {
-    color: '#00e920',
+    color: 'green',
     textAlign: 'center'
   },
   logoutbuttonText: {
@@ -193,23 +207,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'center',
     textAlign: 'center',
-    borderRadius: 3,
+    borderRadius: 12,
     width: '80%',
-    height: '8%',
+    height: '12%',
     backgroundColor: 'green'
-  },
-  linearGradient: {
-    flexGrow: 1,
-    borderRadius: 3,
-    height: '100%',
-    width: '100%'
   },
   themebuttonText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 22,
     alignSelf: 'center',
     textAlignVertical: 'center',
     flex: 1
+  },
+  biglinearGradient: {
+    flexGrow: 1,
+    height: '100%',
+    width: '100%'
+  },
+  linearGradient: {
+    flexGrow: 1,
+    borderRadius: 12,
+    height: '100%',
+    width: '100%'
   },
   bigBox: {
     justifyContent: 'flex-start',
