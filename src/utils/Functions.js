@@ -4,6 +4,19 @@ import {StyleSheet} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import FeatherIcon from 'react-native-vector-icons/Feather';
+
+export {
+  MaterialCommunityIcon,
+  MaterialIcon,
+  FontAwesome5Icon,
+  FontAwesomeIcon,
+  EntypoIcon,
+  FeatherIcon,
+};
 
 export const getLogo = (brand) => {
   switch (brand) {
@@ -67,6 +80,32 @@ export const getCategoryIcon = (
       return <FontAwesome5Icon name="luggage-cart" size={size} color={color} />;
   }
 };
+
+export const unixToString = (dateUnix, addTime = 0, breakVal = '\n') => {
+  const date = new Date(dateUnix);
+  let returnString =
+    date.getDate() +
+    '.' +
+    (parseInt(date.getMonth(), 10) + 1).toString() +
+    '.' +
+    breakVal +
+    (parseInt(date.getFullYear(), 10) + addTime).toString() +
+    '.';
+
+  return returnString;
+};
+
+export function sortResults(data, prop, asc) {
+  data.sort(function (a, b) {
+    if (asc) {
+      return a[prop] > b[prop] ? 1 : a[prop] < b[prop] ? -1 : 0;
+    } else {
+      return b[prop] > a[prop] ? 1 : b[prop] < a[prop] ? -1 : 0;
+    }
+  });
+
+  return data;
+}
 
 const styles = StyleSheet.create({
   fuelIcon: {

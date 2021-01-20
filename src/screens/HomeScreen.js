@@ -72,12 +72,14 @@ const dummyData = [
   // },
 ];
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const [cars, setCars] = useState(dummyData);
 
   const addCarHandler = () => {};
 
-  const goToCar = (car) => {};
+  const goToCar = (car) => {
+    navigation.navigate('Auto');
+  };
 
   const renderCar = (car) => {
     const item = car.item;
@@ -140,7 +142,7 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.screenContainer}>
-      <Header fade />
+      <Header />
       <View style={styles.body}>
         <FlatList
           data={cars}

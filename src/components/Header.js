@@ -28,13 +28,13 @@ const Header = ({navigation, backButtonVisible = false, fade = false}) => {
           AppMobil
         </AppText>
       </View>
-      <LinearGradient
+      {/* <LinearGradient
         colors={[Constants.primaryDark, Constants.primaryDark + '00']}
         style={[
           styles.fade,
           {height: fade ? Constants.windowHeight * 0.005 : 0},
         ]}
-      />
+      /> */}
     </View>
   );
 };
@@ -48,6 +48,15 @@ const styles = StyleSheet.create({
     backgroundColor: Constants.primaryDark,
     paddingLeft: 30,
     zIndex: 800,
+    // elevation: 3,
+    // shadowColor: Constants.gray,
+    // shadowRadius: 2,
+    // shadowOpacity: 0.5,
+    // shadowOffset: {
+    //   width: 4,
+    //   height: 4,
+    // },
+    // overflow: 'hidden',
   },
   fade: {
     width: '100%',

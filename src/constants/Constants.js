@@ -40,4 +40,6 @@ export default {
   fuelOrange: '#ffa630',
   fuelBlue: '#9ed8db',
   fuelYellow: 'yellow',
+
+  lightBlue: '#72bcd4',
 };

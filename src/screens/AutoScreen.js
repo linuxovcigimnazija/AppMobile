@@ -48,7 +48,9 @@ const AutoScreen = ({navigation}) => {
   };
 
   const goToCategory = (categoryName) => {
-    // navigation.navigate(categoryName);
+    navigation.navigate('Input', {
+      category: categoryName,
+    });
   };
 
   const Button =
@@ -147,7 +149,7 @@ const AutoScreen = ({navigation}) => {
           }}>
           <ScrollView
             ref={(ref) => (scrollViewRef = ref)}
-            scrollEnabled={false}
+            scrollEnabled={true}
             contentContainerStyle={styles.scrollView}>
             <View style={styles.bodyFade} />
             <View style={styles.bodyContainer}>
@@ -507,7 +509,7 @@ const styles = StyleSheet.create({
   },
   body: {
     width: '100%',
-    height: Constants.height * 0.73 - 20,
+    height: Constants.height * 0.73 - 20 - Constants.height * 0.06,
     padding: 20,
     paddingBottom: 0,
   },
@@ -521,7 +523,7 @@ const styles = StyleSheet.create({
   },
   smallButton: {
     width: Constants.width * 0.535 - 40,
-    height: Constants.height * 0.8 * 0.22,
+    height: Constants.height * 0.8 * 0.2,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
@@ -549,7 +551,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   arrowButtonContainer: {
-    height: Constants.height * 0.721 * 0.2,
+    height: Constants.height * 0.721 * 0.18,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -580,8 +582,8 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop:
       Constants.height > 800
-        ? Constants.height * 0.06
-        : Constants.height * 0.01,
+        ? Constants.height * 0.12
+        : Constants.height * 0.07,
   },
   preview: {
     width: '100%',
