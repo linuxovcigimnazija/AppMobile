@@ -171,9 +171,18 @@ const LoginScreen = () => {
                         },
                       }}
                     />
-                    {(errors.userPassword &&
-                      Toast.show(errors.userPassword.message)) ||
-                      (errors.userName && Toast.show(errors.userName.message))}
+                    {(errors.userName &&
+                      Toast.showWithGravity(
+                        errors.userName.message,
+                        Toast.LONG,
+                        Toast.TOP,
+                      )) ||
+                      (errors.userPassword &&
+                        Toast.showWithGravity(
+                          errors.userPassword.message,
+                          Toast.LONG,
+                          Toast.TOP,
+                        ))}
                   </View>
 
                   <View style={styles.buttonsContainer}>

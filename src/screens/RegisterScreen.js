@@ -275,18 +275,35 @@ const RegisterScreen = () => {
                       }}
                     />
                     {(errors.userName &&
-                      Toast.show(errors.userName.message, Toast.TOP)) ||
+                      Toast.showWithGravity(
+                        errors.userName.message,
+                        Toast.LONG,
+                        Toast.TOP,
+                      )) ||
                       (errors.userMail &&
-                        Toast.show(errors.userMail.message, Toast.TOP)) ||
+                        Toast.showWithGravity(
+                          errors.userMail.message,
+                          Toast.LONG,
+                          Toast.TOP,
+                        )) ||
                       (errors.userPassword &&
-                        Toast.show(errors.userPassword.message, Toast.TOP)) ||
+                        Toast.showWithGravity(
+                          errors.userPassword.message,
+                          Toast.LONG,
+                          Toast.TOP,
+                        )) ||
                       (errors.userPasswordConfrim &&
-                        Toast.show(
+                        Toast.showWithGravity(
                           errors.userPasswordConfrim.message,
+                          Toast.LONG,
                           Toast.TOP,
                         )) ||
                       (errors.userCountry &&
-                        Toast.show(errors.userCountry.message, Toast.TOP))}
+                        Toast.showWithGravity(
+                          errors.userCountry.message,
+                          Toast.LONG,
+                          Toast.TOP,
+                        ))}
                   </View>
 
                   <View style={styles.buttonsContainer}>
