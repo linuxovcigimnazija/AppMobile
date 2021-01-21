@@ -181,7 +181,7 @@ const LoginScreen = () => {
                         Toast.LONG,
                         Toast.TOP,
                       )) ||
-                      (errors.useruserEmail &&
+                      (errors.userPassword &&
                         Toast.showWithGravity(
                           errors.userPassword.message,
                           Toast.LONG,
