@@ -126,21 +126,25 @@ const LoginScreen = () => {
                     <Controller
                       control={control}
                       defaultValue=""
-                      name="userName"
+                      name="userMail"
                       render={({onChange, value}) => (
                         <DashboardInput
-                          text="Ime"
-                          placeholder="Unesi Korisnicko Ime"
-                          maxLength={12}
+                          text="Mail"
+                          placeholder="Unesi email"
+                          keyboardType="email-address"
                           onChangeText={(value) => onChange(value)}
                           value={value}
-                          error={errors.userName}
+                          error={errors.userMail}
                         />
                       )}
                       rules={{
                         required: {
                           value: true,
-                          message: 'Ime je obavezno',
+                          message: 'Email je obavezan',
+                        },
+                        pattern: {
+                          value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message: 'Nije validna emial adresa',
                         },
                       }}
                     />
@@ -171,13 +175,13 @@ const LoginScreen = () => {
                         },
                       }}
                     />
-                    {(errors.userName &&
+                    {(errors.userMail &&
                       Toast.showWithGravity(
-                        errors.userName.message,
+                        errors.userMail.message,
                         Toast.LONG,
                         Toast.TOP,
                       )) ||
-                      (errors.userPassword &&
+                      (errors.useruserEmail &&
                         Toast.showWithGravity(
                           errors.userPassword.message,
                           Toast.LONG,

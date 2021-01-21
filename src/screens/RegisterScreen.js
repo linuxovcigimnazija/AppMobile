@@ -40,7 +40,7 @@ const RegisterScreen = () => {
 
   const onNextStepHandler = (d) => {
     setData(d);
-    //Navigation funkcija
+    console.log(d.userName);
   };
 
   return (
