@@ -4,11 +4,25 @@ import LinearGradient from 'react-native-linear-gradient';
 import Constants from '../constants/Constants';
 import AppText from './AppText';
 import Ionicon from 'react-native-vector-icons/Ionicons';
+import {MaterialCommunityIcon} from '../utils/Functions';
 
-const Header = ({navigation, backButtonVisible = false, fade = false}) => {
+const Header = ({
+  navigation,
+  route,
+  backButtonVisible = false,
+  fade = false,
+  analyticsWatermark = false,
+}) => {
   const onBackPressed = () => {
     navigation.goBack();
   };
+
+  const headerText =
+    route.name === 'Auto' || route.name === 'Input'
+      ? 'Vas Auto'
+      : route.name === 'Analytics'
+      ? 'Analitika'
+      : 'AppMobil';
 
   return (
     <View>
@@ -25,8 +39,17 @@ const Header = ({navigation, backButtonVisible = false, fade = false}) => {
           />
         )}
         <AppText size={24} color={Constants.white} bold>
-          AppMobil
+          {headerText}
         </AppText>
+
+        {analyticsWatermark && (
+          <MaterialCommunityIcon
+            name="google-analytics"
+            size={24}
+            color={Constants.white}
+            style={{position: 'absolute', right: 30}}
+          />
+        )}
       </View>
       {/* <LinearGradient
         colors={[Constants.primaryDark, Constants.primaryDark + '00']}

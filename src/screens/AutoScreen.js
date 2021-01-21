@@ -17,9 +17,9 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import InputTypeColors from '../constants/InputTypeColors';
-import LinearGradient from 'react-native-linear-gradient';
+import InputCategories from '../constants/InputCategories';
 
-const AutoScreen = ({navigation}) => {
+const AutoScreen = ({navigation, route}) => {
   const car = {
     brand: 'Volkswagen',
     name: 'Golf 8',
@@ -44,12 +44,21 @@ const AutoScreen = ({navigation}) => {
   };
 
   const goToAnalytics = () => {
-    // navigation.navigate('Analytics');
+    navigation.navigate('Analytics');
+  };
+
+  const getParam = (categoryName) => {
+    for (let i = 0; i < 6; i++) {
+      if (InputCategories[i].value === categoryName) {
+        return i;
+      }
+    }
   };
 
   const goToCategory = (categoryName) => {
+    const param = getParam(categoryName.toLowerCase());
     navigation.navigate('Input', {
-      category: categoryName,
+      category: param,
     });
   };
 
@@ -58,7 +67,7 @@ const AutoScreen = ({navigation}) => {
 
   return (
     <View style={styles.screenContainer}>
-      <Header navigation={navigation} backButtonVisible />
+      <Header navigation={navigation} backButtonVisible route={route} />
       <View style={styles.autoHeader}>
         <View style={styles.imageContainer}>
           <FastImage source={getLogo(car.brand)} style={styles.image} />
@@ -166,11 +175,11 @@ const AutoScreen = ({navigation}) => {
                           styles.center,
                           styles.bigButton,
                         ]}>
-                        <AppText bold size={36}>
-                          Unesi Gorivo
+                        <AppText bold size={32}>
+                          Unesite Gorivo
                         </AppText>
                         <MaterialCommunityIcon
-                          style={{marginLeft: 10}}
+                          style={[{marginLeft: 10}, styles.icon]}
                           name="fuel"
                           color={Constants.black}
                           size={Constants.height * 0.8 * 0.1}
@@ -200,13 +209,14 @@ const AutoScreen = ({navigation}) => {
                             name="documents"
                             color={Constants.white}
                             size={Constants.height * 0.8 * 0.1}
+                            style={styles.icon}
                           />
                           <AppText
                             style={styles.buttonText}
                             bold
                             color={Constants.white}
                             size={16}>
-                            Registracija I Osiguranje
+                            Registracija i Osiguranje
                           </AppText>
                         </View>
                       </Button>
@@ -231,6 +241,7 @@ const AutoScreen = ({navigation}) => {
                             name="hammer-wrench"
                             color={Constants.white}
                             size={Constants.height * 0.8 * 0.1}
+                            style={styles.icon}
                           />
                           <AppText
                             style={styles.buttonText}
@@ -271,6 +282,7 @@ const AutoScreen = ({navigation}) => {
                             name="car-crash"
                             color={Constants.white}
                             size={Constants.height * 0.8 * 0.095}
+                            style={styles.icon}
                           />
                           <AppText
                             style={styles.buttonText}
@@ -302,6 +314,7 @@ const AutoScreen = ({navigation}) => {
                             name="luggage-cart"
                             color={Constants.white}
                             size={Constants.height * 0.8 * 0.09}
+                            style={styles.icon}
                           />
                           <AppText
                             style={styles.buttonText}
@@ -333,6 +346,13 @@ const AutoScreen = ({navigation}) => {
               <View style={styles.body2}>
                 <TouchableWithoutFeedback onPress={() => goToAnalytics()}>
                   <View style={styles.preview}>
+                    <MaterialCommunityIcon
+                      style={{position: 'absolute', right: 20, top: 20}}
+                      name="google-analytics"
+                      color={Constants.white}
+                      size={40}
+                    />
+
                     <AppText
                       style={{marginBottom: 5}}
                       size={42}
@@ -364,7 +384,7 @@ const AutoScreen = ({navigation}) => {
                               {averageFuelConsumption + ' '}
                             </AppText>
                             <AppText color={Constants.background} size={20}>
-                              l /100km
+                              l / 100km
                             </AppText>
                           </Text>
                         </View>
@@ -610,7 +630,7 @@ const styles = StyleSheet.create({
   },
 
   arrowButtonContainer2: {
-    flex: 1,
+    flex: 0.7,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',

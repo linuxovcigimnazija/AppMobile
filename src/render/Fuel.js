@@ -26,6 +26,8 @@ export default function Fuel({item}) {
           InputTypeColors[selectedType],
           InputTypeColors[selectedType + 'Accent'],
         ]}
+        start={{x: 0, y: 1}}
+        end={{x: 1, y: 1}}
         style={styles.itemContainer}>
         <View style={styles.iconContainer}>
           <FontAwesome5Icon

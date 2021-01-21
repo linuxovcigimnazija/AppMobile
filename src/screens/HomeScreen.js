@@ -33,7 +33,7 @@ const dummyData = [
   {
     brand: 'Renault',
     name: 'Clio Zuti',
-    fuel: 'plin',
+    fuel: 'plin + benzin',
     horsepower: 80,
     sizeInLiters: 1.2,
     id: 2,
@@ -49,7 +49,7 @@ const dummyData = [
   // {
   //   brand: 'Renault',
   //   name: 'Clio Zuti',
-  //   fuel: 'plin',
+  //   fuel: 'plin + benzin',
   //   horsepower: 80,
   //   sizeInLiters: 1.2,
   //   id: 4,
@@ -57,7 +57,7 @@ const dummyData = [
   // {
   //   brand: 'Renault',
   //   name: 'Clio Zuti',
-  //   fuel: 'plin',
+  //   fuel: 'plin + benzin',
   //   horsepower: 80,
   //   sizeInLiters: 1.2,
   //   id: 5,
@@ -65,14 +65,14 @@ const dummyData = [
   // {
   //   brand: 'Renault',
   //   name: 'Clio Zuti',
-  //   fuel: 'plin',
+  //   fuel: 'plin + benzin',
   //   horsepower: 80,
   //   sizeInLiters: 1.2,
   //   id: 6,
   // },
 ];
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({navigation, route}) => {
   const [cars, setCars] = useState(dummyData);
 
   const addCarHandler = () => {};
@@ -142,7 +142,7 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <View style={styles.screenContainer}>
-      <Header />
+      <Header route={route} />
       <View style={styles.body}>
         <FlatList
           data={cars}

@@ -1,6 +1,12 @@
 /* eslint-disable curly */
 import React, {useState} from 'react';
-import {View, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import Header from '../components/Header';
 import Constants from '../constants/Constants';
 import AppText from '../components/AppText';
@@ -24,10 +30,12 @@ import {
 
 const InputScreen = ({navigation, route}) => {
   const [selectedCategory, setSelectedCategory] = useState(
-    route.params.category.toLowerCase(),
+    InputCategories[route.params.category],
   );
-  let categoryColor = InputTypeColors[selectedCategory];
+  let selectedCategoryValue = selectedCategory.value;
+  let categoryColor = InputTypeColors[selectedCategoryValue];
   let categoryIconColor = Constants.white;
+  let controller;
 
   const [data, setData] = useState({
     fuel: [
@@ -169,7 +177,7 @@ const InputScreen = ({navigation, route}) => {
 
   const returnData = () => {
     let returnDataValue;
-    if (selectedCategory === 'all')
+    if (selectedCategoryValue === 'all')
       returnDataValue = [
         ...data.fuel,
         ...data.carWash,
@@ -182,14 +190,14 @@ const InputScreen = ({navigation, route}) => {
         data.registration,
         ...data.tickets,
       ];
-    else if (selectedCategory === 'fuel') returnDataValue = [...data.fuel];
-    else if (selectedCategory === 'registration')
+    else if (selectedCategoryValue === 'fuel') returnDataValue = [...data.fuel];
+    else if (selectedCategoryValue === 'registration')
       returnDataValue = [data.registration, data.insurance];
-    else if (selectedCategory === 'maintainance')
+    else if (selectedCategoryValue === 'maintainance')
       returnDataValue = [...data.maintaincance, ...data.repair];
-    else if (selectedCategory === 'crashes')
+    else if (selectedCategoryValue === 'crashes')
       returnDataValue = [...data.crashes];
-    else if (selectedCategory === 'equipment')
+    else if (selectedCategoryValue === 'equipment')
       returnDataValue = [
         ...data.equipment,
         ...data.tickets,
@@ -226,48 +234,79 @@ const InputScreen = ({navigation, route}) => {
     }
   };
 
+  const toggleDropDownMenu = () => {
+    controller.toggle();
+  };
+
   return (
     <View style={[styles.screenContainer, {backgroundColor: categoryColor}]}>
-      <Header navigation={navigation} backButtonVisible={true} />
+      <Header navigation={navigation} backButtonVisible={true} route={route} />
       <View style={styles.wholeBody}>
-        <View
-          style={[
-            styles.bodyHeader,
-            Constants.OS === 'ios' ? {zIndex: 100} : {},
-          ]}>
-          <DropDownPicker
-            items={InputCategories}
-            defaultValue={selectedCategory}
-            onChangeItem={(item) => setSelectedCategory(item.value)}
-            placeholder="Odaberite Unosnu Kategoriju"
-            arrowColor={categoryColor}
-            arrowSize={24}
-            showArrow={true}
-            style={styles.dropDownPickerStyle}
-            containerStyle={styles.dropDownPickerContainerStyle}
-            dropDownStyle={styles.dropDownStyle}
-            placeholderStyle={styles.dropDownPickerPlaceholder}
-            labelStyle={styles.dropDownPickerLabel}
-            selectedLabelStyle={styles.dropDownPickerSelectedLabel}
-            itemStyle={{justifyContent: 'flex-start', alignItems: 'center'}}
-          />
-          {getCategoryIcon(selectedCategory, categoryIconColor)}
-        </View>
-
         <View style={[styles.bodyContainer, {backgroundColor: categoryColor}]}>
           <View style={styles.body}>
             <FlatList
               data={returnData()}
               keyExtractor={(item) => item.date.toString()}
               contentContainerStyle={styles.flatList}
-              style={{marginTop: 3}}
               renderItem={(item) => renderItem(item)}
             />
           </View>
         </View>
+
+        <View
+          style={[
+            styles.bodyHeader,
+            Constants.OS === 'ios' ? {zIndex: 100} : {},
+          ]}>
+          <View style={styles.titleContainer}>
+            <View style={styles.titleTopContainer}>
+              <AppText
+                style={{textAlign: 'center'}}
+                size={30}
+                bold
+                color={Constants.white}>
+                {selectedCategory.label}
+              </AppText>
+              {/* {getCategoryIcon(selectedCategoryValue, categoryIconColor)} */}
+            </View>
+            <DropDownPicker
+              controller={(instance) => (controller = instance)}
+              items={InputCategories}
+              defaultValue={selectedCategoryValue}
+              onChangeItem={(item) => setSelectedCategory(item)}
+              placeholder="Odaberite Unosnu Kategoriju"
+              arrowColor={categoryColor}
+              arrowSize={15}
+              showArrow={false}
+              style={[
+                styles.dropDownPickerStyle,
+                {
+                  backgroundColor:
+                    InputTypeColors[selectedCategoryValue + 'Accent'],
+                },
+              ]}
+              containerStyle={styles.dropDownPickerContainerStyle}
+              dropDownStyle={styles.dropDownStyle}
+              placeholderStyle={styles.dropDownPickerPlaceholder}
+              labelStyle={styles.dropDownPickerLabel}
+              selectedLabelStyle={styles.dropDownPickerSelectedLabel}
+              itemStyle={{
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+              }}
+            />
+          </View>
+
+          <TouchableOpacity
+            activeOpacity={1}
+            style={[styles.titleContainer, styles.touchable]}
+            onPress={() => toggleDropDownMenu()}>
+            <View />
+          </TouchableOpacity>
+        </View>
       </View>
 
-      {selectedCategory !== 'all' && (
+      {selectedCategoryValue !== 'all' && (
         <View style={styles.addButtonContainer}>
           <TouchableOpacity
             onPress={() => addItem()}
@@ -287,31 +326,55 @@ const InputScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
   screenContainer: {
     flex: 1,
-    backgroundColor: Constants.background,
+    backgroundColor: Constants.primaryDark,
   },
   wholeBody: {
     flex: 1,
   },
   bodyHeader: {
     width: '100%',
-    flex: 1,
-    paddingHorizontal: 30,
+    height:
+      Constants.height > 800
+        ? Constants.height * 0.92 * 0.16
+        : Constants.height * 0.92 * 0.2,
     justifyContent: 'space-evenly',
     alignItems: 'center',
     flexDirection: 'row',
+    position: 'absolute',
+  },
+  titleContainer: {
+    width: '100%',
+    height: '80%',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    paddingHorizontal: 30,
+  },
+  touchable: {
+    position: 'absolute',
+    width: Constants.width,
+    height:
+      Constants.height > 800
+        ? Constants.height * 0.92 * 0.16
+        : Constants.height * 0.92 * 0.2,
+  },
+  titleTopContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    width: '100%',
+    flex: 1,
   },
   dropDownPickerContainerStyle: {
     width: '60%',
-    height: '60%',
+    // height: 25,
   },
   dropDownPickerStyle: {
     borderBottomRightRadius: 15,
     borderBottomLeftRadius: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    borderWidth: 5,
-    borderColor: Constants.primaryLight,
-    backgroundColor: Constants.white,
+    borderWidth: 0,
+    borderColor: Constants.background,
     paddingStart: 0,
   },
   dropDownPickerLabel: {
@@ -324,8 +387,9 @@ const styles = StyleSheet.create({
   },
   dropDownPickerSelectedLabel: {
     fontFamily: 'Ubuntu-Bold',
-    fontSize: 22,
-    color: Constants.gray,
+    fontSize: 1,
+    opacity: 0,
+    color: Constants.background,
     textAlign: 'center',
   },
   dropDownPickerPlaceholder: {
@@ -337,10 +401,21 @@ const styles = StyleSheet.create({
     backgroundColor: Constants.white,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
+    marginTop: 1,
+    paddingBottom: 2,
+    paddingTop: 0,
   },
 
   bodyContainer: {
-    flex: 4,
+    width: '100%',
+    height:
+      Constants.height > 800
+        ? Constants.height * 0.92 * 0.84
+        : Constants.height * 0.92 * 0.8,
+    top:
+      Constants.height > 800
+        ? Constants.height * 0.92 * 0.16
+        : Constants.height * 0.92 * 0.2,
   },
   body: {
     height: '100%',

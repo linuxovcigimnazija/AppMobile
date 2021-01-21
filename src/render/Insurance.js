@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
   itemContainer: {
     width: '100%',
     marginEnd: '2%',
+    maxHeight: 250,
     height: Constants.height * 0.3,
     marginBottom: 10,
     borderRadius: 15,

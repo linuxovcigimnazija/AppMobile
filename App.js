@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View, StatusBar} from 'react-native';
 import Constants from './src/constants/Constants';
 import {NavigationContainer} from '@react-navigation/native';
 import {
@@ -8,6 +8,7 @@ import {
   BottomTabBar,
 } from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
+import {FeatherIcon, FontAwesome5Icon} from './src/utils/Functions';
 
 // SCREENS
 import HomeScreen from './src/screens/HomeScreen';
@@ -17,7 +18,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import RegisterScreen from './src/screens/RegisterScreen';
 import AutoScreen from './src/screens/AutoScreen';
 import InputScreen from './src/screens/InputScreen';
-import {FeatherIcon} from './src/utils/Functions';
+import AnalyticsScreen from './src/screens/AnalyticsScreen';
 
 const App = () => {
   const HomeStack = createStackNavigator();
@@ -27,6 +28,7 @@ const App = () => {
         <HomeStack.Screen name="Home" component={HomeScreen} />
         <HomeStack.Screen name="Auto" component={AutoScreen} />
         <HomeStack.Screen name="Input" component={InputScreen} />
+        <HomeStack.Screen name="Analytics" component={AnalyticsScreen} />
       </HomeStack.Navigator>
     );
   }
@@ -46,7 +48,7 @@ const App = () => {
             if (route.name === 'HomeStack') {
               return <FeatherIcon name="home" size={size} color={color} />;
             } else if (route.name === 'TravelInfo') {
-              return <FeatherIcon name="search" size={size} color={color} />;
+              return <FontAwesome5Icon name="car" size={size} color={color} />;
             } else if (route.name === 'MyProfile') {
               return <FeatherIcon name="user" size={size} color={color} />;
             }
@@ -58,7 +60,7 @@ const App = () => {
         tabBarOptions={{
           keyboardHidesTabBar: false,
           activeTintColor: Constants.white,
-          inactiveTintColor: Constants.white,
+          inactiveTintColor: Constants.primaryLight,
           activeBackgroundColor: Constants.primaryDark,
           inactiveBackgroundColor: Constants.primaryDark,
           showLabel: false,
@@ -75,6 +77,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
       <View style={styles.notch} />
       <SafeAreaView style={styles.safeArea}>
         <NavigationContainer>
@@ -110,6 +113,7 @@ const styles = StyleSheet.create({
   tabBarStyle: {
     width: '100%',
     height: Constants.height * 0.06,
+    borderTopWidth: 0,
   },
 });
 

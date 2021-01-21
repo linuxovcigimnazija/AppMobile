@@ -63,7 +63,7 @@ export const getFuelIcon = (fuelType, style) => {
 export const getCategoryIcon = (
   categoryName,
   color,
-  size = Constants.width * 0.15,
+  size = Constants.width * 0.1,
 ) => {
   switch (categoryName) {
     case 'fuel':
@@ -77,7 +77,9 @@ export const getCategoryIcon = (
     case 'crashes':
       return <FontAwesome5Icon name="car-crash" size={size} color={color} />;
     case 'equipment':
-      return <FontAwesome5Icon name="luggage-cart" size={size} color={color} />;
+      return (
+        <FontAwesome5Icon name="luggage-cart" size={size * 0.9} color={color} />
+      );
   }
 };
 

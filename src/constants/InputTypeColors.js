@@ -1,7 +1,11 @@
+import Constants from '../constants/Constants';
 export default {
+  all: Constants.primaryDark,
+  allAccent: Constants.lightBlue,
   fuel: 'mediumseagreen',
   fuelAccent: 'forestgreen',
   registration: 'blue',
+  registrationAccent: 'darkblue',
   registration2: 'indigo',
   registration2Accent: 'darkblue',
   insurance: 'lightblue',
@@ -14,8 +18,8 @@ export default {
   crashesAccent: 'purple',
   equipment: 'mediumturquoise',
   equipmentAccent: 'teal',
-  tickets: 'lightblue',
-  ticketsAccent: 'turquoise',
+  tickets: 'slateblue',
+  ticketsAccent: 'dodgerblue',
   carWash: 'white',
   carWashAccent: 'steelblue',
   other: 'sandybrown',
