@@ -88,6 +88,11 @@ const styles = StyleSheet.create({
   backButton: {
     paddingEnd: 5,
   },
+  text: {
+    fontSize: 22,
+    color: 'white',
+    textAlign: 'center'
+  }
 });
 
 export default Header;
