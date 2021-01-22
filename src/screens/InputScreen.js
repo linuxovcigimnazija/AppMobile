@@ -423,8 +423,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height:
       Constants.height > 800
-        ? Constants.height * 0.92 * 0.84
-        : Constants.height * 0.92 * 0.8,
+        ? Constants.height * 0.92 * 0.84 - Constants.height * 0.13
+        : Constants.height * 0.92 * 0.8 - Constants.height * 0.06,
     top:
       Constants.height > 800
         ? Constants.height * 0.92 * 0.16
