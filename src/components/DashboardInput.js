@@ -9,7 +9,11 @@ const inputHeight = Constants.height > 700 ? 35 : 30;
 
 export default function DashboardInput(props) {
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        props.error && {borderColor: Constants.redDark},
+      ]}>
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 1, y: 0}}
@@ -55,6 +59,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   triangleCorner: {
     // codedaily.io

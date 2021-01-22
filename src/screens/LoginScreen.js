@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -15,6 +15,10 @@ import DashboardInput from '../components/DashboardInput';
 import Hyperlink from 'react-native-hyperlink';
 import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
+import Toast from 'react-native-simple-toast';
+import {useForm, Controller} from 'react-hook-form';
+import firestore from '@react-native-firebase/firestore';
+import {onLogIn} from '../utils/firebaseUtils';
 
 const mirrorHeight = 50;
 const mirrorBottom = 10.7;
@@ -23,6 +27,13 @@ const pineBottom = 21.5;
 const downScale = 0.8;
 
 const LoginScreen = () => {
+  const {control, handleSubmit, errors} = useForm();
+  const [data, setData] = useState('');
+
+  const onNextStepHandler = (d) => {
+    onLogIn(d.userMail, d.userPassword);
+  };
+
   return (
     <TouchableWithoutFeedback
       style={styles.screenContainer}
@@ -113,17 +124,70 @@ const LoginScreen = () => {
                   </View>
 
                   <View style={styles.textInputFields}>
-                    <DashboardInput
-                      text="Ime"
-                      placeholder="Unesi Korisnicko Ime"
-                      maxLength={12}
+                    <Controller
+                      control={control}
+                      defaultValue=""
+                      name="userMail"
+                      render={({onChange, value}) => (
+                        <DashboardInput
+                          text="Mail"
+                          placeholder="Unesi email"
+                          keyboardType="email-address"
+                          onChangeText={(value) => onChange(value)}
+                          value={value}
+                          error={errors.userMail}
+                        />
+                      )}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: 'Email je obavezan',
+                        },
+                        pattern: {
+                          value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                          message: 'Nije validna emial adresa',
+                        },
+                      }}
                     />
-                    <DashboardInput
-                      text="Sifra"
-                      placeholder="Unesi Sifru"
-                      secureTextEntry={true}
-                      maxLength={16}
+
+                    <Controller
+                      control={control}
+                      defaultValue=""
+                      name="userPassword"
+                      render={({onChange, value}) => (
+                        <DashboardInput
+                          text="Sifra"
+                          placeholder="Unesi Sifru"
+                          secureTextEntry={true}
+                          maxLength={16}
+                          onChangeText={(value) => onChange(value)}
+                          value={value}
+                          error={errors.userPassword}
+                        />
+                      )}
+                      rules={{
+                        required: {
+                          value: true,
+                          message: 'Sifra je obavezna',
+                        },
+                        minLength: {
+                          value: 8,
+                          message: 'Sifra nije dovoljno dugacka',
+                        },
+                      }}
                     />
+                    {(errors.userMail &&
+                      Toast.showWithGravity(
+                        errors.userMail.message,
+                        Toast.LONG,
+                        Toast.TOP,
+                      )) ||
+                      (errors.userPassword &&
+                        Toast.showWithGravity(
+                          errors.userPassword.message,
+                          Toast.LONG,
+                          Toast.TOP,
+                        ))}
                   </View>
 
                   <View style={styles.buttonsContainer}>
@@ -146,7 +210,8 @@ const LoginScreen = () => {
                           width: '100%',
                           justifyContent: 'center',
                           alignItems: 'center',
-                        }}>
+                        }}
+                        onPress={handleSubmit(onNextStepHandler)}>
                         <FontAwesome5Icon name="arrow-right" size={18} />
                       </TouchableOpacity>
                     </View>

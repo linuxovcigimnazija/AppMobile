@@ -10,7 +10,7 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import {FeatherIcon, FontAwesome5Icon} from './src/utils/Functions';
 
-// SCREENS
+// SCREENS <RegisterScreen />
 import HomeScreen from './src/screens/HomeScreen';
 import TravelInfoScreen from './src/screens/TravelInfoScreen';
 import MyProfileScreen from './src/screens/MyProfileScreen';
