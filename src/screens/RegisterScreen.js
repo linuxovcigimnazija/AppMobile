@@ -19,6 +19,9 @@ import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-simple-toast';
 import {useForm, Controller} from 'react-hook-form';
+import auth from '@react-native-firebase/auth';
+import {onSingUp} from '../utils/firebaseUtils';
+import firestore from '@react-native-firebase/firestore';
 
 const mirrorHeight = 50;
 const mirrorBottom = 10.7;
@@ -28,7 +31,6 @@ const downScale = 0.8;
 
 const RegisterScreen = () => {
   const {control, handleSubmit, errors, watch} = useForm();
-  const [data, setData] = useState('');
 
   const [countryPicker, setCountryPicker] = useState({
     value: Countries.defValue,
@@ -39,8 +41,19 @@ const RegisterScreen = () => {
   userPassword.current = watch('userPassword', '');
 
   const onNextStepHandler = (d) => {
-    setData(d);
-    console.log(d.userName);
+    console.log(d);
+    user = {
+      name: d.userName,
+      email: d.userMail,
+      password: d.userPassword,
+      country: {
+        label: d.userCountry.label,
+        valute: d.userCountry.value,
+      },
+      data: {},
+    };
+
+    onSingUp(user.email, user.password, user);
   };
 
   return (
@@ -265,7 +278,7 @@ const RegisterScreen = () => {
                               label: item.label,
                               value: item.value,
                             });
-                            onChange(Countries.countriesList[value].value);
+                            onChange(Countries.countriesList[value]);
                           }}
                         />
                       )}

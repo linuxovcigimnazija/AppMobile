@@ -17,6 +17,8 @@ import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-simple-toast';
 import {useForm, Controller} from 'react-hook-form';
+import firestore from '@react-native-firebase/firestore';
+import {onLogIn} from '../utils/firebaseUtils';
 
 const mirrorHeight = 50;
 const mirrorBottom = 10.7;
@@ -29,8 +31,7 @@ const LoginScreen = () => {
   const [data, setData] = useState('');
 
   const onNextStepHandler = (d) => {
-    setData(d);
-    //Ovdje ide Navigation funkcijaz
+    onLogIn(d.userMail, d.userPassword);
   };
 
   return (
@@ -181,7 +182,7 @@ const LoginScreen = () => {
                         Toast.LONG,
                         Toast.TOP,
                       )) ||
-                      (errors.useruserEmail &&
+                      (errors.userPassword &&
                         Toast.showWithGravity(
                           errors.userPassword.message,
                           Toast.LONG,

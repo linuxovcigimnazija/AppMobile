@@ -2,7 +2,7 @@ import React from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import Constants from './src/constants/Constants';
 
-// SCREENS
+// SCREENS <RegisterScreen />
 import HomeScreen from './src/screens/HomeScreen';
 import TravelInfoScreen from './src/screens/TravelInfoScreen';
 import MyProfileScreen from './src/screens/MyProfileScreen';
@@ -16,7 +16,7 @@ const App = () => {
     <View style={styles.container}>
       <View style={styles.notch} />
       <SafeAreaView style={styles.safeArea}>
-        <RegisterScreen />
+        <LoginScreen />
       </SafeAreaView>
     </View>
   );
