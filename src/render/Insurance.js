@@ -66,7 +66,7 @@ export default function Insurance({item}) {
               Datum isticanja:
             </AppText>
             <AppText
-              style={{marginLeft: '5%'}}
+              style={{marginLeft: '0%'}}
               color={Constants.white}
               bold
               size={26}>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     marginEnd: '2%',
     maxHeight: 250,
     height: Constants.height * 0.3,
-    marginBottom: 10,
+    marginBottom: 20,
     borderRadius: 15,
     backgroundColor: InputTypeColors[selectedType],
     elevation: 2,

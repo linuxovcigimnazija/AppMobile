@@ -44,7 +44,7 @@ const InputScreen = ({navigation, route}) => {
         volume: 50,
         discount: true,
         pricePerLiter: 2.2,
-        date: Date.parse('2003-01-16'),
+        date: Date.parse('2003-12-12'),
         tag: 'fuel',
       },
       {
@@ -269,32 +269,43 @@ const InputScreen = ({navigation, route}) => {
               </AppText>
               {/* {getCategoryIcon(selectedCategoryValue, categoryIconColor)} */}
             </View>
-            <DropDownPicker
-              controller={(instance) => (controller = instance)}
-              items={InputCategories}
-              defaultValue={selectedCategoryValue}
-              onChangeItem={(item) => setSelectedCategory(item)}
-              placeholder="Odaberite Unosnu Kategoriju"
-              arrowColor={categoryColor}
-              arrowSize={15}
-              showArrow={false}
-              style={[
-                styles.dropDownPickerStyle,
-                {
-                  backgroundColor:
-                    InputTypeColors[selectedCategoryValue + 'Accent'],
-                },
-              ]}
-              containerStyle={styles.dropDownPickerContainerStyle}
-              dropDownStyle={styles.dropDownStyle}
-              placeholderStyle={styles.dropDownPickerPlaceholder}
-              labelStyle={styles.dropDownPickerLabel}
-              selectedLabelStyle={styles.dropDownPickerSelectedLabel}
-              itemStyle={{
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-              }}
-            />
+            <View style={{width: '100%', alignItems: 'center'}}>
+              <DropDownPicker
+                controller={(instance) => (controller = instance)}
+                items={InputCategories}
+                defaultValue={selectedCategoryValue}
+                onChangeItem={(item) => setSelectedCategory(item)}
+                placeholder="Odaberite Unosnu Kategoriju"
+                arrowColor={categoryColor}
+                arrowSize={15}
+                showArrow={false}
+                style={[
+                  styles.dropDownPickerStyle,
+                  {
+                    backgroundColor:
+                      InputTypeColors[selectedCategoryValue + 'Accent'],
+                  },
+                ]}
+                containerStyle={styles.dropDownPickerContainerStyle}
+                dropDownStyle={styles.dropDownStyle}
+                placeholderStyle={styles.dropDownPickerPlaceholder}
+                labelStyle={styles.dropDownPickerLabel}
+                selectedLabelStyle={styles.dropDownPickerSelectedLabel}
+                itemStyle={{
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                }}
+              />
+              <AppText
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  backgroundColor: InputTypeColors[selectedCategoryValue],
+                  zIndex: 900,
+                }}>
+                menu
+              </AppText>
+            </View>
           </View>
 
           <TouchableOpacity
@@ -379,7 +390,7 @@ const styles = StyleSheet.create({
   },
   dropDownPickerLabel: {
     fontFamily: 'Ubuntu-Regular',
-    fontSize: 16,
+    fontSize: 18,
     color: Constants.gray,
     textAlign: 'left',
     alignSelf: 'center',

@@ -23,14 +23,14 @@ export default function Tickets({item}) {
     <View style={styles.renderContainer}>
       <LinearGradient
         colors={[
-          InputTypeColors[selectedType],
           InputTypeColors[selectedType + 'Accent'],
+          InputTypeColors[selectedType],
         ]}
         style={styles.itemContainer}>
         <View style={styles.iconContainer}>
           <EntypoIcon
             name="mail"
-            size={Constants.height * 0.07}
+            size={Constants.height * 0.065}
             color={InputTypeColors[selectedType + 'Accent']}
           />
         </View>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     marginEnd: '2%',
     flexDirection: 'row',
     height: Constants.height * 0.13,
-    marginBottom: 10,
+    marginBottom: 20,
     borderRadius: 15,
     backgroundColor: InputTypeColors[selectedType],
     elevation: 2,

@@ -29,9 +29,16 @@ const TravelInfoScreen = ({route}) => {
     <View style={{flex: 1, backgroundColor: Constants.background}}>
       <Header route={route} />
       <View style={{flex: 1, justifyContent: 'space-evenly'}}>
-        <LinearGradient
-          colors={[Constants.primaryLight, Constants.primaryDark]}
-          style={styles.lowerView}>
+        <View style={styles.lowerView}>
+          <LinearGradient
+            colors={[Constants.lightBlue, Constants.primaryDark]}
+            style={{
+              position: 'absolute',
+              width: Constants.width * 0.9,
+              height: '104%',
+              borderRadius: 15,
+            }}
+          />
           <View style={styles.numbersView}>
             <AppText style={styles.titleText}>Pomoc na putu za...</AppText>
 
@@ -74,10 +81,17 @@ const TravelInfoScreen = ({route}) => {
               </AppText>
             </View>
           </View>
-        </LinearGradient>
-        <LinearGradient
-          colors={[Constants.primary, Constants.primaryDark]}
-          style={styles.lowerView}>
+        </View>
+        <View style={styles.lowerView}>
+          <LinearGradient
+            colors={[Constants.primaryDark, Constants.lightBlue]}
+            style={{
+              position: 'absolute',
+              width: Constants.width * 0.9,
+              height: '104%',
+              borderRadius: 15,
+            }}
+          />
           <View style={styles.numbersView}>
             <AppText style={styles.titleText}>Želite da putujete?</AppText>
             <AppText style={styles.textStyle}>
@@ -129,7 +143,7 @@ const TravelInfoScreen = ({route}) => {
               </Hyperlink>
             </View>
           </View>
-        </LinearGradient>
+        </View>
       </View>
     </View>
   );
@@ -146,7 +160,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   numbersView: {
-    flex: 1,
+    height: '100%',
     width: '100%',
     alignSelf: 'center',
     justifyContent: 'space-between',
@@ -192,6 +206,11 @@ const styles = StyleSheet.create({
     borderColor: Constants.gray,
     borderTopWidth: 0.5,
     marginTop: 5,
+    paddingVertical: 0,
+    height:
+      Constants.OS === 'android'
+        ? Constants.height * 0.12
+        : Constants.height * 0.15,
   },
   labelStyle: {
     fontFamily: 'Ubuntu-Regular',

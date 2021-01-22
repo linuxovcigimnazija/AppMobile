@@ -578,10 +578,11 @@ const styles = StyleSheet.create({
   },
   arrowButton: {
     width: '60%',
-    borderWidth: 7,
+    height: '100%',
+    // borderWidth: 7,
     borderColor: Constants.black,
     borderRadius: 10,
-    borderStyle: 'dashed',
+    // borderStyle: 'dashed',
     paddingVertical: 5,
     alignItems: 'center',
     justifyContent: 'center',

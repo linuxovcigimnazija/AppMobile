@@ -8,10 +8,6 @@ target 'MobileApp' do
 
   use_react_native!(:path => config["reactNativePath"])
 
-<<<<<<< HEAD
-=======
->>>>>>> sava-myprofile
-
   target 'MobileAppTests' do
     inherit! :complete
     # Pods for testing

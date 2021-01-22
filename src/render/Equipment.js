@@ -30,7 +30,7 @@ export default function Equipment({item}) {
         <View style={styles.iconContainer}>
           <FeatherIcon
             name="shopping-cart"
-            size={Constants.height * 0.07}
+            size={Constants.height * 0.06}
             color={InputTypeColors[selectedType + 'Accent']}
           />
         </View>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     marginEnd: '2%',
     flexDirection: 'row',
     height: Constants.height * 0.13,
-    marginBottom: 10,
+    marginBottom: 20,
     borderRadius: 15,
     backgroundColor: InputTypeColors[selectedType],
     elevation: 2,

@@ -34,8 +34,8 @@ export default function Registration({item}) {
             alignItems: 'center',
           }}>
           <View style={styles.iconContainer}>
-            <FontAwesome5Icon
-              name="hands-helping"
+            <EntypoIcon
+              name="clipboard"
               size={Constants.height * 0.07}
               color={InputTypeColors[selectedType + 'Accent']}
             />
@@ -66,7 +66,7 @@ export default function Registration({item}) {
               Datum registrovanja:
             </AppText>
             <AppText
-              style={{marginLeft: '5%'}}
+              style={{marginLeft: '0%'}}
               color={Constants.white}
               bold
               size={26}>

@@ -26,8 +26,6 @@ export default function Fuel({item}) {
           InputTypeColors[selectedType],
           InputTypeColors[selectedType + 'Accent'],
         ]}
-        start={{x: 0, y: 1}}
-        end={{x: 1, y: 1}}
         style={styles.itemContainer}>
         <View style={styles.iconContainer}>
           <FontAwesome5Icon
@@ -54,7 +52,8 @@ export default function Fuel({item}) {
             ]}>
             <AppText
               style={{textAlign: 'center'}}
-              size={14}
+              size={12}
+              bold
               color={Constants.white}>
               {item.discount
                 ? item.pricePerLiter + ' ' + currency + '/l' + ' Popust'
@@ -69,7 +68,7 @@ export default function Fuel({item}) {
       </LinearGradient>
       <View style={styles.dateContainer}>
         <AppText
-          style={{textAlign: 'center'}}
+          style={{textAlign: 'left'}}
           color={Constants.gray}
           bold
           size={14}>
@@ -120,10 +119,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   discount: {
-    width: '50%',
+    width: '45%',
     backgroundColor: Constants.red,
     borderRadius: 10,
-    padding: 3,
+    padding: 2,
     alignItems: 'center',
     alignSelf: 'flex-end',
     position: 'absolute',

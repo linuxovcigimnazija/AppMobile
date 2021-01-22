@@ -60,7 +60,7 @@ const App = () => {
         tabBarOptions={{
           keyboardHidesTabBar: false,
           activeTintColor: Constants.white,
-          inactiveTintColor: Constants.primaryLight,
+          inactiveTintColor: Constants.primaryLight + 'B0',
           activeBackgroundColor: Constants.primaryDark,
           inactiveBackgroundColor: Constants.primaryDark,
           showLabel: false,
