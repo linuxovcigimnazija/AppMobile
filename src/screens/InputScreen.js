@@ -296,14 +296,19 @@ const InputScreen = ({navigation, route}) => {
                   alignItems: 'center',
                 }}
               />
-              <AppText
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  backgroundColor: InputTypeColors[selectedCategoryValue],
-                  zIndex: 900,
-                }}>
-                menu
+            </View>
+
+            <View
+              style={{
+                position: 'absolute',
+                bottom: 3,
+                backgroundColor:
+                  InputTypeColors[selectedCategoryValue + 'Accent'],
+                paddingHorizontal: 5,
+                borderRadius: 5,
+              }}>
+              <AppText color={Constants.white} size={12} bold>
+                Kategorije
               </AppText>
             </View>
           </View>
@@ -392,9 +397,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Ubuntu-Regular',
     fontSize: 18,
     color: Constants.gray,
-    textAlign: 'left',
-    alignSelf: 'center',
-    flexShrink: 1,
   },
   dropDownPickerSelectedLabel: {
     fontFamily: 'Ubuntu-Bold',
