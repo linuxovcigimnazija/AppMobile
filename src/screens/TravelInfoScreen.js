@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import Header from '../components/Header';
 import Constants from '../constants/Constants';
 import {TravellInfoData} from '../constants/TravellInfoData';
@@ -7,146 +7,156 @@ import Hyperlink from 'react-native-hyperlink';
 import AppText from '../components/AppText';
 import LinearGradient from 'react-native-linear-gradient';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {getUserData} from '../utils/firebaseUtils';
 
 const TravelInfoScreen = ({route}) => {
-  const list = TravellInfoData;
-  const [number, setNumber] = useState({
-    label: 'Bosnu i Hercegovinu',
-    value: {
-      milicija: 122,
-      vatrogasci: 123,
-      hitna: 124,
-      ams: 1288,
-    },
-  });
-  const [link, setLink] = useState({
-    label: 'Bosnu i Hercegovinu',
-    putovanje:
-      'http://www.mvp.gov.ba/konzularne_informacije/sta_konzul_moze_uciniti_za_vas/?id=17675',
-  });
+  const [num, setNum] = useState(null);
 
-  return (
-    <View style={{flex: 1, backgroundColor: Constants.background}}>
-      <Header route={route} />
-      <View style={{flex: 1, justifyContent: 'space-evenly'}}>
-        <View style={styles.lowerView}>
-          <LinearGradient
-            colors={[Constants.lightBlue, Constants.primaryDark]}
-            style={{
-              position: 'absolute',
-              width: Constants.width * 0.9,
-              height: '104%',
-              borderRadius: 15,
-            }}
-          />
-          <View style={styles.numbersView}>
-            <AppText style={styles.titleText}>Pomoc na putu za...</AppText>
+  useEffect(() => {
+    const getIndex = async () => {
+      const data = await getUserData();
+      setNum(data.country.id);
+    };
+    getIndex();
+  }, []);
 
-            <DropDownPicker
-              items={list}
-              containerStyle={styles.dropContainer}
-              style={styles.dropDownPickerViewStyle}
-              placeholder={number.label}
-              dropDownStyle={styles.dropDownStyle}
-              placeholderStyle={styles.selectedLabelStyle}
-              labelStyle={styles.labelStyle}
-              selectedLabelStyle={styles.selectedLabelStyle}
-              onChangeItem={(item) => {
-                setNumber(item);
+  console.log(num);
+
+  const [number, setNumber] = useState(TravellInfoData[0]);
+  const [link, setLink] = useState(TravellInfoData[0]);
+
+  if (num === 0 || num === 1 || num === 2) {
+    return (
+      <View style={{flex: 1, backgroundColor: Constants.background}}>
+        <Header route={route} />
+        <View style={{flex: 1, justifyContent: 'space-evenly'}}>
+          <View style={styles.lowerView}>
+            <LinearGradient
+              colors={[Constants.lightBlue, Constants.primaryDark]}
+              style={{
+                position: 'absolute',
+                width: Constants.width * 0.9,
+                height: '104%',
+                borderRadius: 15,
               }}
             />
+            <View style={styles.numbersView}>
+              <AppText style={styles.titleText}>Pomoc na putu za...</AppText>
 
-            <View style={styles.numberStyles}>
-              <AppText>Policija:</AppText>
-              <AppText color={Constants.red} size={18} bold>
-                {number.value.milicija}
-              </AppText>
-            </View>
-            <View style={styles.numberStyles}>
-              <AppText>Vatrogasci:</AppText>
-              <AppText color={Constants.red} size={18} bold>
-                {number.value.vatrogasci}
-              </AppText>
-            </View>
-            <View style={styles.numberStyles}>
-              <AppText>Hitna pomoć:</AppText>
-              <AppText color={Constants.red} size={18} bold>
-                {number.value.hitna}
-              </AppText>
-            </View>
-            <View style={styles.numberStyles}>
-              <AppText>Pomoć na putu:</AppText>
-              <AppText color={Constants.red} size={18} bold>
-                {number.value.ams}
-              </AppText>
+              <DropDownPicker
+                items={TravellInfoData}
+                containerStyle={styles.dropContainer}
+                style={styles.dropDownPickerViewStyle}
+                placeholder={number.label}
+                dropDownStyle={styles.dropDownStyle}
+                placeholderStyle={styles.selectedLabelStyle}
+                labelStyle={styles.labelStyle}
+                selectedLabelStyle={styles.selectedLabelStyle}
+                onChangeItem={(item) => {
+                  setNumber(item);
+                }}
+              />
+
+              <View style={styles.numberStyles}>
+                <AppText>Policija:</AppText>
+                <AppText color={Constants.red} size={18} bold>
+                  {number.value.milicija}
+                </AppText>
+              </View>
+              <View style={styles.numberStyles}>
+                <AppText>Vatrogasci:</AppText>
+                <AppText color={Constants.red} size={18} bold>
+                  {number.value.vatrogasci}
+                </AppText>
+              </View>
+              <View style={styles.numberStyles}>
+                <AppText>Hitna pomoć:</AppText>
+                <AppText color={Constants.red} size={18} bold>
+                  {number.value.hitna}
+                </AppText>
+              </View>
+              <View style={styles.numberStyles}>
+                <AppText>Pomoć na putu:</AppText>
+                <AppText color={Constants.red} size={18} bold>
+                  {number.value.ams}
+                </AppText>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={styles.lowerView}>
-          <LinearGradient
-            colors={[Constants.primaryDark, Constants.lightBlue]}
-            style={{
-              position: 'absolute',
-              width: Constants.width * 0.9,
-              height: '104%',
-              borderRadius: 15,
-            }}
-          />
-          <View style={styles.numbersView}>
-            <AppText style={styles.titleText}>Želite da putujete?</AppText>
-            <AppText style={styles.textStyle}>
-              NAJNOVIJE informacije vezane za Putovanje u Pandemiji za...
-            </AppText>
-            <DropDownPicker
-              items={list}
-              containerStyle={[
-                styles.dropContainer,
-                Constants.OS === 'ios' ? {zIndex: 100} : {},
-              ]}
-              arrowColor={Constants.primaryDark}
-              style={[
-                styles.dropDownPickerViewStyle,
-                Constants.OS === 'ios' ? {zIndex: 100} : {},
-              ]}
-              placeholder={link.label}
-              dropDownStyle={[
-                styles.dropDownStyle,
-                Constants.OS === 'ios' ? {zIndex: 100} : {},
-              ]}
-              placeholderStyle={styles.selectedLabelStyle}
-              labelStyle={styles.labelStyle}
-              selectedLabelStyle={styles.selectedLabelStyle}
-              onChangeItem={(item) => {
-                setLink(item);
+          <View style={styles.lowerView}>
+            <LinearGradient
+              colors={[Constants.primaryDark, Constants.lightBlue]}
+              style={{
+                position: 'absolute',
+                width: Constants.width * 0.9,
+                height: '104%',
+                borderRadius: 15,
               }}
             />
-            <View>
-              <Hyperlink
-                linkDefault={true}
-                linkStyle={{
-                  color: Constants.black,
-                  fontSize: 16,
-                  fontFamily: 'Ubuntu-Bold',
+            <View style={styles.numbersView}>
+              <AppText style={styles.titleText}>Želite da putujete?</AppText>
+              <AppText style={styles.textStyle}>
+                NAJNOVIJE informacije vezane za Putovanje u Pandemiji za...
+              </AppText>
+              <DropDownPicker
+                items={TravellInfoData}
+                containerStyle={[
+                  styles.dropContainer,
+                  Constants.OS === 'ios' ? {zIndex: 100} : {},
+                ]}
+                arrowColor={Constants.primaryDark}
+                style={[
+                  styles.dropDownPickerViewStyle,
+                  Constants.OS === 'ios' ? {zIndex: 100} : {},
+                ]}
+                placeholder={link.label}
+                dropDownStyle={[
+                  styles.dropDownStyle,
+                  Constants.OS === 'ios' ? {zIndex: 100} : {},
+                ]}
+                placeholderStyle={styles.selectedLabelStyle}
+                labelStyle={styles.labelStyle}
+                selectedLabelStyle={styles.selectedLabelStyle}
+                onChangeItem={(item) => {
+                  setLink(item);
                 }}
-                linkText={(url) =>
-                  url === link.putovanje ? 'Više informacija na ovaj link' : url
-                }>
-                <AppText
-                  style={{
-                    alignSelf: 'center',
-                    textDecorationLine: 'underline',
-                    marginVertical: 20,
-                    justifyContent: 'flex-end',
-                  }}>
-                  {link.putovanje}
-                </AppText>
-              </Hyperlink>
+              />
+              <View>
+                <Hyperlink
+                  linkDefault={true}
+                  linkStyle={{
+                    color: Constants.black,
+                    fontSize: 16,
+                    fontFamily: 'Ubuntu-Bold',
+                  }}
+                  linkText={(url) =>
+                    url === link.putovanje
+                      ? 'Više informacija na ovaj link'
+                      : url
+                  }>
+                  <AppText
+                    style={{
+                      alignSelf: 'center',
+                      textDecorationLine: 'underline',
+                      marginVertical: 20,
+                      justifyContent: 'flex-end',
+                    }}>
+                    {link.putovanje}
+                  </AppText>
+                </Hyperlink>
+              </View>
             </View>
           </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View style={[styles.container, styles.horizontal]}>
+        <ActivityIndicator color={Constants.primary} size="large" />
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -226,6 +236,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 5,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
   },
 });
 

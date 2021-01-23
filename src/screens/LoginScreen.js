@@ -17,7 +17,6 @@ import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-simple-toast';
 import {useForm, Controller} from 'react-hook-form';
-import firestore from '@react-native-firebase/firestore';
 import {onLogIn} from '../utils/firebaseUtils';
 
 const mirrorHeight = 50;
@@ -26,12 +25,15 @@ const pineHeight = 30;
 const pineBottom = 21.5;
 const downScale = 0.8;
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation, route}) => {
   const {control, handleSubmit, errors} = useForm();
-  const [data, setData] = useState('');
+
+  const goToHome = () => {
+    navigation.navigate('HomeStack');
+  };
 
   const onNextStepHandler = (d) => {
-    onLogIn(d.userMail, d.userPassword);
+    onLogIn(d.userMail, d.userPassword, goToHome);
   };
 
   return (
@@ -39,7 +41,7 @@ const LoginScreen = () => {
       style={styles.screenContainer}
       onPress={() => Keyboard.dismiss()}>
       <View style={styles.screenContainer}>
-        <Header />
+        <Header route={route} />
         <View style={styles.body}>
           <View style={styles.background}>
             <LinearGradient
@@ -242,7 +244,7 @@ const LoginScreen = () => {
                   </View>
 
                   <Hyperlink
-                    onPress={(url, text) => alert(url + ', ' + text)}
+                    onPress={() => navigation.navigate('Register')}
                     linkText={(url) =>
                       url === 'https://link.com' ? 'Registruj se!' : url
                     }

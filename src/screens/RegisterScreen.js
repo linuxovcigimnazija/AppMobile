@@ -19,9 +19,7 @@ import FastImage from 'react-native-fast-image';
 import LinearGradient from 'react-native-linear-gradient';
 import Toast from 'react-native-simple-toast';
 import {useForm, Controller} from 'react-hook-form';
-import auth from '@react-native-firebase/auth';
 import {onSingUp} from '../utils/firebaseUtils';
-import firestore from '@react-native-firebase/firestore';
 
 const mirrorHeight = 50;
 const mirrorBottom = 10.7;
@@ -29,31 +27,37 @@ const pineHeight = 30;
 const pineBottom = 21.5;
 const downScale = 0.8;
 
-const RegisterScreen = () => {
+const RegisterScreen = ({navigation, route}) => {
   const {control, handleSubmit, errors, watch} = useForm();
 
   const [countryPicker, setCountryPicker] = useState({
     value: Countries.defValue,
     label: Countries.defLabel,
+    id: Countries.defId,
   });
+
+  const goToHome = () => {
+    navigation.navigate('HomeStack');
+  };
 
   const userPassword = useRef({});
   userPassword.current = watch('userPassword', '');
 
   const onNextStepHandler = (d) => {
     console.log(d);
-    user = {
+    const user = {
       name: d.userName,
       email: d.userMail,
       password: d.userPassword,
       country: {
         label: d.userCountry.label,
         valute: d.userCountry.value,
+        id: d.userCountry.id,
       },
       data: {},
     };
 
-    onSingUp(user.email, user.password, user);
+    onSingUp(user.email, user.password, user, goToHome);
   };
 
   return (
@@ -61,7 +65,7 @@ const RegisterScreen = () => {
       style={styles.screenContainer}
       onPress={() => Keyboard.dismiss()}>
       <View style={styles.screenContainer}>
-        <Header />
+        <Header route={route} />
         <View style={styles.body}>
           <View style={styles.background}>
             <LinearGradient
@@ -277,6 +281,7 @@ const RegisterScreen = () => {
                             setCountryPicker({
                               label: item.label,
                               value: item.value,
+                              id: item.id,
                             });
                             onChange(Countries.countriesList[value]);
                           }}
@@ -369,7 +374,7 @@ const RegisterScreen = () => {
                     />
                   </View>
                   <Hyperlink
-                    onPress={(url, text) => alert(url + ', ' + text)}
+                    onPress={() => navigation.navigate('Login')}
                     linkText={(url) =>
                       url === 'https://link.com'
                         ? 'Udji u postojeci nalog!'

@@ -9,6 +9,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {FeatherIcon, FontAwesome5Icon} from './src/utils/Functions';
+import auth from '@react-native-firebase/auth';
 
 // SCREENS <RegisterScreen />
 import HomeScreen from './src/screens/HomeScreen';
@@ -21,6 +22,8 @@ import InputScreen from './src/screens/InputScreen';
 import AnalyticsScreen from './src/screens/AnalyticsScreen';
 
 const App = () => {
+  const iniRoute = auth().currentUser ? 'TabNavigation' : 'Login';
+
   const HomeStack = createStackNavigator();
   function HomeStackScreen() {
     return (
@@ -81,7 +84,9 @@ const App = () => {
       <View style={styles.notch} />
       <SafeAreaView style={styles.safeArea}>
         <NavigationContainer>
-          <AppStack.Navigator screenOptions={{headerShown: false}}>
+          <AppStack.Navigator
+            screenOptions={{headerShown: false}}
+            initialRouteName={iniRoute}>
             <AppStack.Screen name="TabNavigation" component={TabNavigator} />
             <AppStack.Screen name="Register" component={RegisterScreen} />
             <AppStack.Screen name="Login" component={LoginScreen} />

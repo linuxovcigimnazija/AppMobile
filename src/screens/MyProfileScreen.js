@@ -7,6 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Pie from 'react-native-pie';
 import {themes} from '../constants/colors';
 import Header from '../components/Header';
+import {onLogOut} from '../utils/firebaseUtils';
 
 var name, email, numberOfCars, online;
 var fuelConsumption, moneySpent;
@@ -26,8 +27,12 @@ function data_function() {
   pieOther = 5;
 }
 
-const MyProfileScreen = ({route}) => {
+const MyProfileScreen = ({route, navigation}) => {
   const [color, setColor] = useState(themes.seaship);
+
+  const goToLogin = () => {
+    navigation.navigate('Login');
+  };
 
   function changeTheme() {
     if (color == themes.seaship) {
@@ -68,7 +73,11 @@ const MyProfileScreen = ({route}) => {
                   </AppText>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.logoutButton}>
+                <TouchableOpacity
+                  style={styles.logoutButton}
+                  onPress={() => {
+                    onLogOut(goToLogin);
+                  }}>
                   <AppText style={styles.logoutbuttonText}>odjavi se</AppText>
                 </TouchableOpacity>
               </View>

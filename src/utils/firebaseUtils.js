@@ -2,6 +2,29 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-simple-toast';
+import {Alert} from 'react-native';
+
+export const onLogOut = (navigatorFun) => {
+  Alert.alert(
+    'Upozorenje',
+    'Ovom opcijom cete izaci iz vaseg profila, molimo Vas da sinhronizujete podatke ili ce podaci biti izgubljeni',
+    [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'Ipak izadji sa profila',
+        onPress: () => {
+          auth().signOut();
+          navigatorFun();
+        },
+      },
+    ],
+    {cancelable: false},
+  );
+};
 
 export const getUserID = async () => {
   try {
@@ -26,7 +49,8 @@ export const getUserData = async () => {
   try {
     const value = await AsyncStorage.getItem('userData');
     if (value !== null) {
-      return value;
+      const object = JSON.parse(value);
+      return object;
     }
   } catch (error) {
     console.warn(error);
