@@ -5,7 +5,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  Modal,
   TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import Header from '../components/Header';
 import Constants from '../constants/Constants';
@@ -27,6 +29,14 @@ import {
   CarWash,
   Other,
 } from '../render/index';
+import {
+  FuelModal,
+  RegistrationModal,
+  MaintainanceModal,
+  CrashesModal,
+  EquipmentModal,
+} from '../render/modals';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const InputScreen = ({navigation, route}) => {
   const [selectedCategory, setSelectedCategory] = useState(
@@ -36,6 +46,9 @@ const InputScreen = ({navigation, route}) => {
   let categoryColor = InputTypeColors[selectedCategoryValue];
   let categoryIconColor = Constants.white;
   let controller;
+  let flatList;
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [data, setData] = useState({
     fuel: [
@@ -173,7 +186,10 @@ const InputScreen = ({navigation, route}) => {
     ],
   });
 
-  const addItem = () => {};
+  const addItem = () => {
+    setModalVisible(true);
+    controller.close();
+  };
 
   const returnData = () => {
     let returnDataValue;
@@ -245,6 +261,10 @@ const InputScreen = ({navigation, route}) => {
         <View style={[styles.bodyContainer, {backgroundColor: categoryColor}]}>
           <View style={styles.body}>
             <FlatList
+              onScrollBeginDrag={() => {
+                controller.close();
+              }}
+              ref={(ref) => (flatList = ref)}
               data={returnData()}
               keyExtractor={(item) => item.date.toString()}
               contentContainerStyle={styles.flatList}
@@ -274,7 +294,10 @@ const InputScreen = ({navigation, route}) => {
                 controller={(instance) => (controller = instance)}
                 items={InputCategories}
                 defaultValue={selectedCategoryValue}
-                onChangeItem={(item) => setSelectedCategory(item)}
+                onChangeItem={(item) => {
+                  flatList.scrollToOffset({animated: false, offset: 0});
+                  setSelectedCategory(item);
+                }}
                 placeholder="Odaberite Unosnu Kategoriju"
                 arrowColor={categoryColor}
                 arrowSize={15}
@@ -335,6 +358,50 @@ const InputScreen = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
       )}
+
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View
+              style={{
+                position: 'absolute',
+                height: Constants.height,
+                width: Constants.width,
+              }}
+            />
+          </TouchableWithoutFeedback>
+
+          {selectedCategoryValue === 'fuel' ? (
+            <FuelModal
+              closeModal={() => setModalVisible(false)}
+              selectedCategoryValue={selectedCategoryValue}
+            />
+          ) : selectedCategoryValue === 'crashes' ? (
+            <CrashesModal
+              closeModal={() => setModalVisible(false)}
+              selectedCategoryValue={selectedCategoryValue}
+            />
+          ) : selectedCategoryValue === 'maintainance' ? (
+            <MaintainanceModal
+              closeModal={() => setModalVisible(false)}
+              selectedCategoryValue={selectedCategoryValue}
+            />
+          ) : selectedCategoryValue === 'equipment' ? (
+            <EquipmentModal
+              closeModal={() => setModalVisible(false)}
+              selectedCategoryValue={selectedCategoryValue}
+            />
+          ) : (
+            <RegistrationModal
+              closeModal={() => setModalVisible(false)}
+              selectedCategoryValue={selectedCategoryValue}
+            />
+          )}
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -458,6 +525,12 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 4,
     shadowOpacity: 1,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#000000' + '80',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

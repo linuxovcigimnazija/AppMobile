@@ -2,7 +2,7 @@ import Constants from '../constants/Constants';
 export default {
   all: Constants.primaryDark,
   allAccent: Constants.lightBlue,
-  fuel: 'mediumseagreen',
+  fuel: '#3cb371', //mediumseagreen
   fuelAccent: 'forestgreen',
   registration: '#554A98',
   registrationAccent: 'darkblue',
@@ -10,13 +10,13 @@ export default {
   registration2Accent: 'darkblue',
   insurance: '#94BFCD',
   insuranceAccent: '#87B2C0',
-  maintainance: 'orange',
-  maintainanceAccent: 'red',
+  maintainance: '#ff8c00', //darkorange
+  maintainanceAccent: '#E92149',
   repair: 'coral',
   repairAccent: 'purple',
   crashes: '#E92149',
   crashesAccent: 'purple',
-  equipment: 'mediumturquoise',
+  equipment: '#48d1cc', //mediumturquoise
   equipmentAccent: 'teal',
   tickets: 'slateblue',
   ticketsAccent: 'dodgerblue',

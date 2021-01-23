@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     marginEnd: '2%',
     flexDirection: 'row',
     height: Constants.height * 0.13,
-    marginBottom: 10,
+    marginBottom: 15,
     borderRadius: 15,
     backgroundColor: InputTypeColors[selectedType],
     elevation: 2,

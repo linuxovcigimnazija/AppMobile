@@ -81,7 +81,9 @@ const App = () => {
       <View style={styles.notch} />
       <SafeAreaView style={styles.safeArea}>
         <NavigationContainer>
-          <AppStack.Navigator screenOptions={{headerShown: false}}>
+          <AppStack.Navigator
+            initialRouteName="TabNavigation"
+            screenOptions={{headerShown: false}}>
             <AppStack.Screen name="TabNavigation" component={TabNavigator} />
             <AppStack.Screen name="Register" component={RegisterScreen} />
             <AppStack.Screen name="Login" component={LoginScreen} />
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
     height: '50%',
     // background color sets the color of screen
     // out of safeareaview on the upper half
-    backgroundColor: Constants.primaryDark,
+    backgroundColor: Constants.primaryDarker,
   },
   safeArea: {
     flex: 1,
@@ -113,7 +115,8 @@ const styles = StyleSheet.create({
   tabBarStyle: {
     width: '100%',
     height: Constants.height * 0.06,
-    borderTopWidth: 0,
+    borderTopWidth: 1,
+    borderTopColor: Constants.primaryDarker,
   },
 });
 

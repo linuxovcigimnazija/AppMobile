@@ -3,13 +3,16 @@ import {View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 import AppText from '../components/AppText';
 import Constants from '../constants/Constants';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import LinearGradient from 'react-native-linear-gradient';
 import Pie from 'react-native-pie';
 import {themes} from '../constants/colors';
 import Header from '../components/Header';
+import InputTypeColors from '../constants/InputTypeColors';
 
 var name, email, numberOfCars, online;
-var fuelConsumption, moneySpent;
+var fuelConsumption, moneySpent, currency;
 var pieFuel, pieRegistration, pieServis, pieDamage, pieOther;
 function data_function() {
   name = 'Petar Petrović';
@@ -17,7 +20,8 @@ function data_function() {
   numberOfCars = 3;
   online = '8.10.2020.';
   fuelConsumption = '280 litara';
-  moneySpent = '880 KM';
+  moneySpent = '880';
+  currency = 'KM';
 
   pieFuel = 45;
   pieRegistration = 15;
@@ -44,111 +48,218 @@ const MyProfileScreen = ({route}) => {
     <View style={styles.wholescreen}>
       <Header route={route} />
       <View style={styles.body}>
-        <LinearGradient
-          colors={[color.primaryDark, color.primaryLight]}
-          style={styles.biglinearGradient}>
+        <View style={styles.biglinearGradient}>
           <View style={styles.upperContainer}>
-            <Icon name="account-circle" size={140} color={color.primaryDark} />
+            <View style={styles.imageContainer}>
+              <FontAwesomeIcon
+                name="user"
+                size={
+                  Constants.height * 0.12 > 90 ? 90 : Constants.height * 0.12
+                }
+                color={Constants.black}
+              />
+            </View>
             <View style={styles.upperrightContainer}>
               <View style={styles.nameContainer}>
                 <AppText style={styles.firstText}>{name}</AppText>
                 <AppText style={styles.secondText}>{email}</AppText>
               </View>
               <AppText style={styles.thirdText}>
-                {numberOfCars + ' vozila'}
+                Broj vozila: {numberOfCars}
               </AppText>
               <AppText style={styles.fourthText}>
-                {'registrovan od ' + online}
+                {'Registrovan od: ' + online}
               </AppText>
-              <View style={styles.spacing}></View>
+
               <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.syncButton}>
-                  <AppText style={styles.syncbuttonText}>
-                    sinhronizuj{'\n'}podatke
-                  </AppText>
+                <TouchableOpacity activeOpacity={0.7} style={styles.syncButton}>
+                  <AppText style={styles.syncbuttonText}>Cloud</AppText>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.logoutButton}>
-                  <AppText style={styles.logoutbuttonText}>odjavi se</AppText>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  style={styles.logoutButton}>
+                  <AppText style={styles.logoutbuttonText}>Izadji</AppText>
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.twoboxContainer}>
-              <View style={styles.smallBox}></View>
-              <View style={styles.smallBox}></View>
-            </View>
-            <View style={styles.bigBox} />
           </View>
 
           <ScrollView contentContainerStyle={styles.scrollView}>
-            <View style={{flex: 1}}>
-              <TouchableOpacity
-                style={styles.themeButton}
-                onPress={() => {
-                  changeTheme();
-                }}>
+            <View style={{flex: 1, marginHorizontal: 20}}>
+              <View style={styles.shadow}>
                 <LinearGradient
                   style={styles.linearGradient}
-                  colors={['#00ee22', '#00ff88']}>
-                  <AppText style={styles.themebuttonText}>
-                    Promijeni temu
-                  </AppText>
+                  colors={[Constants.black, '#575757']}>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    style={styles.themeButton}
+                    onPress={() => {
+                      changeTheme();
+                    }}>
+                    <AppText style={styles.themebuttonText}>
+                      Promijeni temu
+                    </AppText>
+                    <Ionicons
+                      size={40}
+                      color={Constants.white}
+                      name="color-fill"
+                    />
+                  </TouchableOpacity>
                 </LinearGradient>
-              </TouchableOpacity>
+              </View>
 
               <View style={styles.twoboxContainer}>
-                <View style={styles.smallBox}>
-                  <Icon name="fuel" size={30} color={color.primaryDark} />
-                  <AppText>Ukupno nasuto</AppText>
+                <View style={[styles.smallBox, {marginRight: 10}]}>
+                  <Icon name="fuel" size={38} color={Constants.white} />
+                  <AppText color={Constants.white}>Ukupno nasuto</AppText>
                   <AppText style={styles.boxText}>{fuelConsumption}</AppText>
                 </View>
                 <View style={styles.smallBox}>
-                  <Icon name="cash" size={30} color={color.primaryDark} />
-                  <AppText>Ukupno potrošeno</AppText>
-                  <AppText style={styles.boxText}>{moneySpent}</AppText>
+                  <Icon name="cash" size={40} color={Constants.white} />
+                  <AppText color={Constants.white}>Ukupno potrošeno</AppText>
+                  <AppText style={styles.boxText}>
+                    {moneySpent + ' ' + currency}
+                  </AppText>
                 </View>
               </View>
 
               <View style={styles.bigBox}>
-                <Pie
-                  radius={70}
-                  innerRadius={50}
-                  sections={[
-                    {
-                      percentage: pieFuel,
-                      color: '#C70039',
-                    },
-                    {
-                      percentage: pieRegistration,
-                      color: '#44CD40',
-                    },
-                    {
-                      percentage: pieServis,
-                      color: '#404FCD',
-                    },
-                    {
-                      percentage: pieDamage,
-                      color: '#EBD22F',
-                    },
-                    {
-                      percentage: pieOther,
-                      color: '#EB55DF',
-                    },
-                  ]}
-                  dividerSize={2}
-                  strokeCap={'butt'}
-                />
-                <View style={styles.pietextContainer}>
-                  <AppText>Gorivo</AppText>
-                  <AppText>Troškovi registracije</AppText>
-                  <AppText>Servis i održavanje</AppText>
-                  <AppText>Oštećenja</AppText>
-                  <AppText>Oprema i ostalo</AppText>
+                <AppText color={Constants.white} size={24} bold>
+                  Raspodjela potrosnje...
+                </AppText>
+                <View
+                  style={{
+                    alignItems: 'center',
+                    flexDirection: 'row',
+                    flex: 1,
+                    marginTop: 15,
+                  }}>
+                  <View style={styles.pieContainer}>
+                    <Pie
+                      radius={70}
+                      innerRadius={30}
+                      sections={[
+                        {
+                          percentage: pieFuel,
+                          color: InputTypeColors.fuel,
+                        },
+                        {
+                          percentage: pieRegistration,
+                          color: InputTypeColors.registration,
+                        },
+                        {
+                          percentage: pieServis,
+                          color: InputTypeColors.maintainance,
+                        },
+                        {
+                          percentage: pieDamage,
+                          color: InputTypeColors.crashes,
+                        },
+                        {
+                          percentage: pieOther,
+                          color: InputTypeColors.equipment,
+                        },
+                      ]}
+                    />
+                    <View
+                      style={{
+                        position: 'absolute',
+                        width: 150,
+                        height: 150,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        // backgroundColor: 'teal',
+                      }}>
+                      <Icon
+                        name="google-analytics"
+                        size={20}
+                        color={Constants.primaryDark}
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.pietextContainer}>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <View
+                        style={[
+                          styles.dot,
+                          {backgroundColor: InputTypeColors.fuel},
+                        ]}
+                      />
+                      <AppText color={Constants.white}>Gorivo</AppText>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <View
+                        style={[
+                          styles.dot,
+                          {
+                            backgroundColor: InputTypeColors.registration,
+                          },
+                        ]}
+                      />
+                      <AppText color={Constants.white}>
+                        Troškovi registracije
+                      </AppText>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <View
+                        style={[
+                          styles.dot,
+                          {backgroundColor: InputTypeColors.maintainance},
+                        ]}
+                      />
+                      <AppText color={Constants.white}>
+                        Servis i održavanje
+                      </AppText>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <View
+                        style={[
+                          styles.dot,
+                          {backgroundColor: InputTypeColors.crashes},
+                        ]}
+                      />
+                      <AppText color={Constants.white}>Oštećenja</AppText>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <View
+                        style={[
+                          styles.dot,
+                          {backgroundColor: InputTypeColors.equipment},
+                        ]}
+                      />
+                      <AppText color={Constants.white}>Oprema i ostalo</AppText>
+                    </View>
+                  </View>
                 </View>
               </View>
             </View>
           </ScrollView>
-        </LinearGradient>
+        </View>
       </View>
     </View>
   );
@@ -158,40 +269,65 @@ const styles = StyleSheet.create({
   wholescreen: {
     width: '100%',
     height: '100%',
-    backgroundColor: Constants.primaryDark,
+    backgroundColor: Constants.background,
   },
   body: {
     flex: 1,
   },
   upperContainer: {
+    alignItems: 'center',
     width: '100%',
-    height: '32%',
     flexDirection: 'row',
-    backgroundColor: 'white',
-    borderBottomLeftRadius: 16,
-    borderBottomRightRadius: 16,
+    backgroundColor: Constants.primaryDark,
+    paddingHorizontal: 20,
+    paddingBottom: 15,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  imageContainer: {
+    height: Constants.height * 0.15,
+    maxHeight: 110,
+    width: Constants.height * 0.15,
+    maxWidth: 110,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: Constants.primaryLight,
+
+    backgroundColor: Constants.white,
+    borderRadius: 1000,
   },
   upperrightContainer: {
-    width: '50%',
+    flex: 1,
+    paddingLeft: 15,
     justifyContent: 'space-evenly',
   },
   nameContainer: {
     width: '100%',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
   },
   firstText: {
-    fontSize: 28,
+    fontSize: 22,
+    color: Constants.white,
     fontWeight: 'bold',
   },
   secondText: {
-    fontSize: 12,
+    marginTop: 3,
+    fontSize: 16,
+    color: Constants.white,
     textAlignVertical: 'top',
   },
   thirdText: {
-    fontSize: 15,
+    marginTop: 10,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: Constants.white,
   },
   fourthText: {
-    fontSize: 15,
+    marginTop: 3,
+    fontSize: 16,
+    marginBottom: 10,
+    color: Constants.white,
   },
   eightSpacing: {
     height: 8,
@@ -199,95 +335,145 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     width: '100%',
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
   },
   syncButton: {
+    backgroundColor: Constants.background,
+    borderRadius: 100,
+    width: '40%',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     justifyContent: 'center',
+    marginRight: 15,
   },
   logoutButton: {
+    width: '40%',
     justifyContent: 'center',
+    backgroundColor: Constants.primaryLight,
+    borderRadius: 100,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
   },
   syncbuttonText: {
     color: 'green',
+    fontSize: 14,
+    fontWeight: 'bold',
     textAlign: 'center',
   },
   logoutbuttonText: {
-    color: 'red',
+    color: Constants.primaryDark,
+    fontSize: 14,
+    fontWeight: 'bold',
     textAlign: 'center',
   },
   themeButton: {
-    margin: 18,
-    marginBottom: 8,
+    padding: 20,
     flexDirection: 'row',
-    alignSelf: 'center',
-    textAlign: 'center',
-    borderRadius: 12,
-    width: '80%',
-    height: '12%',
-    backgroundColor: 'green',
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    flex: 1,
   },
   themebuttonText: {
-    color: 'white',
+    color: Constants.white,
     fontWeight: 'bold',
-    fontSize: 22,
-    alignSelf: 'center',
-    textAlignVertical: 'center',
-    flex: 1,
+    fontSize: 26,
   },
   biglinearGradient: {
     flexGrow: 1,
+    backgroundColor: Constants.background,
     height: '100%',
     width: '100%',
   },
   linearGradient: {
-    flexGrow: 1,
     borderRadius: 12,
-    height: '100%',
+    margin: 10,
+    marginTop: 20,
+    alignSelf: 'center',
     width: '100%',
+    // borderWidth: 5,
+    // borderColor: Constants.black,
+  },
+  shadow: {
+    elevation: 3,
+    shadowColor: Constants.gray,
+    shadowOffset: {
+      width: 3,
+      height: 4,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.3,
   },
   bigBox: {
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    margin: 15,
-    padding: 10,
-    borderRadius: 10,
-    alignSelf: 'center',
-    height: '50%',
-    width: '90%',
+    width: '100%',
+    backgroundColor: Constants.primaryDark,
+    paddingHorizontal: 20,
+    marginTop: 10,
+    borderRadius: 15,
+    paddingVertical: 20,
+
+    elevation: 3,
+    shadowColor: Constants.gray,
+    shadowOffset: {
+      width: 3,
+      height: 4,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.3,
   },
   smallBox: {
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    height: 130,
-    width: '47%',
+    backgroundColor: Constants.primaryDark,
+    borderRadius: 15,
+    flex: 1,
+    paddingVertical: Constants.height > 800 ? 30 : 20,
+
+    elevation: 3,
+    shadowColor: Constants.gray,
+    shadowOffset: {
+      width: 3,
+      height: 4,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.3,
   },
   twoboxContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignSelf: 'center',
-    margin: 10,
-    padding: 0,
-    width: '90%',
+    width: '100%',
   },
   boxText: {
     fontSize: 25,
+    color: Constants.white,
     fontWeight: 'bold',
   },
   scrollView: {
     flexGrow: 1,
     minHeight: '80%',
+    paddingBottom: 20,
   },
   scrollContainer: {
     width: '100%',
     height: '68%',
   },
+  pieContainer: {
+    padding: 5,
+    backgroundColor: Constants.primaryLight,
+    borderRadius: 1000,
+  },
   pietextContainer: {
-    justifyContent: 'space-evenly',
-    paddingLeft: 6,
+    flex: 1,
+    height: '90%',
+    justifyContent: 'space-between',
+    paddingLeft: 10,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 100,
+    marginRight: 5,
   },
 });
 

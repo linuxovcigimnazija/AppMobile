@@ -34,6 +34,7 @@ export default {
   redDark: '#a32e30',
   primary: '#467559',
   primaryDark: '#1d3354',
+  primaryDarker: '#172944',
   primaryLight: '#9ed8db',
 
   fuelGreen: '#ade6bb',

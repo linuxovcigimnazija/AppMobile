@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     height: Constants.height * 0.13,
     width: '80%',
     maxHeight: 100,
-    marginBottom: 10,
+    marginBottom: 15,
     borderRadius: 15,
     backgroundColor: InputTypeColors[selectedType],
     elevation: 2,

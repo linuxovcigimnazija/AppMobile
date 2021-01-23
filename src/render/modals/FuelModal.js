@@ -1,0 +1,156 @@
+import React, {useState} from 'react';
+import {View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
+import AppText from '../../components/AppText';
+import CancelAndSaveButtons from '../../components/CancelAndSaveButtons';
+import Constants from '../../constants/Constants';
+import InputTypeColors from '../../constants/InputTypeColors';
+import {MaterialCommunityIcon} from '../../utils/Functions';
+
+export default function FuelModal({selectedCategoryValue, closeModal}) {
+  const currency = 'RSD';
+  const [discount, setDiscount] = useState(false);
+
+  return (
+    <View
+      style={[
+        styles.modalContainer,
+        {
+          backgroundColor: InputTypeColors[selectedCategoryValue],
+          borderColor: InputTypeColors[selectedCategoryValue + 'Accent'],
+        },
+      ]}>
+      <AppText
+        style={{textAlign: 'center'}}
+        color={Constants.white}
+        size={28}
+        bold>
+        Unesite Gorivo
+      </AppText>
+
+      <View style={styles.body}>
+        <View style={inputStyles.inputHolder}>
+          <AppText size={18} bold color={Constants.white}>
+            Kilometraza:
+          </AppText>
+          <View style={inputStyles.inputContainer}>
+            <TextInput
+              selectionColor={Constants.lightBlue}
+              style={[inputStyles.input, {width: Constants.width * 0.8 * 0.3}]}
+            />
+            <AppText color={Constants.white}> km</AppText>
+          </View>
+        </View>
+
+        <View style={inputStyles.inputHolder}>
+          <AppText size={18} bold color={Constants.white}>
+            Ukupna cijena:
+          </AppText>
+          <View style={inputStyles.inputContainer}>
+            <TextInput
+              selectionColor={Constants.lightBlue}
+              style={inputStyles.input}
+            />
+            <AppText color={Constants.white}> {currency}</AppText>
+          </View>
+        </View>
+
+        <View style={inputStyles.inputHolder}>
+          <AppText size={18} bold color={Constants.white}>
+            Broj litara:
+          </AppText>
+          <View style={inputStyles.inputContainer}>
+            <TextInput
+              selectionColor={Constants.lightBlue}
+              style={inputStyles.input}
+            />
+            <AppText color={Constants.white}> litara</AppText>
+          </View>
+        </View>
+
+        <TouchableOpacity
+          style={styles.checkbox}
+          activeOpacity={1}
+          onPress={() => setDiscount(!discount)}>
+          <AppText color={Constants.white} size={18}>
+            Imate popust?
+          </AppText>
+          <MaterialCommunityIcon
+            name={
+              discount ? 'checkbox-marked-outline' : 'checkbox-blank-outline'
+            }
+            color={Constants.white}
+            size={20}
+            style={{marginLeft: 10}}
+          />
+        </TouchableOpacity>
+
+        <View style={[inputStyles.inputHolder, {opacity: discount ? 1 : 0}]}>
+          <AppText size={18} bold color={Constants.white}>
+            Cijena po litru:
+          </AppText>
+          <View style={inputStyles.inputContainer}>
+            <TextInput
+              selectionColor={Constants.lightBlue}
+              editable={discount}
+              style={inputStyles.input}
+            />
+            <AppText color={Constants.white}> {currency} / l</AppText>
+          </View>
+        </View>
+      </View>
+
+      <CancelAndSaveButtons
+        closeModal={closeModal}
+        selectedCategoryValue={selectedCategoryValue}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    width: '85%',
+    borderRadius: 15,
+    borderWidth: 5,
+    padding: 20,
+    alignItems: 'center',
+  },
+  body: {
+    width: '100%',
+    marginVertical: 10,
+    justifyContent: 'space-evenly',
+  },
+  checkbox: {
+    paddingTop: 15,
+    flexDirection: 'row',
+    width: '70%',
+    alignItems: 'flex-end',
+  },
+});
+
+const inputStyles = StyleSheet.create({
+  inputHolder: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 15,
+    // justifyContent: 'space-between',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  input: {
+    textAlign: 'right',
+    borderWidth: 2,
+    borderColor: Constants.white,
+    borderRadius: 5,
+    height: 30,
+    marginLeft: 10,
+    width: Constants.width * 0.85 * 0.2,
+    paddingVertical: 0,
+    fontFamily: 'Ubuntu-Bold',
+    color: Constants.white,
+    paddingHorizontal: 10,
+  },
+});

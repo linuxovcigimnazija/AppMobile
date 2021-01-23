@@ -24,13 +24,13 @@ const pineHeight = 30;
 const pineBottom = 21.5;
 const downScale = 0.8;
 
-const RegisterScreen = () => {
+const RegisterScreen = ({route}) => {
   return (
     <TouchableWithoutFeedback
       style={styles.screenContainer}
       onPress={() => Keyboard.dismiss()}>
       <View style={styles.screenContainer}>
-        <Header />
+        <Header route={route} />
         <View style={styles.body}>
           <View style={styles.background}>
             <LinearGradient

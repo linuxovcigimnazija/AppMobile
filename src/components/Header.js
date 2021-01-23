@@ -19,10 +19,10 @@ const Header = ({
 
   const headerText =
     route.name === 'Auto' || route.name === 'Input'
-      ? 'Vas Auto'
+      ? 'Vase Vozilo'
       : route.name === 'Analytics'
       ? 'Analitika'
-      : 'AppMobil';
+      : 'AppMobile';
 
   return (
     <View>
@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 22,
     color: 'white',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 });
 
 export default Header;

@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginEnd: '2%',
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 15,
     borderRadius: 15,
     backgroundColor: InputTypeColors[selectedType],
     borderColor: Constants.lightBlue,

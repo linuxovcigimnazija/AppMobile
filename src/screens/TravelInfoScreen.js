@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 16,
     color: Constants.black,
-    textAlign: 'center',
+    textAlign: 'left',
     marginBottom: 5,
   },
   dropDownPickerViewStyle: {
@@ -207,10 +207,9 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.5,
     marginTop: 5,
     paddingVertical: 0,
-    height:
-      Constants.OS === 'android'
-        ? Constants.height * 0.12
-        : Constants.height * 0.15,
+    height: Constants.OS === 'android' ? Constants.height * 0.12 : undefined,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   labelStyle: {
     fontFamily: 'Ubuntu-Regular',

@@ -435,16 +435,21 @@ const AutoScreen = ({navigation, route}) => {
                       style={[
                         styles.flexRow,
                         {
-                          justifyContent: 'space-between',
-                          width: '25%',
+                          // justifyContent: 'space-between',
+                          width: '100%', //25
                           alignSelf: 'center',
+                          justifyContent: 'center',
                           position: 'absolute',
                           bottom: '10%',
                         },
                       ]}>
+                      <AppText size={18} bold color={Constants.white}>
+                        Pogledajte jos...
+                      </AppText>
+
+                      {/* <View style={styles.dot} />
                       <View style={styles.dot} />
-                      <View style={styles.dot} />
-                      <View style={styles.dot} />
+                      <View style={styles.dot} /> */}
                     </View>
                   </View>
                 </TouchableWithoutFeedback>

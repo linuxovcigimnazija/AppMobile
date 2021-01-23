@@ -95,8 +95,8 @@ const HomeScreen = ({navigation, route}) => {
             // backgroundColor: Constants.background,
           },
         ]}
-        activeOpacity={0.75}
-        underlayColor={Constants.red + '80'}
+        activeOpacity={0.5}
+        underlayColor={Constants.lightBlue + 'F0'}
         onPress={() => goToCar(car)}>
         <View
           style={[
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   carList: {
     width: '100%',
     flexGrow: 0,
-    paddingTop: 15,
+    paddingTop: 20,
     paddingBottom: 20,
   },
 
