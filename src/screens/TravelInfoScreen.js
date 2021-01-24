@@ -13,23 +13,26 @@ const TravelInfoScreen = ({route}) => {
   const [num, setNum] = useState(null);
   const [visiable, setVisiable] = useState(false);
 
+  const [number, setNumber] = useState();
+  const [link, setLink] = useState();
+
   useEffect(() => {
     const getIndex = async () => {
       const data = await getUserData();
       setNum(data.country.id);
-      setVisiable(true);
     };
     getIndex();
   }, []);
 
-  console.log(num);
+  useEffect(() => {
+    if (num !== null) {
+      setNumber(TravellInfoData[num]);
+      setLink(TravellInfoData[num]);
+      setVisiable(true);
+    }
+  }, [num]);
 
-  const list = TravellInfoData[0];
-
-  const [number, setNumber] = useState(list);
-  const [link, setLink] = useState(list);
-
-  if (visiable && number !== undefined) {
+  if (visiable && num !== null) {
     return (
       <View style={{flex: 1, backgroundColor: Constants.background}}>
         <Header route={route} />

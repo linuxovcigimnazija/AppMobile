@@ -29,7 +29,7 @@ const LoginScreen = ({navigation, route}) => {
   const {control, handleSubmit, errors} = useForm();
 
   const goToHome = () => {
-    navigation.navigate('HomeStack');
+    navigation.navigate('TabNavigator');
   };
 
   const onNextStepHandler = (d) => {
