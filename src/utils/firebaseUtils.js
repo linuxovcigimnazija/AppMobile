@@ -88,6 +88,7 @@ export const onLogIn = async (email, password, navigatorFunc) => {
       const data = await firestore().collection('Users').doc(id.id).get();
       await setUserID(id);
       await setUserData(JSON.stringify(data.data()));
+
       navigatorFunc();
     }
   } catch (e) {
