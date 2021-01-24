@@ -5,16 +5,11 @@ import DashboardColors from '../constants/DashboardColors';
 import LinearGradient from 'react-native-linear-gradient';
 import Constants from '../constants/Constants';
 
-<<<<<<< HEAD
-const inputHeight = Constants.height > 700 ? 35 : 30;
-=======
 const inputHeight = Constants.height > 700 ? 45 : 35;
->>>>>>> 54fe38e2940cf8a6e1a5ad28db549f1866adb7e6
 
 export default function DashboardInput(props) {
   return (
     <View style={styles.container}>
-      
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -43,7 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: DashboardColors.white
+    borderColor: DashboardColors.white,
   },
   input: {
     color: DashboardColors.white,
@@ -54,6 +49,6 @@ const styles = StyleSheet.create({
     paddingLeft: inputHeight / 3,
     paddingRight: 5,
     fontFamily: 'Ubuntu-Regular',
-    fontSize: 14
+    fontSize: 14,
   },
 });
