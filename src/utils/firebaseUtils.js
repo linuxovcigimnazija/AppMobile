@@ -2,6 +2,29 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import Toast from 'react-native-simple-toast';
+import {Alert} from 'react-native';
+
+export const onLogOut = (navigatorFun) => {
+  Alert.alert(
+    'Upozorenje',
+    'Ovom opcijom cete izaci iz vaseg profila, molimo Vas da sinhronizujete podatke ili ce podaci biti izgubljeni',
+    [
+      {
+        text: 'Cancel',
+        onPress: () => {},
+        style: 'cancel',
+      },
+      {
+        text: 'Ipak izadji sa profila',
+        onPress: () => {
+          auth().signOut();
+          navigatorFun();
+        },
+      },
+    ],
+    {cancelable: false},
+  );
+};
 
 export const getUserID = async () => {
   try {
@@ -26,7 +49,8 @@ export const getUserData = async () => {
   try {
     const value = await AsyncStorage.getItem('userData');
     if (value !== null) {
-      return value;
+      const object = JSON.parse(value);
+      return object;
     }
   } catch (error) {
     console.warn(error);
@@ -45,7 +69,7 @@ export const onSingUp = async (email, password, data, navigatorFunc) => {
   auth()
     .createUserWithEmailAndPassword(email, password)
     .then(() => {
-      setUser(data);
+      setUser(data, email);
       navigatorFunc();
     })
     .catch((error) => {
@@ -59,8 +83,10 @@ export const onLogIn = async (email, password, navigatorFunc) => {
   try {
     let response = await auth().signInWithEmailAndPassword(email, password);
     if (response && response.user) {
-      const id = await getUserID();
-      const data = await firestore().collection('Users').doc(id).get();
+      const key = await firestore().collection('id').doc(email).get();
+      const id = key.data();
+      const data = await firestore().collection('Users').doc(id.id).get();
+      await setUserID(id);
       await setUserData(JSON.stringify(data.data()));
       navigatorFunc();
     }
@@ -74,9 +100,16 @@ export const onLogIn = async (email, password, navigatorFunc) => {
   }
 };
 
-export const setUser = async (data) => {
+export const setUser = async (data, email) => {
   const userId = await firestore().collection('Users').add(data);
+  firestore().collection('id').doc(email).set({id: userId.id});
   await setUserID(userId);
+  await setUserData(JSON.stringify(data));
+};
+
+export const updateBase = async (data) => {
+  const id = await getUserID();
+  firestore().collection('Users').doc(id).update(data);
 };
 
 export const getUser = async (id) => {
