@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, View, StatusBar} from 'react-native';
 import Constants from './src/constants/Constants';
 import {NavigationContainer} from '@react-navigation/native';

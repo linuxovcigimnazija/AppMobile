@@ -7,7 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Pie from 'react-native-pie';
 import {themes} from '../constants/colors';
 import Header from '../components/Header';
-import {onLogOut} from '../utils/firebaseUtils';
+import {onLogOut, updateBase} from '../utils/firebaseUtils';
 
 var name, email, numberOfCars, online;
 var fuelConsumption, moneySpent;
@@ -67,7 +67,9 @@ const MyProfileScreen = ({route, navigation}) => {
               </AppText>
               <View style={styles.spacing}></View>
               <View style={styles.buttonContainer}>
-                <TouchableOpacity style={styles.syncButton}>
+                <TouchableOpacity
+                  style={styles.syncButton}
+                  onPress={updateBase}>
                   <AppText style={styles.syncbuttonText}>
                     sinhronizuj{'\n'}podatke
                   </AppText>

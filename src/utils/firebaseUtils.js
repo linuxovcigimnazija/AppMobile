@@ -108,8 +108,9 @@ export const setUser = async (data, email) => {
   await setUserData(JSON.stringify(data));
 };
 
-export const updateBase = async (data) => {
+export const updateBase = async () => {
   const id = await getUserID();
+  const data = await getUserData();
   firestore().collection('Users').doc(id).update(data);
 };
 
