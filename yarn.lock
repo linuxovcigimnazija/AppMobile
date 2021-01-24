@@ -2321,6 +2321,11 @@
     "whatwg-mimetype" "^2.2.0"
     "whatwg-url" "^7.0.0"
 
+"date-and-time@0.9.0":
+  "integrity" "sha512-4JybB6PbR+EebpFx/KyR5Ybl+TcdXMLIJkyYsCx3P4M4CWGMuDyFF19yh6TyasMAIF5lrsgIxiSHBXh2FFc7Fg=="
+  "resolved" "https://registry.npmjs.org/date-and-time/-/date-and-time-0.9.0.tgz"
+  "version" "0.9.0"
+
 "dayjs@^1.8.15":
   "integrity" "sha512-U/yusl5TQPvU1Tlhsu3A82Ebn4BNKHJMIk9AePYHCmGtTXcuPkODiEhkzqA8mnQ0bbgoR6+oha2ioZEewOiP2A=="
   "resolved" "https://registry.npmjs.org/dayjs/-/dayjs-1.10.0.tgz"
@@ -5856,6 +5861,14 @@
   "resolved" "https://registry.npmjs.org/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz"
   "version" "2.5.6"
 
+"react-native-masked-text@^1.13.0":
+  "integrity" "sha512-iMku5Ky6DP4fTRosjsYNJOhH8yoBQCzRALBdv1wVDKmCBQhhVE8RHr5EW4SNUjkYTZL473sDdEKl4NI948q9FQ=="
+  "resolved" "https://registry.npmjs.org/react-native-masked-text/-/react-native-masked-text-1.13.0.tgz"
+  "version" "1.13.0"
+  dependencies:
+    "date-and-time" "0.9.0"
+    "tinymask" "1.0.2"
+
 "react-native-pie@^1.1.2":
   "integrity" "sha512-aShbks0NA4QzXftKpdQd/lNfkvj23yS2pF1A61Y+bKhFMnky0xubN1m4edcDNVWC0a2l40rM9C3JwJOIchv3kQ=="
   "resolved" "https://registry.npmjs.org/react-native-pie/-/react-native-pie-1.1.2.tgz"
@@ -6904,6 +6917,11 @@
   "integrity" "sha1-dkpaEa9QVhkhsTPztE5hhofg9cM="
   "resolved" "https://registry.npmjs.org/time-stamp/-/time-stamp-1.1.0.tgz"
   "version" "1.1.0"
+
+"tinymask@1.0.2":
+  "integrity" "sha1-3zd1qUCHsNPQVsJW6JI8AbfsCUE="
+  "resolved" "https://registry.npmjs.org/tinymask/-/tinymask-1.0.2.tgz"
+  "version" "1.0.2"
 
 "tmp@^0.0.33":
   "integrity" "sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw=="

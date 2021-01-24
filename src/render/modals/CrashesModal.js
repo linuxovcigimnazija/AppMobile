@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
 import AppText from '../../components/AppText';
 import CancelAndSaveButtons from '../../components/CancelAndSaveButtons';
 import Constants from '../../constants/Constants';
 import InputTypeColors from '../../constants/InputTypeColors';
+import {TextInputMask} from 'react-native-masked-text';
 
 export default function CrashesModal({
   selectedCategoryValue,
@@ -11,6 +12,9 @@ export default function CrashesModal({
   addItem,
 }) {
   const currency = 'KM';
+
+  //DATA
+  const [date, setDate] = useState('');
 
   const onSavePressed = () => {
     addItem();
@@ -76,7 +80,15 @@ export default function CrashesModal({
               Datum udesa:
             </AppText>
             <View style={[inputStyles.inputContainer, {marginTop: 10}]}>
-              <TextInput
+              <TextInputMask
+                type={'datetime'}
+                options={{
+                  format: 'DD-MM-YYYY',
+                }}
+                value={date}
+                onChangeText={(text) => {
+                  setDate(text);
+                }}
                 selectionColor={Constants.lightBlue}
                 style={[inputStyles.input, {marginLeft: 0, width: '40%'}]}
               />
