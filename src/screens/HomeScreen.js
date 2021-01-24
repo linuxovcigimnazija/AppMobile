@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
   FlatList,
   TouchableOpacity,
   TouchableHighlight,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Modal,
 } from 'react-native';
 import AppText from '../components/AppText';
 import Header from '../components/Header';
@@ -12,6 +15,7 @@ import Constants from '../constants/Constants';
 import FastImage from 'react-native-fast-image';
 import {getLogo, getFuelIcon} from '../utils/Functions';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import CarModal from '../render/modals/CarModal';
 
 const dummyData = [
   {
@@ -37,14 +41,6 @@ const dummyData = [
     horsepower: 80,
     sizeInLiters: 1.2,
     id: 2,
-  },
-  {
-    brand: 'Tesla',
-    name: 'Model S',
-    fuel: 'struja',
-    horsepower: 100,
-    sizeInLiters: null,
-    id: 3,
   },
   // {
   //   brand: 'Renault',
@@ -75,10 +71,45 @@ const dummyData = [
 const HomeScreen = ({navigation, route}) => {
   const [cars, setCars] = useState(dummyData);
 
-  const addCarHandler = () => {};
-
   const goToCar = (car) => {
     navigation.navigate('Auto');
+  };
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
+  const addCarHandler = () => {
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const addItem = (data) => {
+    let nextData = cars;
+    nextData.push(data);
+    setCars(nextData);
   };
 
   const renderCar = (car) => {
@@ -165,6 +196,33 @@ const HomeScreen = ({navigation, route}) => {
           }
         />
       </View>
+
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <TouchableWithoutFeedback
+            onPress={() =>
+              isKeyboardVisible ? Keyboard.dismiss() : setModalVisible(false)
+            }>
+            <View
+              style={{
+                position: 'absolute',
+                height: Constants.height,
+                width: Constants.width,
+              }}
+            />
+          </TouchableWithoutFeedback>
+
+          <CarModal
+            closeModal={closeModal}
+            addItem={addItem}
+            id={dummyData.length}
+          />
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -228,6 +286,13 @@ const styles = StyleSheet.create({
     width: Constants.width * 0.75 - 40, // -40 just so it matches the padding of flatlist
     marginTop: 15,
     marginBottom: Constants.height * 0.08,
+  },
+
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#000000' + '80',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

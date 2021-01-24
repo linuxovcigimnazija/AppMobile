@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TextInput} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import AppText from '../../components/AppText';
 import CancelAndSaveButtons from '../../components/CancelAndSaveButtons';
 import Constants from '../../constants/Constants';
@@ -12,106 +19,134 @@ export default function EquipmentModal({
   closeModal,
   addItem,
 }) {
-  const [selectedSubcategory, setSelectedSubcategory] = useState(
-    'registration',
-  );
+  const [selectedSubcategory, setSelectedSubcategory] = useState('equipment');
   const currency = 'RSD';
 
+  //DATA
+  const [comment, setComment] = useState();
+  const [price, setPrice] = useState();
+
   const onSavePressed = () => {
-    addItem();
+    let data;
+    if (selectedSubcategory === 'carWash') {
+      if (!price) return;
+      data = {
+        price: price,
+        date: Date.now(),
+        tag: selectedSubcategory,
+      };
+    } else {
+      if (!comment || !price) return;
+      data = {
+        price: price,
+        date: Date.now(),
+        comment: comment,
+        tag: selectedSubcategory,
+      };
+    }
+    addItem(data, 'equipment');
+    closeModal();
   };
 
   return (
-    <View
-      style={[
-        styles.modalContainer,
-        {
-          backgroundColor: InputTypeColors[selectedCategoryValue],
-          borderColor: InputTypeColors[selectedCategoryValue + 'Accent'],
-        },
-      ]}>
-      <AppText
-        style={{textAlign: 'center'}}
-        color={Constants.white}
-        size={28}
-        bold>
-        Odaberite Stavku za Unos
-      </AppText>
-
-      <DropDownPicker
-        items={SubCategories[selectedCategoryValue]}
-        defaultValue={'equipment'}
-        arrowColor={InputTypeColors[selectedCategoryValue + 'Accent']}
-        arrowSize={14}
-        showArrow={true}
-        style={[
-          styles.dropDownPickerStyle,
-          {borderColor: InputTypeColors[selectedCategoryValue + 'Accent']},
-        ]}
-        containerStyle={styles.dropDownPickerContainerStyle}
-        dropDownStyle={[
-          styles.dropDownStyle,
-          {
-            borderColor: InputTypeColors[selectedCategoryValue + 'Accent'],
-            backgroundColor: InputTypeColors[selectedCategoryValue],
-          },
-        ]}
-        placeholderStyle={styles.dropDownPickerPlaceholder}
-        labelStyle={styles.dropDownPickerLabel}
-        selectedLabelStyle={styles.dropDownPickerSelectedLabel}
-        onChangeItem={(item) => setSelectedSubcategory(item.value)}
-      />
-
-      <View style={styles.body}>
-        <View style={inputStyles.inputHolder}>
-          <AppText size={18} bold color={Constants.white}>
-            Cijena:
-          </AppText>
-          <View style={inputStyles.inputContainer}>
-            <TextInput
-              selectionColor={Constants.lightBlue}
-              style={inputStyles.input}
-            />
-            <AppText color={Constants.white}> {currency}</AppText>
-          </View>
-        </View>
-
+    <KeyboardAvoidingView
+      behavior={Constants.OS === 'ios' ? 'padding' : 'none'}>
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View
           style={[
-            inputStyles.inputHolder,
+            styles.modalContainer,
             {
-              opacity: selectedSubcategory === 'carWash' ? 0 : 1,
-              marginBottom: 30,
+              backgroundColor: InputTypeColors[selectedCategoryValue],
+              borderColor: InputTypeColors[selectedCategoryValue + 'Accent'],
             },
           ]}>
-          <AppText size={18} bold color={Constants.white}>
-            Opis:
+          <AppText
+            style={{textAlign: 'center'}}
+            color={Constants.white}
+            size={28}
+            bold>
+            Odaberite Stavku za Unos
           </AppText>
-          <View style={inputStyles.inputContainer}>
-            <TextInput
-              editable={selectedSubcategory === 'carWash' ? false : true}
-              selectionColor={Constants.lightBlue}
-              style={[
-                inputStyles.input,
-                {width: Constants.width * 0.85 * 0.5, textAlign: 'left'},
-              ]}
-            />
-          </View>
-        </View>
-      </View>
 
-      <CancelAndSaveButtons
-        closeModal={closeModal}
-        selectedCategoryValue={selectedCategoryValue}
-        onSavePressed={onSavePressed}
-      />
-    </View>
+          <DropDownPicker
+            items={SubCategories[selectedCategoryValue]}
+            defaultValue={'equipment'}
+            arrowColor={InputTypeColors[selectedCategoryValue + 'Accent']}
+            arrowSize={14}
+            showArrow={true}
+            style={[
+              styles.dropDownPickerStyle,
+              {borderColor: InputTypeColors[selectedCategoryValue + 'Accent']},
+            ]}
+            containerStyle={styles.dropDownPickerContainerStyle}
+            dropDownStyle={[
+              styles.dropDownStyle,
+              {
+                borderColor: InputTypeColors[selectedCategoryValue + 'Accent'],
+                backgroundColor: InputTypeColors[selectedCategoryValue],
+              },
+            ]}
+            placeholderStyle={styles.dropDownPickerPlaceholder}
+            labelStyle={styles.dropDownPickerLabel}
+            selectedLabelStyle={styles.dropDownPickerSelectedLabel}
+            onChangeItem={(item) => setSelectedSubcategory(item.value)}
+          />
+
+          <View style={styles.body}>
+            <View style={inputStyles.inputHolder}>
+              <AppText size={18} bold color={Constants.white}>
+                Cijena:
+              </AppText>
+              <View style={inputStyles.inputContainer}>
+                <TextInput
+                  selectionColor={Constants.lightBlue}
+                  style={inputStyles.input}
+                  keyboardType="number-pad"
+                  onChangeText={(text) => setPrice(parseInt(text, 10))}
+                />
+                <AppText color={Constants.white}> {currency}</AppText>
+              </View>
+            </View>
+
+            <View
+              style={[
+                inputStyles.inputHolder,
+                {
+                  opacity: selectedSubcategory === 'carWash' ? 0 : 1,
+                  marginBottom: 30,
+                },
+              ]}>
+              <AppText size={18} bold color={Constants.white}>
+                Opis:
+              </AppText>
+              <View style={inputStyles.inputContainer}>
+                <TextInput
+                  editable={selectedSubcategory === 'carWash' ? false : true}
+                  selectionColor={Constants.lightBlue}
+                  style={[
+                    inputStyles.input,
+                    {width: Constants.width * 0.85 * 0.5, textAlign: 'left'},
+                  ]}
+                  onChangeText={(text) => setComment(text)}
+                />
+              </View>
+            </View>
+          </View>
+
+          <CancelAndSaveButtons
+            closeModal={closeModal}
+            selectedCategoryValue={selectedCategoryValue}
+            onSavePressed={onSavePressed}
+          />
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   modalContainer: {
-    width: '90%',
+    width: Constants.width * 0.85,
     borderRadius: 15,
     borderWidth: 5,
     padding: 20,

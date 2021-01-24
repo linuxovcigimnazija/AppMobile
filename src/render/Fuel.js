@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   discount: {
-    width: '45%',
+    width: '50%',
     backgroundColor: Constants.red,
     borderRadius: 10,
     padding: 2,

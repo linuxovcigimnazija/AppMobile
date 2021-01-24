@@ -42,7 +42,7 @@ export default function CarWash({item}) {
               alignItems: 'center',
             }}>
             <AppText color={Constants.primary} size={20}>
-              Pranje auta:{' '}
+              Pranje vozila:{' '}
             </AppText>
             <View style={{flex: 1, alignItems: 'center'}}>
               <AppText bold color={Constants.lightBlue} size={22}>

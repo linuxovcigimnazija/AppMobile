@@ -18,6 +18,11 @@ export {
   FeatherIcon,
 };
 
+export const invertDate = (date) => {
+  let newdate = date.split('-').reverse().join('-');
+  return newdate;
+};
+
 export const getLogo = (brand) => {
   switch (brand) {
     case 'Volkswagen':
@@ -28,6 +33,48 @@ export const getLogo = (brand) => {
       return require('../assets/carLogos/tesla.png');
     case 'Peugeot':
       return require('../assets/carLogos/peugeot.png');
+    case 'Kia':
+      return require('../assets/carLogos/kia.png');
+    case 'Mini':
+      return require('../assets/carLogos/mini.png');
+    case 'Porsche':
+      return require('../assets/carLogos/porsche.png');
+    case 'Yamaha':
+      return require('../assets/carLogos/yamaha.png');
+    case 'Ducati':
+      return require('../assets/carLogos/ducati.png');
+    case 'Citroen':
+      return require('../assets/carLogos/citroen.png');
+    case 'Suzuki':
+      return require('../assets/carLogos/suzuki.png');
+    case 'Hyundai':
+      return require('../assets/carLogos/hyundai.png');
+    case 'Lexus':
+      return require('../assets/carLogos/lexus.png');
+    case 'Opel':
+      return require('../assets/carLogos/opel.png');
+    case 'Audi':
+      return require('../assets/carLogos/audi.png');
+    case 'Volvo':
+      return require('../assets/carLogos/volvo.png');
+    case 'Toyota':
+      return require('../assets/carLogos/toyota.png');
+    case 'Mazda':
+      return require('../assets/carLogos/mazda.png');
+    case 'Fiat':
+      return require('../assets/carLogos/fiat.png');
+    case 'Ford':
+      return require('../assets/carLogos/ford.png');
+    case 'Vespa':
+      return require('../assets/carLogos/vespa.png');
+    case 'BMW':
+      return require('../assets/carLogos/bmw.png');
+    case 'Honda':
+      return require('../assets/carLogos/honda.png');
+    case 'Mercedes':
+      return require('../assets/carLogos/mercedes.png');
+    case 'Chevrolet':
+      return require('../assets/carLogos/chevrolet.png');
   }
 };
 

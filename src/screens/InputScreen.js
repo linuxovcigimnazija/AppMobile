@@ -1,5 +1,5 @@
 /* eslint-disable curly */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -15,7 +15,11 @@ import AppText from '../components/AppText';
 import DropDownPicker from 'react-native-dropdown-picker';
 import InputCategories from '../constants/InputCategories';
 import InputTypeColors from '../constants/InputTypeColors';
-import {getCategoryIcon, sortResults} from '../utils/Functions';
+import {
+  FontAwesomeIcon,
+  getCategoryIcon,
+  sortResults,
+} from '../utils/Functions';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import {
   Fuel,
@@ -36,7 +40,6 @@ import {
   CrashesModal,
   EquipmentModal,
 } from '../render/modals';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const InputScreen = ({navigation, route}) => {
   const [selectedCategory, setSelectedCategory] = useState(
@@ -45,8 +48,13 @@ const InputScreen = ({navigation, route}) => {
   let selectedCategoryValue = selectedCategory.value;
   let categoryColor = InputTypeColors[selectedCategoryValue];
   let categoryIconColor = Constants.white;
-  let controller;
+  let controller = {
+    isOpen: () => false,
+  };
   let flatList;
+
+  const [iconNameDependency, setIconNameDependency] = useState(false);
+  const iconName = iconNameDependency ? 'chevron-up' : 'chevron-down';
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -56,7 +64,7 @@ const InputScreen = ({navigation, route}) => {
         price: 150,
         volume: 50,
         discount: true,
-        pricePerLiter: 2.2,
+        pricePerLiter: 200.21,
         date: Date.parse('2003-12-12'),
         tag: 'fuel',
       },
@@ -64,27 +72,30 @@ const InputScreen = ({navigation, route}) => {
         price: 130,
         volume: 30,
         discount: false,
-        pricePerLiter: 2.54,
+        pricePerLiter: 200.54,
         date: Date.parse('2003-02-01'),
         tag: 'fuel',
       },
     ],
-    registration: {
-      price: 400,
-      date: Date.parse('2003-02-07'),
-      tag: 'registration',
-    },
-    insurance: {
-      price: 600,
-      date: Date.parse('2003-07-05'),
-      tag: 'insurance',
-    },
-    maintaincance: [
+    registration: [
+      {
+        price: 400,
+        date: Date.parse('2003-02-07'),
+        tag: 'registration',
+      },
+    ],
+    insurance: [
+      {
+        price: 600,
+        date: Date.parse('2003-07-05'),
+        tag: 'insurance',
+      },
+    ],
+    maintainance: [
       {
         price: 100,
         big: true,
         reminder: 10000,
-        reminderUsed: false,
         date: Date.parse('2003-07-01'),
         tag: 'maintainance',
       },
@@ -92,7 +103,6 @@ const InputScreen = ({navigation, route}) => {
         price: 100,
         big: false,
         reminder: 10000,
-        reminderUsed: true,
         date: Date.parse('2003-05-01'),
         tag: 'maintainance',
       },
@@ -200,7 +210,7 @@ const InputScreen = ({navigation, route}) => {
         ...data.crashes,
         ...data.equipment,
         data.insurance,
-        ...data.maintaincance,
+        ...data.maintainance,
         ...data.repair,
         ...data.other,
         data.registration,
@@ -208,9 +218,9 @@ const InputScreen = ({navigation, route}) => {
       ];
     else if (selectedCategoryValue === 'fuel') returnDataValue = [...data.fuel];
     else if (selectedCategoryValue === 'registration')
-      returnDataValue = [data.registration, data.insurance];
+      returnDataValue = [...data.registration, ...data.insurance];
     else if (selectedCategoryValue === 'maintainance')
-      returnDataValue = [...data.maintaincance, ...data.repair];
+      returnDataValue = [...data.maintainance, ...data.repair];
     else if (selectedCategoryValue === 'crashes')
       returnDataValue = [...data.crashes];
     else if (selectedCategoryValue === 'equipment')
@@ -250,12 +260,39 @@ const InputScreen = ({navigation, route}) => {
     }
   };
 
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true); // or some other action
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false); // or some other action
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   const toggleDropDownMenu = () => {
     controller.toggle();
+    setIconNameDependency(!iconNameDependency);
   };
 
-  const addItemToArray = (data) => {
-    console.log(data);
+  const addItemToArray = (inputData, tag, mileage = 0) => {
+    if (mileage) {
+    }
+    let nextData = data;
+    nextData[inputData.tag].push(inputData);
+    setData(nextData);
   };
 
   return (
@@ -270,7 +307,7 @@ const InputScreen = ({navigation, route}) => {
               }}
               ref={(ref) => (flatList = ref)}
               data={returnData()}
-              keyExtractor={(item) => item.date.toString()}
+              keyExtractor={(item) => (Math.random() * 10000).toString()}
               contentContainerStyle={styles.flatList}
               renderItem={(item) => renderItem(item)}
             />
@@ -285,7 +322,7 @@ const InputScreen = ({navigation, route}) => {
           <View style={styles.titleContainer}>
             <View style={styles.titleTopContainer}>
               <AppText
-                style={{textAlign: 'center'}}
+                style={{textAlign: 'center', marginBottom: 15}}
                 size={30}
                 bold
                 color={Constants.white}>
@@ -300,6 +337,7 @@ const InputScreen = ({navigation, route}) => {
                 defaultValue={selectedCategoryValue}
                 onChangeItem={(item) => {
                   flatList.scrollToOffset({animated: false, offset: 0});
+                  setIconNameDependency(false);
                   setSelectedCategory(item);
                 }}
                 placeholder="Odaberite Unosnu Kategoriju"
@@ -328,15 +366,26 @@ const InputScreen = ({navigation, route}) => {
             <View
               style={{
                 position: 'absolute',
+                flexDirection: 'row',
+                alignItems: 'center',
                 bottom: 3,
                 backgroundColor:
                   InputTypeColors[selectedCategoryValue + 'Accent'],
                 paddingHorizontal: 5,
                 borderRadius: 5,
               }}>
-              <AppText color={Constants.white} size={12} bold>
+              <AppText
+                color={Constants.white}
+                style={{marginRight: 3}}
+                size={15}
+                bold>
                 Kategorije
               </AppText>
+              <FontAwesomeIcon
+                name={iconName}
+                color={Constants.white}
+                size={14}
+              />
             </View>
           </View>
 
@@ -366,9 +415,13 @@ const InputScreen = ({navigation, route}) => {
       <Modal
         visible={modalVisible}
         transparent={true}
+        animationType="fade"
         onRequestClose={() => setModalVisible(false)}>
         <View style={styles.modalContainer}>
-          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <TouchableWithoutFeedback
+            onPress={() =>
+              isKeyboardVisible ? Keyboard.dismiss() : setModalVisible(false)
+            }>
             <View
               style={{
                 position: 'absolute',
@@ -457,7 +510,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dropDownPickerContainerStyle: {
-    width: '60%',
+    width: '80%',
     // height: 25,
   },
   dropDownPickerStyle: {
@@ -473,6 +526,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Ubuntu-Regular',
     fontSize: 18,
     color: Constants.gray,
+    flexShrink: 1,
   },
   dropDownPickerSelectedLabel: {
     fontFamily: 'Ubuntu-Bold',
@@ -516,6 +570,7 @@ const styles = StyleSheet.create({
   flatList: {
     flexGrow: 1,
     padding: 20,
+    paddingBottom: 100,
   },
   addButtonContainer: {
     position: 'absolute',

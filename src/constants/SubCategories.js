@@ -25,7 +25,7 @@ const SubCategories = {
       label: 'Oprema',
     },
     {
-      value: 'ticket',
+      value: 'tickets',
       label: 'Kazna',
     },
     {

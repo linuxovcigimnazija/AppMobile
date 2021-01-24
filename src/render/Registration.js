@@ -53,7 +53,7 @@ export default function Registration({item}) {
 
         <View style={styles.detailsContainer}>
           <Text>
-            <AppText color={Constants.lightBlue} size={24} bold>
+            <AppText color={Constants.lightBlue} size={22} bold>
               Cijena:
             </AppText>
             <AppText color={Constants.white} bold size={26}>
@@ -62,7 +62,7 @@ export default function Registration({item}) {
           </Text>
 
           <View style={{width: '100%'}}>
-            <AppText color={Constants.lightBlue} size={24} bold>
+            <AppText color={Constants.lightBlue} size={22} bold>
               Datum registrovanja:
             </AppText>
             <AppText

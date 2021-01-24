@@ -80,7 +80,8 @@ const App = () => {
       <StatusBar barStyle="light-content" />
       <View style={styles.notch} />
       <SafeAreaView style={styles.safeArea}>
-        <NavigationContainer>
+        <NavigationContainer
+          theme={{colors: {background: Constants.primaryDark}}}>
           <AppStack.Navigator
             initialRouteName="TabNavigation"
             screenOptions={{headerShown: false}}>
