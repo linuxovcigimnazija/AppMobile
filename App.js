@@ -83,6 +83,7 @@ const App = () => {
       <StatusBar barStyle="light-content" />
       <View style={styles.notch} />
       <SafeAreaView style={styles.safeArea}>
+<<<<<<< HEAD
         <NavigationContainer>
           <AppStack.Navigator
             screenOptions={{headerShown: false}}
@@ -92,6 +93,9 @@ const App = () => {
             <AppStack.Screen name="Login" component={LoginScreen} />
           </AppStack.Navigator>
         </NavigationContainer>
+=======
+        <RegisterScreen />
+>>>>>>> 54fe38e2940cf8a6e1a5ad28db549f1866adb7e6
       </SafeAreaView>
     </View>
   );

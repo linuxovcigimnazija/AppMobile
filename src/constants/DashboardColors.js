@@ -15,4 +15,5 @@ export default {
   buttonGray: '#777777',
   nightSkyBlue: '#8e9ddf',
   nightSkyDarkBlue: '#7584C6',
+  loginColor: '#00ce7c'
 };
