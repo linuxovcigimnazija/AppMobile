@@ -48,6 +48,7 @@ const RegisterScreen = ({navigation, route}) => {
       name: d.userName,
       email: d.userMail,
       password: d.userPassword,
+      date: Date.now(),
       country: {
         label: d.userCountry.label,
         valute: d.userCountry.value,
