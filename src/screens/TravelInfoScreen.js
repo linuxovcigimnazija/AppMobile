@@ -11,21 +11,25 @@ import {getUserData} from '../utils/firebaseUtils';
 
 const TravelInfoScreen = ({route}) => {
   const [num, setNum] = useState(null);
+  const [visiable, setVisiable] = useState(false);
 
   useEffect(() => {
     const getIndex = async () => {
       const data = await getUserData();
       setNum(data.country.id);
+      setVisiable(true);
     };
     getIndex();
   }, []);
 
   console.log(num);
 
-  const [number, setNumber] = useState(TravellInfoData[0]);
-  const [link, setLink] = useState(TravellInfoData[0]);
+  const list = TravellInfoData[0];
 
-  if (num === 0 || num === 1 || num === 2) {
+  const [number, setNumber] = useState(list);
+  const [link, setLink] = useState(list);
+
+  if (visiable && number !== undefined) {
     return (
       <View style={{flex: 1, backgroundColor: Constants.background}}>
         <Header route={route} />

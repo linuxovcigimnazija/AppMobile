@@ -103,6 +103,12 @@ export const setUser = async (data) => {
   await setUserID(userId);
 };
 
+export const updateBase = async () => {
+  const id = await getUserID();
+  const data = await getUserData();
+  firestore().collection('Users').doc(id).update(data);
+};
+
 export const getUser = async (id) => {
   try {
     const user = await firestore().collection('Users').doc(id).get();
