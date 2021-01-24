@@ -8,13 +8,21 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import SubCategories from '../../constants/SubCategories';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default function MaintainanceModal({selectedCategoryValue, closeModal}) {
+export default function MaintainanceModal({
+  selectedCategoryValue,
+  closeModal,
+  addItem,
+}) {
   const [selectedSubcategory, setSelectedSubcategory] = useState(
     'maintainance',
   );
   const currency = 'EUR';
 
   const [big, setBig] = useState(false);
+
+  const onSavePressed = () => {
+    addItem();
+  };
 
   const Maintainance = () => {
     return (
@@ -70,7 +78,7 @@ export default function MaintainanceModal({selectedCategoryValue, closeModal}) {
             },
           ]}>
           <AppText size={18} bold color={Constants.white}>
-            Datum registrovanja vozila:
+            Sljedeci servis vozila:
           </AppText>
           <View style={[inputStyles.inputContainer, {marginTop: 10}]}>
             <AppText color={Constants.white}>Za </AppText>
@@ -207,6 +215,7 @@ export default function MaintainanceModal({selectedCategoryValue, closeModal}) {
       <CancelAndSaveButtons
         closeModal={closeModal}
         selectedCategoryValue={selectedCategoryValue}
+        onSavePressed={onSavePressed}
       />
     </View>
   );

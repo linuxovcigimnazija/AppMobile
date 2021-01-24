@@ -7,6 +7,7 @@ import Hyperlink from 'react-native-hyperlink';
 import AppText from '../components/AppText';
 import LinearGradient from 'react-native-linear-gradient';
 import DropDownPicker from 'react-native-dropdown-picker';
+import FoundationIcon from 'react-native-vector-icons/Foundation';
 
 const TravelInfoScreen = ({route}) => {
   const list = TravellInfoData;
@@ -93,6 +94,12 @@ const TravelInfoScreen = ({route}) => {
             }}
           />
           <View style={styles.numbersView}>
+            <FoundationIcon
+              size={Constants.height > 800 ? 70 : 60}
+              color={Constants.red}
+              name="burst-new"
+              style={{position: 'absolute', right: 5}}
+            />
             <AppText style={styles.titleText}>Želite da putujete?</AppText>
             <AppText style={styles.textStyle}>
               NAJNOVIJE informacije vezane za Putovanje u Pandemiji za...

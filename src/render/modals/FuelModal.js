@@ -6,9 +6,17 @@ import Constants from '../../constants/Constants';
 import InputTypeColors from '../../constants/InputTypeColors';
 import {MaterialCommunityIcon} from '../../utils/Functions';
 
-export default function FuelModal({selectedCategoryValue, closeModal}) {
+export default function FuelModal({
+  selectedCategoryValue,
+  closeModal,
+  addItem,
+}) {
   const currency = 'RSD';
   const [discount, setDiscount] = useState(false);
+
+  const onSavePressed = () => {
+    addItem();
+  };
 
   return (
     <View
@@ -102,6 +110,7 @@ export default function FuelModal({selectedCategoryValue, closeModal}) {
       <CancelAndSaveButtons
         closeModal={closeModal}
         selectedCategoryValue={selectedCategoryValue}
+        onSavePressed={onSavePressed}
       />
     </View>
   );

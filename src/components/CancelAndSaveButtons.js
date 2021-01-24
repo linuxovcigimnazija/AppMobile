@@ -7,6 +7,7 @@ import InputTypeColors from '../constants/InputTypeColors';
 export default function CancelAndSaveButtons({
   selectedCategoryValue,
   closeModal,
+  onSavePressed,
 }) {
   return (
     <View style={styles.buttonsContainer}>
@@ -33,6 +34,7 @@ export default function CancelAndSaveButtons({
             borderColor: InputTypeColors[selectedCategoryValue + 'Accent'],
           },
         ]}
+        onPress={onSavePressed}
         activeOpacity={0.7}>
         <AppText size={16} color={Constants.white}>
           Unesite

@@ -5,8 +5,16 @@ import CancelAndSaveButtons from '../../components/CancelAndSaveButtons';
 import Constants from '../../constants/Constants';
 import InputTypeColors from '../../constants/InputTypeColors';
 
-export default function CrashesModal({selectedCategoryValue, closeModal}) {
+export default function CrashesModal({
+  selectedCategoryValue,
+  closeModal,
+  addItem,
+}) {
   const currency = 'KM';
+
+  const onSavePressed = () => {
+    addItem();
+  };
 
   return (
     <View
@@ -83,6 +91,7 @@ export default function CrashesModal({selectedCategoryValue, closeModal}) {
         <CancelAndSaveButtons
           closeModal={closeModal}
           selectedCategoryValue={selectedCategoryValue}
+          onSavePressed={onSavePressed}
         />
       </View>
     </View>

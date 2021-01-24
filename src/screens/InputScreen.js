@@ -254,6 +254,10 @@ const InputScreen = ({navigation, route}) => {
     controller.toggle();
   };
 
+  const addItemToArray = (data) => {
+    console.log(data);
+  };
+
   return (
     <View style={[styles.screenContainer, {backgroundColor: categoryColor}]}>
       <Header navigation={navigation} backButtonVisible={true} route={route} />
@@ -376,26 +380,31 @@ const InputScreen = ({navigation, route}) => {
 
           {selectedCategoryValue === 'fuel' ? (
             <FuelModal
+              addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}
               selectedCategoryValue={selectedCategoryValue}
             />
           ) : selectedCategoryValue === 'crashes' ? (
             <CrashesModal
+              addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}
               selectedCategoryValue={selectedCategoryValue}
             />
           ) : selectedCategoryValue === 'maintainance' ? (
             <MaintainanceModal
+              addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}
               selectedCategoryValue={selectedCategoryValue}
             />
           ) : selectedCategoryValue === 'equipment' ? (
             <EquipmentModal
+              addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}
               selectedCategoryValue={selectedCategoryValue}
             />
           ) : (
             <RegistrationModal
+              addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}
               selectedCategoryValue={selectedCategoryValue}
             />

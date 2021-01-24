@@ -14,6 +14,6 @@ export const TravellInfoData = [
   {
     label: 'Crnu Goru',
     value: {milicija: 122, vatrogasci: 123, hitna: 124, ams: 19807},
-    putovanje: 'https://www.gov.me/en/homepage',
+    putovanje: 'https://www.gov.me/naslovna?alphabet=cyr', // NEKA BUDE OVAJ LINK
   },
 ];

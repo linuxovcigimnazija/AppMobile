@@ -7,11 +7,19 @@ import Constants from '../../constants/Constants';
 import InputTypeColors from '../../constants/InputTypeColors';
 import SubCategories from '../../constants/SubCategories';
 
-export default function RegistrationModal({selectedCategoryValue, closeModal}) {
+export default function RegistrationModal({
+  selectedCategoryValue,
+  closeModal,
+  addItem,
+}) {
   const [selectedSubcategory, setSelectedSubcategory] = useState(
     'registration',
   );
   const currency = 'EUR';
+
+  const onSavePressed = () => {
+    addItem();
+  };
 
   const Insurance = () => {
     return (
@@ -44,7 +52,7 @@ export default function RegistrationModal({selectedCategoryValue, closeModal}) {
           <View style={[inputStyles.inputContainer, {marginTop: 10}]}>
             <TextInput
               selectionColor={Constants.lightBlue}
-              style={[inputStyles.input, {marginLeft: 0}]}
+              style={[inputStyles.input, {marginLeft: 0, width: '40%'}]}
             />
             <AppText size={14} color={Constants.white} style={{opacity: 0.9}}>
               {' '}
@@ -151,6 +159,7 @@ export default function RegistrationModal({selectedCategoryValue, closeModal}) {
       <CancelAndSaveButtons
         closeModal={closeModal}
         selectedCategoryValue={selectedCategoryValue}
+        onSavePressed={onSavePressed}
       />
     </View>
   );

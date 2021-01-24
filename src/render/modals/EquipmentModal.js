@@ -7,13 +7,19 @@ import InputTypeColors from '../../constants/InputTypeColors';
 import DropDownPicker from 'react-native-dropdown-picker';
 import SubCategories from '../../constants/SubCategories';
 
-export default function EquipmentModal({selectedCategoryValue, closeModal}) {
+export default function EquipmentModal({
+  selectedCategoryValue,
+  closeModal,
+  addItem,
+}) {
   const [selectedSubcategory, setSelectedSubcategory] = useState(
     'registration',
   );
   const currency = 'RSD';
 
-  console.log(selectedCategoryValue);
+  const onSavePressed = () => {
+    addItem();
+  };
 
   return (
     <View
@@ -97,6 +103,7 @@ export default function EquipmentModal({selectedCategoryValue, closeModal}) {
       <CancelAndSaveButtons
         closeModal={closeModal}
         selectedCategoryValue={selectedCategoryValue}
+        onSavePressed={onSavePressed}
       />
     </View>
   );
