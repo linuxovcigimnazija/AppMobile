@@ -20,6 +20,7 @@ function data_function()
     fuelConsumption='280 litara'
     moneySpent='880 KM'
 
+    
     pieFuel=45
     pieRegistration=15
     pieServis=20

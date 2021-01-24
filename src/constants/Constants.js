@@ -33,4 +33,8 @@ export default {
      primary: '#467559',
      primaryDark: '#1d3354',
      primaryLight: '#9ed8db',
+
+  //analytics screen colors
+     boxcolorLight: '#345678', 
+     boxcolorDark: '#103056'
 };

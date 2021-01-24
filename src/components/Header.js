@@ -2,8 +2,9 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import Constants from '../constants/Constants';
 import AppText from '../components/AppText'
+import { themes } from '../constants/colors';
 
-const Header = () => {
+const Header = (props) => {
   return (
     <View style={styles.header}>
       <AppText style={styles.text}>AppMobile</AppText>
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
     height: '8%',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Constants.primaryDark,
+    backgroundColor: Constants.primaryDark
   },
   text: {
     fontSize: 22,
