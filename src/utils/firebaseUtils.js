@@ -69,7 +69,7 @@ export const onSingUp = async (email, password, data, navigatorFunc) => {
   auth()
     .createUserWithEmailAndPassword(email, password)
     .then(() => {
-      setUser(data);
+      setUser(data, email);
       navigatorFunc();
     })
     .catch((error) => {
@@ -83,8 +83,10 @@ export const onLogIn = async (email, password, navigatorFunc) => {
   try {
     let response = await auth().signInWithEmailAndPassword(email, password);
     if (response && response.user) {
-      const id = await getUserID();
-      const data = await firestore().collection('Users').doc(id).get();
+      const key = await firestore().collection('id').doc(email).get();
+      const id = key.data();
+      const data = await firestore().collection('Users').doc(id.id).get();
+      await setUserID(id);
       await setUserData(JSON.stringify(data.data()));
       navigatorFunc();
     }
@@ -98,14 +100,15 @@ export const onLogIn = async (email, password, navigatorFunc) => {
   }
 };
 
-export const setUser = async (data) => {
+export const setUser = async (data, email) => {
   const userId = await firestore().collection('Users').add(data);
+  firestore().collection('id').doc(email).set({id: userId.id});
   await setUserID(userId);
+  await setUserData(JSON.stringify(data));
 };
 
-export const updateBase = async () => {
+export const updateBase = async (data) => {
   const id = await getUserID();
-  const data = await getUserData();
   firestore().collection('Users').doc(id).update(data);
 };
 

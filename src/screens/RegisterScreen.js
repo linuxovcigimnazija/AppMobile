@@ -44,7 +44,6 @@ const RegisterScreen = ({navigation, route}) => {
   userPassword.current = watch('userPassword', '');
 
   const onNextStepHandler = (d) => {
-    console.log(d);
     const user = {
       name: d.userName,
       email: d.userMail,
