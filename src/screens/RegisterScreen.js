@@ -234,24 +234,34 @@ const RegisterScreen = ({navigation, route}) => {
                     Toast.TOP,
                   )) ||
                   (errors.userMail &&
+                    !errors.userName &&
                     Toast.showWithGravity(
                       errors.userMail.message,
                       Toast.LONG,
                       Toast.TOP,
                     )) ||
                   (errors.userPassword &&
+                    !errors.userName &&
+                    !errors.userMail &&
                     Toast.showWithGravity(
                       errors.userPassword.message,
                       Toast.LONG,
                       Toast.TOP,
                     )) ||
                   (errors.userPasswordConfrim &&
+                    !errors.userName &&
+                    !errors.userMail &&
+                    !errors.userPassword &&
                     Toast.showWithGravity(
                       errors.userPasswordConfrim.message,
                       Toast.LONG,
                       Toast.TOP,
                     )) ||
                   (errors.userCountry &&
+                    !errors.userName &&
+                    !errors.userMail &&
+                    !errors.userPassword &&
+                    !errors.userPasswordConfrim &&
                     Toast.showWithGravity(
                       errors.userCountry.message,
                       Toast.LONG,

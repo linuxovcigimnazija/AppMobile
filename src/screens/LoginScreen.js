@@ -130,6 +130,7 @@ const LoginScreen = ({navigation, route}) => {
                     Toast.TOP,
                   )) ||
                   (errors.userPassword &&
+                    !errors.userMail &&
                     Toast.showWithGravity(
                       errors.userPassword.message,
                       Toast.LONG,
