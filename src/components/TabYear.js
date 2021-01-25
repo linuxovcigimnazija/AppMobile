@@ -24,10 +24,37 @@ import {
 } from "react-native-chart-kit";
 import CategoryCard from './CategoryCard';
 import Colors from '../constants/InputTypeColors';
+import File from './data.json'
 
 var yearaverageConsumption, yearkilometrage, yeartotalConsumption, yeartotalSpent;
 var yearpieFuel, yearpieRegistration, yearpieServis, yearpieDamage, yearpieOther;
 var yeartotalFuel, yeartotalRegistration, yeartotalServis, yeartotalDamage, yeartotalOther;
+
+
+function getChartInfo(start, step){
+  var chartArray=[];
+  var sum=0;
+  for(var i=start; i<(Date.now()/1000); i+=step){
+    if((((File.data[i].date)>start)) && ((File.data[i].date)>start)){
+      sum+=File.data[i].price;
+  }
+  chartArray.push(sum);
+  }
+  return(chartArray)
+}
+
+
+var dateObj = new Date();
+var month = dateObj.getUTCMonth(); 
+
+labels= ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Avg", "Sep", "Okt", "Nov", "Dec"]
+
+firstArray=labels.splice(month, 12)
+secondArray=labels.splice(0, month)
+yearLabels=firstArray.concat(secondArray)
+
+
+
 
 function data_function(){
     yearaverageConsumption=6.1;
@@ -53,17 +80,7 @@ const TabYear = (props) => {
 
     data_function();
 
-    const data = {
-        labels: ["January", "February", "March", "April", "May", "June"],
-        datasets: [
-          {
-            data: [20, 45, 28, 80, 99, 43],
-            //color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
-            //strokeWidth: 2 // optional
-          }
-        ],
-        legend: ["Rainy Days"] // optional
-      };
+    
 
       const chartConfig = {
         backgroundGradientFrom: "#1E2923",
@@ -212,7 +229,7 @@ const TabYear = (props) => {
   <AppText style={styles.linechartText}>Pregled ukupne potrošnje po mjesecima</AppText>
   <LineChart
     data={{
-      labels: ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Avg", "Sep", "Okt", "Nov", "Dec"],
+      labels: yearLabels,
       datasets: [
         {
           data: [
@@ -318,7 +335,7 @@ const TabYear = (props) => {
 
 }
 
-export default TabYear;
+
 
 
 const styles = StyleSheet.create({
@@ -487,4 +504,4 @@ const styles = StyleSheet.create({
   });
   
 
-
+  export default TabYear;

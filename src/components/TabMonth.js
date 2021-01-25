@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, ScrollView, Alert} from 'react-native';
 import AppText from './AppText';
 import { themes } from '../constants/colors';
 import Pie from 'react-native-pie';
@@ -17,16 +17,55 @@ import Constants from '../constants/Constants';
 import Colors from '../constants/InputTypeColors';
 import App from '../../App';
 import CategoryCard from './CategoryCard';
+import File from './data.json'
 
-var averageConsumption, kilometrage, totalConsumption, totalSpent;
+var averageConsumption, kilometrage=0, totalConsumption=0, totalSpent=0;
 var pieFuel, pieRegistration, pieServis, pieDamage, pieOther;
-var totalFuel, totalRegistration, totalServis, totalDamage, totalOther;
+var totalFuel=0, totalRegistration, totalServis, totalDamage, totalOther=0;
+
+
+
+for(var item in File.data){
+  if(File.data[item].category=="fuel"){
+    if((File.data[item].date)>((Date.now()/1000)-2668760)){
+      totalConsumption+=File.data[item].liter
+      kilometrage+=File.data[item].km
+      totalFuel+=File.data[item].price
+    }
+  }
+  else if(File.data[item].category =="other"){
+    if((File.data[item].date)>((Date.now()/1000)-2668760)){
+      totalOther+=File.data[item].price
+      
+  }
+}
+}
+
+
+totalSpent=totalFuel+totalOther
+
+kilometrage/=100    //remove
+kilometrage=Number((kilometrage).toFixed(0)); //remove
+averageConsumption=(totalConsumption/kilometrage)*100;
+averageConsumption=Number((averageConsumption).toFixed(2));
+
+
+
+
+
+
+
+
+
+
+
+
 
 function data_function(){
-    averageConsumption=6.7;
-    kilometrage=879;
-    totalConsumption=65;
-    totalSpent=200;
+    //averageConsumption=6.7;
+    //kilometrage=879;
+    //totalConsumption=65;
+    //totalSpent=200;
 
     pieNumbers=[70, 10, 10, 5, 5];
     pieColors=['#C70039', '#44CD40', '#404FCD', '#EBD22F', '#EB55DF']
@@ -34,11 +73,11 @@ function data_function(){
       if(pieNumbers[i]==0) pieColors[i]=null
     }
 
-    totalFuel=160;
+    //totalFuel=160;
     totalRegistration=0;
     totalServis=20;
     totalDamage=10;
-    totalOther=10;
+    //totalOther=10;
    
 }
 
@@ -146,7 +185,7 @@ const TabMonth = (props) => {
             <AppText bold='true' style={styles.categoriesTitle}>Pogledajmo malo bolje...</AppText>
             <View style={styles.twoboxContainerCategory}>
                 <CategoryCard lightColor={Colors.fuel} darkColor={Colors.fuelAccent} iconName='gas-pump'
-                categoryName='Gorivo' amount='300' classIcon={FontAwesome5Icon}/>
+                categoryName='Gorivo' amount={totalFuel} classIcon={FontAwesome5Icon}/>
                 <CategoryCard lightColor={Colors.insurance} darkColor={Colors.insuranceAccent} iconName='hands-helping'
                 categoryName='Osiguranje' amount='300' classIcon={FontAwesome5Icon}/>
             </View>
@@ -176,7 +215,7 @@ const TabMonth = (props) => {
                 <CategoryCard lightColor={Colors.carWash} darkColor={Colors.carWashAccent} iconName='local-car-wash'
                 categoryName='Pranje' amount='300' classIcon={MaterialIcon}/>
                 <CategoryCard lightColor={Colors.other} darkColor={Colors.otherAccent} iconName='dots-horizontal'
-                categoryName='Ostalo' amount='300' classIcon={MaterialCommunityIcon}/>
+                categoryName='Ostalo' amount={totalOther} classIcon={MaterialCommunityIcon}/>
             </View>
           </View>
       </ScrollView>

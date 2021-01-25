@@ -14,7 +14,6 @@ import { themes } from './src/constants/colors';
 import appTheme from './src/screens/MyProfileScreen';
 import Constants from './src/constants/Constants';
 
-
 const App = () => {
   // ovdje samo postavite koji screen radite i to ce se renderovati
   

@@ -30,6 +30,42 @@ var yearaverageConsumption, yearkilometrage, yeartotalConsumption, yeartotalSpen
 var yearpieFuel, yearpieRegistration, yearpieServis, yearpieDamage, yearpieOther;
 var yeartotalFuel, yeartotalRegistration, yeartotalServis, yeartotalDamage, yeartotalOther;
 
+
+var dateObj = new Date();
+var year = dateObj.getUTCFullYear();
+var month = dateObj.getUTCMonth(); 
+
+var q=[];
+var years=[];
+var quarterLabels=[];
+
+if(month<3) {
+    q=[1, 2, 3, 4]
+    years=[year-3, year-2, year-1]
+}
+else if(month<6) {
+    q=[2, 3, 4, 1]
+    years=[year-2, year-1, year]
+}
+else if(month<9) {
+    q=[3, 4, 1, 2]
+    years=[year-2, year-1, year]
+}
+else {
+    q=[4, 1, 2, 3]
+    years=[year-2, year-1, year]
+}
+
+for(var i = 0; i<3; i++){
+  for(var j = 0; j<4; j++){
+    quarterLabels.push(years[i]+'Q'+q[j])
+  }
+}
+
+
+
+
+
 function data_function(){
     yearaverageConsumption=6.1;
     yearkilometrage=30510;
@@ -191,7 +227,7 @@ const TabAll = (props) => {
   <AppText style={styles.linechartText}>Pregled ukupne potrošnje po kvartalima</AppText>
   <LineChart
     data={{
-      labels: ["1q2019", "2q2019", "3q2019", "4q2019", "1q2020", "2q2020", "3q2020", "4q2020", "1q2021"],
+      labels: quarterLabels,
       datasets: [
         {
           data: [
@@ -221,7 +257,7 @@ const TabAll = (props) => {
         stroke: Constants.primaryLight
       },
       propsForVerticalLabels: {
-        fontSize: 10,
+        fontSize: 7.5,
       },
       propsForHorizontalLabels: {
           fontSize: 11
@@ -243,7 +279,7 @@ const TabAll = (props) => {
   <AppText style={styles.linechartText}>Pregled potrošnje goriva po kvartalima</AppText>
   <LineChart
     data={{
-      labels: ["1q2019", "2q2019", "3q2019", "4q2019", "1q2020", "2q2020", "3q2020", "4q2020", "1q2021"],
+      labels: quarterLabels,
       datasets: [
         {
           data: [
@@ -273,7 +309,7 @@ const TabAll = (props) => {
         stroke: Constants.primaryLight
       },
       propsForVerticalLabels: {
-        fontSize: 10,
+        fontSize: 7.5,
       },
       propsForHorizontalLabels: {
           fontSize: 11
