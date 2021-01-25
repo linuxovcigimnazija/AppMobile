@@ -66,10 +66,25 @@ const LoginScreen = ({navigation, route}) => {
               <View style={{height: '14%'}}></View>
 
               <View style={styles.textInputFields}>
-                <DashboardInput
-                  placeholder="Ime i prezime"
-                  secureTextEntry={true}
-                  maxLength={16}
+                <Controller
+                  control={control}
+                  defaultValue=""
+                  name="userName"
+                  render={({onChange, value}) => (
+                    <DashboardInput
+                      placeholder="Ime i prezime"
+                      secureTextEntry={true}
+                      onChangeText={(value) => onChange(value)}
+                      value={value}
+                      error={errors.userMail}
+                    />
+                  )}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: 'Ime i Prezime su obavezni',
+                    },
+                  }}
                 />
 
                 <Controller
