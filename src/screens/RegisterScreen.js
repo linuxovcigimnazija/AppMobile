@@ -11,21 +11,18 @@ import Constants from '../constants/Constants';
 import DashboardColors from '../constants/DashboardColors';
 import Header from '../components/Header';
 import AppText from '../components/AppText';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+
 import DashboardInput from '../components/DashboardInput';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Countries from '../constants/Countries';
 import Hyperlink from 'react-native-hyperlink';
-import FastImage from 'react-native-fast-image';
-import LinearGradient from 'react-native-linear-gradient';
+
 import Toast from 'react-native-simple-toast';
 import {useForm, Controller} from 'react-hook-form';
 import {onSingUp} from '../utils/firebaseUtils';
 
-const mirrorHeight = 50;
 const mirrorBottom = 10.7;
-const pineHeight = 30;
-const pineBottom = 21.5;
+
 const downScale = 0.8;
 
 const RegisterScreen = ({navigation, route}) => {
@@ -38,7 +35,7 @@ const RegisterScreen = ({navigation, route}) => {
   });
 
   const goToHome = () => {
-    navigation.navigate('HomeStack');
+    navigation.navigate('TabNavigation');
   };
 
   const userPassword = useRef({});
@@ -165,26 +162,26 @@ const RegisterScreen = ({navigation, route}) => {
                 <Controller
                   control={control}
                   defaultValue=""
-                  name="userPassword"
+                  name="userPasswordConfrim"
                   render={({onChange, value}) => (
                     <DashboardInput
-                      placeholder="Šifra"
+                      text="Sifra"
+                      placeholder="Unesi ponovo Sifru"
                       secureTextEntry={true}
                       maxLength={16}
                       onChangeText={(value) => onChange(value)}
                       value={value}
-                      error={errors.userName}
+                      error={errors.userPasswordConfrim}
                     />
                   )}
                   rules={{
                     required: {
                       value: true,
-                      message: 'Šifra je obavezna.',
+                      message: 'Potvrda sifre je obavezna',
                     },
-                    minLength: {
-                      value: 8,
-                      message: 'Šifra nije dovoljno dugačka.',
-                    },
+
+                    validate: (value) =>
+                      value === userPassword.current || 'Sifre se ne poklapaju',
                   }}
                 />
               </View>
@@ -202,8 +199,6 @@ const RegisterScreen = ({navigation, route}) => {
                     <DropDownPicker
                       items={Countries.countriesList}
                       placeholder={countryPicker.label}
-                      arrowColor={DashboardColors.white}
-                      arrowSize={20}
                       showArrow={false}
                       style={styles.dropDownPickerStyle}
                       containerStyle={styles.dropDownPickerContainerStyle}
@@ -414,7 +409,7 @@ const styles = StyleSheet.create({
   dropDownPickerSelectedLabel: {
     fontFamily: 'Ubuntu-Bold',
     fontSize: 14,
-    color: Constants.primaryDark,
+    color: Constants.white,
   },
 });
 

@@ -86,8 +86,8 @@ export const onLogIn = async (email, password, navigatorFunc) => {
       const key = await firestore().collection('id').doc(email).get();
       const id = key.data();
       const data = await firestore().collection('Users').doc(id.id).get();
-      await setUserID(id);
-      await setUserData(JSON.stringify(data.data()));
+      setUserID(id);
+      setUserData(JSON.stringify(data.data()));
 
       navigatorFunc();
     }
@@ -104,8 +104,8 @@ export const onLogIn = async (email, password, navigatorFunc) => {
 export const setUser = async (data, email) => {
   const userId = await firestore().collection('Users').add(data);
   firestore().collection('id').doc(email).set({id: userId.id});
-  await setUserID(userId);
-  await setUserData(JSON.stringify(data));
+  setUserID(userId);
+  setUserData(JSON.stringify(data));
 };
 
 export const updateBase = async () => {

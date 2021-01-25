@@ -11,26 +11,23 @@ import Constants from '../constants/Constants';
 import DashboardColors from '../constants/DashboardColors';
 import Header from '../components/Header';
 import AppText from '../components/AppText';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+
 import DashboardInput from '../components/DashboardInput';
 import Hyperlink from 'react-native-hyperlink';
-import FastImage from 'react-native-fast-image';
-import LinearGradient from 'react-native-linear-gradient';
+
 import Toast from 'react-native-simple-toast';
 import {useForm, Controller} from 'react-hook-form';
 import {onLogIn} from '../utils/firebaseUtils';
 
-const mirrorHeight = 50;
 const mirrorBottom = 10.7;
-const pineHeight = 30;
-const pineBottom = 21.5;
+
 const downScale = 0.8;
 
 const LoginScreen = ({navigation, route}) => {
   const {control, handleSubmit, errors} = useForm();
 
   const goToHome = () => {
-    navigation.navigate('HomeStack');
+    navigation.navigate('TabNavigation');
   };
 
   const onNextStepHandler = (d) => {
