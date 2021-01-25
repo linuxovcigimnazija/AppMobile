@@ -110,7 +110,7 @@ const MyProfileScreen = ({route, navigation}) => {
 
           <ScrollView contentContainerStyle={styles.scrollView}>
             <View style={{flex: 1, marginHorizontal: 20}}>
-              <View style={styles.shadow}>
+              {/* <View style={styles.shadow}>
                 <LinearGradient
                   style={styles.linearGradient}
                   colors={[Constants.black, '#575757']}>
@@ -130,7 +130,19 @@ const MyProfileScreen = ({route, navigation}) => {
                     />
                   </TouchableOpacity>
                 </LinearGradient>
-              </View>
+              </View> */}
+              <AppText
+                style={{
+                  marginTop: 20,
+                  marginBottom: 15,
+                  marginLeft: 0,
+                  textAlign: 'center',
+                }}
+                bold
+                size={28}
+                color={Constants.primaryDark}>
+                Ukupna statistika svih vozila
+              </AppText>
 
               <View style={styles.twoboxContainer}>
                 <View style={[styles.smallBox, {marginRight: 10}]}>
@@ -149,7 +161,7 @@ const MyProfileScreen = ({route, navigation}) => {
 
               <View style={styles.bigBox}>
                 <AppText color={Constants.white} size={24} bold>
-                  Raspodjela potrosnje...
+                  Raspodjela potrosnje
                 </AppText>
                 <View
                   style={{
