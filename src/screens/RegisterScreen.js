@@ -52,7 +52,7 @@ const RegisterScreen = ({navigation, route}) => {
         valute: d.userCountry.value,
         id: d.userCountry.id,
       },
-      data: {},
+      data: [],
     };
 
     onSingUp(user.email, user.password, user, goToHome);
@@ -165,8 +165,8 @@ const RegisterScreen = ({navigation, route}) => {
                   name="userPasswordConfrim"
                   render={({onChange, value}) => (
                     <DashboardInput
-                      text="Sifra"
-                      placeholder="Unesi ponovo Sifru"
+                      text="Šifra"
+                      placeholder="Unesi ponovo Šifru"
                       secureTextEntry={true}
                       maxLength={16}
                       onChangeText={(value) => onChange(value)}
@@ -177,11 +177,11 @@ const RegisterScreen = ({navigation, route}) => {
                   rules={{
                     required: {
                       value: true,
-                      message: 'Potvrda sifre je obavezna',
+                      message: 'Potvrda Šifre je obavezna',
                     },
 
                     validate: (value) =>
-                      value === userPassword.current || 'Sifre se ne poklapaju',
+                      value === userPassword.current || 'Šifre se ne poklapaju',
                   }}
                 />
               </View>

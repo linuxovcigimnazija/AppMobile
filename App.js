@@ -20,9 +20,27 @@ import RegisterScreen from './src/screens/RegisterScreen';
 import AutoScreen from './src/screens/AutoScreen';
 import InputScreen from './src/screens/InputScreen';
 import AnalyticsScreen from './src/screens/AnalyticsScreen';
-
+import {getUserData} from './src/utils/firebaseUtils';
 const App = () => {
   const iniRoute = auth().currentUser ? 'TabNavigation' : 'Login';
+
+  const [data, setData] = useState(null);
+  const [visiable, setVisiable] = useState(false);
+
+  useEffect(() => {
+    const getIndex = async () => {
+      const object = await getUserData();
+      setData(object);
+    };
+    getIndex();
+  }, []);
+
+  console.log(data);
+  useEffect(() => {
+    if (data !== null) {
+      setVisiable(true);
+    }
+  }, [data]);
 
   const HomeStack = createStackNavigator();
   function HomeStackScreen() {
