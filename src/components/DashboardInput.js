@@ -5,28 +5,19 @@ import DashboardColors from '../constants/DashboardColors';
 import LinearGradient from 'react-native-linear-gradient';
 import Constants from '../constants/Constants';
 
-const inputHeight = Constants.height > 700 ? 35 : 30;
+const inputHeight = Constants.height > 700 ? 45 : 35;
 
 export default function DashboardInput(props) {
   return (
     <View style={styles.container}>
-      <LinearGradient
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}
-        colors={[DashboardColors.redDark + '80', DashboardColors.red]}
-        style={styles.textContainer}>
-        <AppText size={14} bold color={DashboardColors.white}>
-          {props.text}
-        </AppText>
-      </LinearGradient>
       <View style={styles.inputContainer}>
-        <View style={styles.triangleCorner} />
         <TextInput
-          autoCorrect={false}
-          selectionColor={DashboardColors.red}
-          placeholder={props.placeholder}
-          placeholderTextColor={DashboardColors.grayBackground}
           style={styles.input}
+          autoCorrect={false}
+          autoCapitalize="none"
+          selectionColor={Constants.lightBlue}
+          placeholder={props.placeholder}
+          placeholderTextColor={DashboardColors.white}
           {...props}
         />
       </View>
@@ -39,37 +30,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     marginBottom: 10,
-    borderWidth: 1,
-    borderColor: DashboardColors.black,
+    borderWidth: 0.8,
+    borderColor: DashboardColors.white,
     borderRadius: 5,
     overflow: 'hidden',
-  },
-  textContainer: {
-    backgroundColor: DashboardColors.red,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '22%',
-    maxHeight: inputHeight,
   },
   inputContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  triangleCorner: {
-    // codedaily.io
-    position: 'absolute',
-    width: 0,
-    height: 0,
-    backgroundColor: 'transparent',
-    borderStyle: 'solid',
-    borderRightWidth: inputHeight / 8,
-    borderTopWidth: inputHeight,
-    borderRightColor: 'transparent',
-    borderTopColor: DashboardColors.red,
-    zIndex: 10,
+    borderColor: DashboardColors.white,
   },
   input: {
+    color: DashboardColors.white,
+    borderColor: DashboardColors.white,
     width: '100%',
     padding: 0,
     height: inputHeight,

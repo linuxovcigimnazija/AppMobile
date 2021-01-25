@@ -1,6 +1,12 @@
 import 'react-native-gesture-handler';
-import React from 'react';
-import {SafeAreaView, StyleSheet, View, StatusBar} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  StatusBar,
+  ActivityIndicator,
+} from 'react-native';
 import Constants from './src/constants/Constants';
 import {NavigationContainer} from '@react-navigation/native';
 import {
@@ -9,8 +15,9 @@ import {
 } from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {FeatherIcon, FontAwesome5Icon} from './src/utils/Functions';
+import auth from '@react-native-firebase/auth';
 
-// SCREENS
+// SCREENS <RegisterScreen />
 import HomeScreen from './src/screens/HomeScreen';
 import TravelInfoScreen from './src/screens/TravelInfoScreen';
 import MyProfileScreen from './src/screens/MyProfileScreen';
@@ -19,16 +26,65 @@ import RegisterScreen from './src/screens/RegisterScreen';
 import AutoScreen from './src/screens/AutoScreen';
 import InputScreen from './src/screens/InputScreen';
 import AnalyticsScreen from './src/screens/AnalyticsScreen';
-
+import {getUserData} from './src/utils/firebaseUtils';
+import AppText from './src/components/AppText';
 const App = () => {
+  const [iniRoute, setIniRoute] = useState(
+    auth().currentUser ? 'TabNavigation' : 'Login',
+  );
+
+  const [data, setData] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [render, reRender] = useState(false);
+
+  useEffect(() => {
+    setVisible(false);
+    const getIndex = async () => {
+      const object = await getUserData();
+      setData(object);
+    };
+    getIndex();
+    setIniRoute(auth().currentUser ? 'TabNavigation' : 'Login');
+  }, [render]);
+
+  useEffect(() => {
+    if (data !== null) {
+      setVisible(true);
+    }
+  }, [data]);
+
   const HomeStack = createStackNavigator();
   function HomeStackScreen() {
     return (
       <HomeStack.Navigator screenOptions={{headerShown: false}}>
-        <HomeStack.Screen name="Home" component={HomeScreen} />
-        <HomeStack.Screen name="Auto" component={AutoScreen} />
-        <HomeStack.Screen name="Input" component={InputScreen} />
-        <HomeStack.Screen name="Analytics" component={AnalyticsScreen} />
+        <HomeStack.Screen
+          name="Home"
+          component={HomeScreen}
+          initialParams={{
+            GDATA: data,
+          }}
+        />
+        <HomeStack.Screen
+          name="Auto"
+          component={AutoScreen}
+          initialParams={{
+            GDATA: data,
+          }}
+        />
+        <HomeStack.Screen
+          name="Input"
+          component={InputScreen}
+          initialParams={{
+            GDATA: data,
+          }}
+        />
+        <HomeStack.Screen
+          name="Analytics"
+          component={AnalyticsScreen}
+          initialParams={{
+            GDATA: data,
+          }}
+        />
       </HomeStack.Navigator>
     );
   }
@@ -66,33 +122,75 @@ const App = () => {
           showLabel: false,
           style: styles.tabBarStyle,
         }}>
-        <Tab.Screen name="TravelInfo" component={TravelInfoScreen} />
+        <Tab.Screen
+          initialParams={{
+            GDATA: data,
+          }}
+          name="TravelInfo"
+          component={TravelInfoScreen}
+        />
         <Tab.Screen name="HomeStack" component={HomeStackScreen} />
-        <Tab.Screen name="MyProfile" component={MyProfileScreen} />
+        <Tab.Screen
+          name="MyProfile"
+          component={MyProfileScreen}
+          initialParams={{
+            GDATA: data,
+            reRender: reRender,
+            render: render,
+          }}
+        />
       </Tab.Navigator>
     );
   }
 
   const AppStack = createStackNavigator();
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.notch} />
-      <SafeAreaView style={styles.safeArea}>
-        <NavigationContainer
-          theme={{colors: {background: Constants.primaryDark}}}>
-          <AppStack.Navigator
-            initialRouteName="TabNavigation"
-            screenOptions={{headerShown: false}}>
-            <AppStack.Screen name="TabNavigation" component={TabNavigator} />
-            <AppStack.Screen name="Register" component={RegisterScreen} />
-            <AppStack.Screen name="Login" component={LoginScreen} />
-          </AppStack.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
-    </View>
-  );
+  if (!visible) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: Constants.primaryDark,
+        }}>
+        <AppText
+          style={{marginBottom: 15}}
+          color={Constants.white}
+          size={40}
+          bold>
+          AppMobile
+        </AppText>
+        <ActivityIndicator color={Constants.white} size="large" />
+      </View>
+    );
+  } else {
+    console.log('APP', data);
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.notch} />
+        <SafeAreaView style={styles.safeArea}>
+          <NavigationContainer>
+            <AppStack.Navigator
+              initialRouteName={iniRoute}
+              screenOptions={{headerShown: false}}>
+              <AppStack.Screen name="TabNavigation" component={TabNavigator} />
+              <AppStack.Screen name="Register" component={RegisterScreen} />
+              <AppStack.Screen
+                initialParams={{
+                  reRender: reRender,
+                  render: render,
+                }}
+                name="Login"
+                component={LoginScreen}
+              />
+            </AppStack.Navigator>
+          </NavigationContainer>
+        </SafeAreaView>
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({

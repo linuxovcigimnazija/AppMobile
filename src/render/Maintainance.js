@@ -44,7 +44,7 @@ export default function Maintainance({item}) {
 
           <Text>
             <AppText color={Constants.white} size={14}>
-              Podsjetnik za:{'\n'}
+              Sljedeci za:{'\n'}
             </AppText>
             <AppText color={Constants.white} size={14}>
               {item.reminder}km

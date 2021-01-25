@@ -16,63 +16,25 @@ import FastImage from 'react-native-fast-image';
 import {getLogo, getFuelIcon} from '../utils/Functions';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CarModal from '../render/modals/CarModal';
-
-const dummyData = [
-  {
-    brand: 'Volkswagen',
-    name: 'Golf 8',
-    fuel: 'dizel',
-    horsepower: 150,
-    sizeInLiters: 1.5,
-    id: 0,
-  },
-  {
-    brand: 'Renault',
-    name: 'Clio Plavi',
-    fuel: 'benzin',
-    horsepower: 80,
-    sizeInLiters: 1.2,
-    id: 1,
-  },
-  {
-    brand: 'Renault',
-    name: 'Clio Zuti',
-    fuel: 'plin + benzin',
-    horsepower: 80,
-    sizeInLiters: 1.2,
-    id: 2,
-  },
-  // {
-  //   brand: 'Renault',
-  //   name: 'Clio Zuti',
-  //   fuel: 'plin + benzin',
-  //   horsepower: 80,
-  //   sizeInLiters: 1.2,
-  //   id: 4,
-  // },
-  // {
-  //   brand: 'Renault',
-  //   name: 'Clio Zuti',
-  //   fuel: 'plin + benzin',
-  //   horsepower: 80,
-  //   sizeInLiters: 1.2,
-  //   id: 5,
-  // },
-  // {
-  //   brand: 'Renault',
-  //   name: 'Clio Zuti',
-  //   fuel: 'plin + benzin',
-  //   horsepower: 80,
-  //   sizeInLiters: 1.2,
-  //   id: 6,
-  // },
-];
+import {setUserData} from '../utils/firebaseUtils';
 
 const HomeScreen = ({navigation, route}) => {
-  const [cars, setCars] = useState(dummyData);
+  console.log('aaa');
 
-  const goToCar = (car) => {
-    navigation.navigate('Auto');
+  const setIndexes = (data) => {
+    for (let i = 0; i < data.length; i++) {
+      data[i].id = i;
+    }
+    return data;
+  };
+
+  const [cars, setCars] = useState(setIndexes(route.params.GDATA.data));
+  console.log(route.params.GDATA);
+
+  const goToCar = (carId) => {
+    navigation.navigate('Auto', {
+      carId: carId,
+    });
   };
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -105,11 +67,14 @@ const HomeScreen = ({navigation, route}) => {
   const closeModal = () => {
     setModalVisible(false);
   };
-
   const addItem = (data) => {
     let nextData = cars;
     nextData.push(data);
     setCars(nextData);
+
+    let pushData = route.params.GDATA;
+    pushData.data = cars;
+    setUserData(JSON.stringify(pushData));
   };
 
   const renderCar = (car) => {
@@ -128,7 +93,7 @@ const HomeScreen = ({navigation, route}) => {
         ]}
         activeOpacity={0.5}
         underlayColor={Constants.lightBlue + 'F0'}
-        onPress={() => goToCar(car)}>
+        onPress={() => goToCar(item.id)}>
         <View
           style={[
             styles.carContainer,
@@ -219,7 +184,7 @@ const HomeScreen = ({navigation, route}) => {
           <CarModal
             closeModal={closeModal}
             addItem={addItem}
-            id={dummyData.length}
+            id={cars.length}
           />
         </View>
       </Modal>

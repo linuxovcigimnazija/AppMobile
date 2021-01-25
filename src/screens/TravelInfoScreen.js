@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Header from '../components/Header';
 import Constants from '../constants/Constants';
@@ -8,23 +8,13 @@ import AppText from '../components/AppText';
 import LinearGradient from 'react-native-linear-gradient';
 import DropDownPicker from 'react-native-dropdown-picker';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
+import {getUserData} from '../utils/firebaseUtils';
 
-const TravelInfoScreen = ({route}) => {
-  const list = TravellInfoData;
-  const [number, setNumber] = useState({
-    label: 'Bosnu i Hercegovinu',
-    value: {
-      milicija: 122,
-      vatrogasci: 123,
-      hitna: 124,
-      ams: 1288,
-    },
-  });
-  const [link, setLink] = useState({
-    label: 'Bosnu i Hercegovinu',
-    putovanje:
-      'http://www.mvp.gov.ba/konzularne_informacije/sta_konzul_moze_uciniti_za_vas/?id=17675',
-  });
+const TravelInfoScreen = ({navigation, route}) => {
+  const [num, setNum] = useState(route.params.GDATA.country.id);
+
+  const [number, setNumber] = useState(TravellInfoData[num]);
+  const [link, setLink] = useState(TravellInfoData[num]);
 
   return (
     <View style={{flex: 1, backgroundColor: Constants.background}}>
@@ -44,7 +34,7 @@ const TravelInfoScreen = ({route}) => {
             <AppText style={styles.titleText}>Pomoc na putu za...</AppText>
 
             <DropDownPicker
-              items={list}
+              items={TravellInfoData}
               containerStyle={styles.dropContainer}
               style={styles.dropDownPickerViewStyle}
               placeholder={number.label}
@@ -105,7 +95,7 @@ const TravelInfoScreen = ({route}) => {
               NAJNOVIJE informacije vezane za Putovanje u Pandemiji za...
             </AppText>
             <DropDownPicker
-              items={list}
+              items={TravellInfoData}
               containerStyle={[
                 styles.dropContainer,
                 Constants.OS === 'ios' ? {zIndex: 100} : {},
@@ -232,6 +222,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 5,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
   },
 });
 

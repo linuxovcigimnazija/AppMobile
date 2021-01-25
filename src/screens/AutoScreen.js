@@ -20,15 +20,7 @@ import InputTypeColors from '../constants/InputTypeColors';
 import InputCategories from '../constants/InputCategories';
 
 const AutoScreen = ({navigation, route}) => {
-  const car = {
-    brand: 'Volkswagen',
-    name: 'Golf 8',
-    fuel: 'dizel',
-    horsepower: 150,
-    sizeInLiters: 1.5,
-    km: 15429,
-    id: 0,
-  };
+  const car = route.params.GDATA.data[route.params.carId];
 
   const averageFuelConsumption = 16;
   const totalFuel = 170;
@@ -59,6 +51,7 @@ const AutoScreen = ({navigation, route}) => {
     const param = getParam(categoryName.toLowerCase());
     navigation.navigate('Input', {
       category: param,
+      carId: route.params.carId,
     });
   };
 
@@ -121,7 +114,7 @@ const AutoScreen = ({navigation, route}) => {
                 size={14}
                 bold
                 style={{textAlign: 'right'}}>
-                {car.km}km
+                {car.mileage}km
               </AppText>
             </View>
             <View>

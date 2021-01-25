@@ -39,6 +39,19 @@ export default function CarModal({closeModal, addItem, id}) {
       horsepower: HP,
       sizeInLiters: volume,
       id: id,
+      mileage: 0,
+      data: {
+        fuel: [],
+        registration: [],
+        insurance: [],
+        maintainance: [],
+        repair: [],
+        crashes: [],
+        equipment: [],
+        tickets: [],
+        carWash: [],
+        other: [],
+      },
     };
 
     addItem(data);

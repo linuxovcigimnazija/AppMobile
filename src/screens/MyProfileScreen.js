@@ -10,36 +10,51 @@ import Pie from 'react-native-pie';
 import {themes} from '../constants/colors';
 import Header from '../components/Header';
 import InputTypeColors from '../constants/InputTypeColors';
+import {onLogOut, updateBase} from '../utils/firebaseUtils';
+import {unixToString} from '../utils/Functions';
 
 var name, email, numberOfCars, online;
 var fuelConsumption, moneySpent, currency;
 var pieFuel, pieRegistration, pieServis, pieDamage, pieOther;
-function data_function() {
-  name = 'Petar Petrović';
-  email = 'petarpetrovic@gmail.com';
-  numberOfCars = 3;
-  online = '8.10.2020.';
-  fuelConsumption = '280 litara';
-  moneySpent = '880';
-  currency = 'KM';
 
-  pieFuel = 45;
-  pieRegistration = 15;
-  pieServis = 20;
-  pieDamage = 15;
-  pieOther = 5;
-}
-
-const MyProfileScreen = ({route}) => {
+const MyProfileScreen = ({route, navigation}) => {
   const [color, setColor] = useState(themes.seaship);
+  const [data, setData] = useState(route.params.GDATA);
+  const goToLogin = () => {
+    navigation.navigate('Login');
+  };
+
+  const logOut = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{name: 'Login'}],
+    });
+  };
 
   function changeTheme() {
-    if (color == themes.seaship) {
+    // not used in this version of the app
+    if (color === themes.seaship) {
       setColor(themes.watermellon);
     } else {
       setColor(themes.seaship);
     }
     // appTheme = color;
+  }
+
+  function data_function() {
+    name = data.name;
+    email = data.email;
+    numberOfCars = data.data.length;
+    online = unixToString(data.date, 0, '');
+    fuelConsumption = '280 litara';
+    moneySpent = '880';
+    currency = 'KM';
+
+    pieFuel = 45;
+    pieRegistration = 15;
+    pieServis = 20;
+    pieDamage = 15;
+    pieOther = 5;
   }
 
   data_function();
@@ -72,13 +87,21 @@ const MyProfileScreen = ({route}) => {
               </AppText>
 
               <View style={styles.buttonContainer}>
-                <TouchableOpacity activeOpacity={0.7} style={styles.syncButton}>
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  style={styles.syncButton}
+                  onPress={() =>
+                    updateBase(route.params.reRender, route.params.render)
+                  }>
                   <AppText style={styles.syncbuttonText}>Cloud</AppText>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   activeOpacity={0.7}
-                  style={styles.logoutButton}>
+                  style={styles.logoutButton}
+                  onPress={() => {
+                    onLogOut(logOut);
+                  }}>
                   <AppText style={styles.logoutbuttonText}>Izadji</AppText>
                 </TouchableOpacity>
               </View>

@@ -15,6 +15,7 @@ import AppText from '../components/AppText';
 import DropDownPicker from 'react-native-dropdown-picker';
 import InputCategories from '../constants/InputCategories';
 import InputTypeColors from '../constants/InputTypeColors';
+import {setUserData} from '../utils/firebaseUtils';
 import {
   FontAwesomeIcon,
   getCategoryIcon,
@@ -58,143 +59,9 @@ const InputScreen = ({navigation, route}) => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [data, setData] = useState({
-    fuel: [
-      {
-        price: 150,
-        volume: 50,
-        discount: true,
-        pricePerLiter: 200.21,
-        date: Date.parse('2003-12-12'),
-        tag: 'fuel',
-      },
-      {
-        price: 130,
-        volume: 30,
-        discount: false,
-        pricePerLiter: 200.54,
-        date: Date.parse('2003-02-01'),
-        tag: 'fuel',
-      },
-    ],
-    registration: [
-      {
-        price: 400,
-        date: Date.parse('2003-02-07'),
-        tag: 'registration',
-      },
-    ],
-    insurance: [
-      {
-        price: 600,
-        date: Date.parse('2003-07-05'),
-        tag: 'insurance',
-      },
-    ],
-    maintainance: [
-      {
-        price: 100,
-        big: true,
-        reminder: 10000,
-        date: Date.parse('2003-07-01'),
-        tag: 'maintainance',
-      },
-      {
-        price: 100,
-        big: false,
-        reminder: 10000,
-        date: Date.parse('2003-05-01'),
-        tag: 'maintainance',
-      },
-    ],
-    repair: [
-      {
-        price: 7000,
-        comment: 'Nije radilo kvacilo',
-        date: Date.parse('2003-01-02'),
-        tag: 'repair',
-      },
-      {
-        price: 7000,
-        comment: 'Opet nije radilo kvacilo znaci ja ne znam sta da radim vise',
-        date: Date.parse('2003-01-03'),
-        tag: 'repair',
-      },
-    ],
-    crashes: [
-      {
-        price: 7000,
-        comment: 'velik sudar',
-        date: Date.parse('2004-01-02'),
-        tag: 'crashes',
-      },
-      {
-        price: 7000,
-        comment: 'lancani sudar',
-        date: Date.parse('2006-01-05'),
-        tag: 'crashes',
-      },
-    ],
-    equipment: [
-      {
-        price: 7000,
-        comment: 'olovka',
-        date: Date.parse('2013-01-03'),
-        tag: 'equipment',
-      },
-      {
-        price: 7000,
-        comment: 'zvucnik',
-        date: Date.parse('2023-01-03'),
-        tag: 'equipment',
-      },
-    ],
-    tickets: [
-      {
-        price: 7000,
-        comment: 'jos brza voznja',
-        date: Date.parse('2003-01-04'),
-        tag: 'tickets',
-      },
-      {
-        price: 7000,
-        comment: 'brza voznja',
-        date: Date.parse('2006-01-04'),
-        tag: 'tickets',
-      },
-    ],
-    carWash: [
-      {
-        price: 5,
-        date: Date.parse('2500-02-24'),
-        tag: 'carWash',
-      },
-      {
-        price: 3,
-        date: Date.parse('2400-02-24'),
-        tag: 'carWash',
-      },
-      {
-        price: 4,
-        date: Date.parse('2600-02-22'),
-        tag: 'carWash',
-      },
-    ],
-    other: [
-      {
-        price: 400,
-        comment: 'Auto za miris',
-        date: Date.parse('2000-10-10'),
-        tag: 'other',
-      },
-      {
-        price: 100,
-        comment: 'Miris za auto',
-        date: Date.parse('2000-10-11'),
-        tag: 'other',
-      },
-    ],
-  });
+  const [data, setData] = useState(
+    route.params.GDATA.data[route.params.carId].data,
+  );
 
   const addItem = () => {
     setModalVisible(true);
@@ -209,11 +76,11 @@ const InputScreen = ({navigation, route}) => {
         ...data.carWash,
         ...data.crashes,
         ...data.equipment,
-        data.insurance,
+        ...data.insurance,
         ...data.maintainance,
         ...data.repair,
         ...data.other,
-        data.registration,
+        ...data.registration,
         ...data.tickets,
       ];
     else if (selectedCategoryValue === 'fuel') returnDataValue = [...data.fuel];
@@ -288,11 +155,20 @@ const InputScreen = ({navigation, route}) => {
   };
 
   const addItemToArray = (inputData, tag, mileage = 0) => {
-    if (mileage) {
-    }
     let nextData = data;
     nextData[inputData.tag].push(inputData);
     setData(nextData);
+
+    let pushData = route.params.GDATA;
+
+    if (mileage) {
+      if (pushData.data[route.params.carId].mileage < mileage) {
+        pushData.data[route.params.carId].mileage = mileage;
+      }
+    }
+
+    pushData.data[route.params.carId].data = nextData;
+    setUserData(JSON.stringify(pushData));
   };
 
   return (
