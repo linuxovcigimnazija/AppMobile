@@ -29,13 +29,13 @@ function data_function() {
 
 const MyProfileScreen = ({route, navigation}) => {
   const [color, setColor] = useState(themes.seaship);
-
+  const [data, setData] = useState(route.params.GDATA);
   const goToLogin = () => {
     navigation.navigate('Login');
   };
 
   function changeTheme() {
-    if (color == themes.seaship) {
+    if (color === themes.seaship) {
       setColor(themes.watermellon);
     } else {
       setColor(themes.seaship);

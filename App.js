@@ -1,6 +1,12 @@
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, View, StatusBar} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  View,
+  StatusBar,
+  ActivityIndicator,
+} from 'react-native';
 import Constants from './src/constants/Constants';
 import {NavigationContainer} from '@react-navigation/native';
 import {
@@ -21,11 +27,12 @@ import AutoScreen from './src/screens/AutoScreen';
 import InputScreen from './src/screens/InputScreen';
 import AnalyticsScreen from './src/screens/AnalyticsScreen';
 import {getUserData} from './src/utils/firebaseUtils';
+import AppText from './src/components/AppText';
 const App = () => {
   const iniRoute = auth().currentUser ? 'TabNavigation' : 'Login';
 
   const [data, setData] = useState(null);
-  const [visiable, setVisiable] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const getIndex = async () => {
@@ -35,10 +42,9 @@ const App = () => {
     getIndex();
   }, []);
 
-  console.log(data);
   useEffect(() => {
     if (data !== null) {
-      setVisiable(true);
+      setVisible(true);
     }
   }, [data]);
 
@@ -46,10 +52,34 @@ const App = () => {
   function HomeStackScreen() {
     return (
       <HomeStack.Navigator screenOptions={{headerShown: false}}>
-        <HomeStack.Screen name="Home" component={HomeScreen} />
-        <HomeStack.Screen name="Auto" component={AutoScreen} />
-        <HomeStack.Screen name="Input" component={InputScreen} />
-        <HomeStack.Screen name="Analytics" component={AnalyticsScreen} />
+        <HomeStack.Screen
+          name="Home"
+          component={HomeScreen}
+          initialParams={{
+            GDATA: data,
+          }}
+        />
+        <HomeStack.Screen
+          name="Auto"
+          component={AutoScreen}
+          initialParams={{
+            GDATA: data,
+          }}
+        />
+        <HomeStack.Screen
+          name="Input"
+          component={InputScreen}
+          initialParams={{
+            GDATA: data,
+          }}
+        />
+        <HomeStack.Screen
+          name="Analytics"
+          component={AnalyticsScreen}
+          initialParams={{
+            GDATA: data,
+          }}
+        />
       </HomeStack.Navigator>
     );
   }
@@ -87,32 +117,68 @@ const App = () => {
           showLabel: false,
           style: styles.tabBarStyle,
         }}>
-        <Tab.Screen name="TravelInfo" component={TravelInfoScreen} />
+        <Tab.Screen
+          initialParams={{
+            GDATA: data,
+          }}
+          name="TravelInfo"
+          component={TravelInfoScreen}
+        />
         <Tab.Screen name="HomeStack" component={HomeStackScreen} />
-        <Tab.Screen name="MyProfile" component={MyProfileScreen} />
+        <Tab.Screen
+          name="MyProfile"
+          component={MyProfileScreen}
+          initialParams={{
+            GDATA: data,
+          }}
+        />
       </Tab.Navigator>
     );
   }
 
   const AppStack = createStackNavigator();
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.notch} />
-      <SafeAreaView style={styles.safeArea}>
-        <NavigationContainer>
-          <AppStack.Navigator
-            screenOptions={{headerShown: false}}
-            initialRouteName={iniRoute}>
-            <AppStack.Screen name="TabNavigation" component={TabNavigator} />
-            <AppStack.Screen name="Register" component={RegisterScreen} />
-            <AppStack.Screen name="Login" component={LoginScreen} />
-          </AppStack.Navigator>
-        </NavigationContainer>
-      </SafeAreaView>
-    </View>
-  );
+  if (!visible) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: Constants.primaryDark,
+        }}>
+        <AppText
+          style={{marginBottom: 15}}
+          color={Constants.white}
+          size={40}
+          bold>
+          AppMobile
+        </AppText>
+        <ActivityIndicator color={Constants.white} size="large" />
+      </View>
+    );
+  } else {
+    console.log(data);
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.notch} />
+        <SafeAreaView style={styles.safeArea}>
+          <NavigationContainer>
+            <AppStack.Navigator screenOptions={{headerShown: false}}>
+              <AppStack.Screen
+                initialParams={data}
+                name="TabNavigation"
+                component={TabNavigator}
+              />
+              <AppStack.Screen name="Register" component={RegisterScreen} />
+              <AppStack.Screen name="Login" component={LoginScreen} />
+            </AppStack.Navigator>
+          </NavigationContainer>
+        </SafeAreaView>
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
