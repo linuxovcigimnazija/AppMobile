@@ -36,7 +36,9 @@ const AutoScreen = ({navigation, route}) => {
   };
 
   const goToAnalytics = () => {
-    navigation.navigate('Analytics');
+    navigation.navigate('Analytics', {
+      carId: route.params.carId,
+    });
   };
 
   const getParam = (categoryName) => {
