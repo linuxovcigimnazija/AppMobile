@@ -48,7 +48,7 @@ const MyProfileScreen = ({route, navigation}) => {
     online = unixToString(data.date, 0, '');
     fuelConsumption = '280 litara';
     moneySpent = '880';
-    currency = 'KM';
+    currency = route.params.GDATA.country.valute;
 
     pieFuel = 45;
     pieRegistration = 15;

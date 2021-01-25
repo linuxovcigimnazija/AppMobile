@@ -25,7 +25,7 @@ const AutoScreen = ({navigation, route}) => {
   const averageFuelConsumption = 16;
   const totalFuel = 170;
   const moneySpentLastMonth = 890;
-  const currency = 'EUR';
+  const currency = route.params.GDATA.country.valute;
 
   let scrollViewRef;
 

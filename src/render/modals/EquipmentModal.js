@@ -18,9 +18,9 @@ export default function EquipmentModal({
   selectedCategoryValue,
   closeModal,
   addItem,
+  currency,
 }) {
   const [selectedSubcategory, setSelectedSubcategory] = useState('equipment');
-  const currency = 'RSD';
 
   //DATA
   const [comment, setComment] = useState();

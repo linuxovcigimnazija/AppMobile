@@ -15,9 +15,7 @@ import InputTypeColors from '../constants/InputTypeColors';
 
 const selectedType = 'insurance';
 
-export default function Insurance({item}) {
-  const currency = 'KM';
-
+export default function Insurance({item, currency}) {
   return (
     <View style={styles.renderContainer}>
       <View
@@ -57,7 +55,7 @@ export default function Insurance({item}) {
               Cijena:
             </AppText>
             <AppText color={Constants.white} bold size={26}>
-              {'  ' + item.price + currency}
+              {'  ' + item.price + ' ' + currency}
             </AppText>
           </Text>
 

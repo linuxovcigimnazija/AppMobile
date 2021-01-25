@@ -20,11 +20,11 @@ export default function RegistrationModal({
   selectedCategoryValue,
   closeModal,
   addItem,
+  currency,
 }) {
   const [selectedSubcategory, setSelectedSubcategory] = useState(
     'registration',
   );
-  const currency = 'EUR';
   const tag = 'registration';
 
   //DATA

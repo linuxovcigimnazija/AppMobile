@@ -18,9 +18,8 @@ export default function CrashesModal({
   selectedCategoryValue,
   closeModal,
   addItem,
+  currency,
 }) {
-  const currency = 'KM';
-
   //DATA
   const [date, setDate] = useState('');
   const [price, setPrice] = useState();

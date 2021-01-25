@@ -22,11 +22,11 @@ export default function MaintainanceModal({
   selectedCategoryValue,
   closeModal,
   addItem,
+  currency,
 }) {
   const [selectedSubcategory, setSelectedSubcategory] = useState(
     'maintainance',
   );
-  const currency = 'EUR';
 
   //DATA
   const [big, setBig] = useState(false);

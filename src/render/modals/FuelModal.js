@@ -18,9 +18,8 @@ export default function FuelModal({
   selectedCategoryValue,
   closeModal,
   addItem,
+  currency,
 }) {
-  const currency = 'RSD';
-
   //DATA
   const [discount, setDiscount] = useState(false);
   const [price, setPrice] = useState();

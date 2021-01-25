@@ -16,9 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const selectedType = 'repair';
 
-export default function Maintainance({item}) {
-  const currency = 'KM';
-
+export default function Maintainance({item, currency}) {
   return (
     <View style={styles.renderContainer}>
       <LinearGradient
@@ -38,7 +36,7 @@ export default function Maintainance({item}) {
           <AppText bold color={Constants.white} size={14}>
             Popravka:{' '}
             <AppText size={16} bold color={Constants.white}>
-              {item.price + currency}
+              {item.price + ' ' + currency}
             </AppText>
           </AppText>
 

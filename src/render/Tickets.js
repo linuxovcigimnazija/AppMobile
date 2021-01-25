@@ -16,9 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const selectedType = 'tickets';
 
-export default function Tickets({item}) {
-  const currency = 'KM';
-
+export default function Tickets({item, currency}) {
   return (
     <View style={styles.renderContainer}>
       <LinearGradient
@@ -38,7 +36,7 @@ export default function Tickets({item}) {
           <AppText bold color={Constants.white} size={14}>
             Kazna:{' '}
             <AppText size={16} bold color={Constants.white}>
-              {item.price + currency}
+              {item.price + ' ' + currency}
             </AppText>
           </AppText>
 

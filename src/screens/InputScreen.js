@@ -105,25 +105,51 @@ const InputScreen = ({navigation, route}) => {
     const item = stuff.item;
     switch (item.tag) {
       case 'fuel':
-        return <Fuel item={item} />;
+        return (
+          <Fuel currency={route.params.GDATA.country.valute} item={item} />
+        );
       case 'registration':
-        return <Registration item={item} />;
+        return (
+          <Registration
+            currency={route.params.GDATA.country.valute}
+            item={item}
+          />
+        );
       case 'insurance':
-        return <Insurance item={item} />;
+        return (
+          <Insurance currency={route.params.GDATA.country.valute} item={item} />
+        );
       case 'maintainance':
-        return <Maintainance item={item} />;
+        return (
+          <Maintainance
+            currency={route.params.GDATA.country.valute}
+            item={item}
+          />
+        );
       case 'repair':
-        return <Repair item={item} />;
+        return (
+          <Repair currency={route.params.GDATA.country.valute} item={item} />
+        );
       case 'crashes':
-        return <Crash item={item} />;
+        return (
+          <Crash currency={route.params.GDATA.country.valute} item={item} />
+        );
       case 'equipment':
-        return <Equipment item={item} />;
+        return (
+          <Equipment currency={route.params.GDATA.country.valute} item={item} />
+        );
       case 'tickets':
-        return <Tickets item={item} />;
+        return (
+          <Tickets currency={route.params.GDATA.country.valute} item={item} />
+        );
       case 'carWash':
-        return <CarWash item={item} />;
+        return (
+          <CarWash currency={route.params.GDATA.country.valute} item={item} />
+        );
       case 'other':
-        return <Other item={item} />;
+        return (
+          <Other currency={route.params.GDATA.country.valute} item={item} />
+        );
     }
   };
 
@@ -309,30 +335,35 @@ const InputScreen = ({navigation, route}) => {
 
           {selectedCategoryValue === 'fuel' ? (
             <FuelModal
+              currency={route.params.GDATA.country.valute}
               addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}
               selectedCategoryValue={selectedCategoryValue}
             />
           ) : selectedCategoryValue === 'crashes' ? (
             <CrashesModal
+              currency={route.params.GDATA.country.valute}
               addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}
               selectedCategoryValue={selectedCategoryValue}
             />
           ) : selectedCategoryValue === 'maintainance' ? (
             <MaintainanceModal
+              currency={route.params.GDATA.country.valute}
               addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}
               selectedCategoryValue={selectedCategoryValue}
             />
           ) : selectedCategoryValue === 'equipment' ? (
             <EquipmentModal
+              currency={route.params.GDATA.country.valute}
               addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}
               selectedCategoryValue={selectedCategoryValue}
             />
           ) : (
             <RegistrationModal
+              currency={route.params.GDATA.country.valute}
               addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}
               selectedCategoryValue={selectedCategoryValue}

@@ -16,9 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const selectedType = 'equipment';
 
-export default function Equipment({item}) {
-  const currency = 'RSD';
-
+export default function Equipment({item, currency}) {
   return (
     <View style={styles.renderContainer}>
       <LinearGradient

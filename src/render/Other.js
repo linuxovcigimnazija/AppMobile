@@ -16,9 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const selectedType = 'other';
 
-export default function Other({item}) {
-  const currency = 'KM';
-
+export default function Other({item, currency}) {
   return (
     <View style={styles.renderContainer}>
       <LinearGradient
@@ -40,7 +38,7 @@ export default function Other({item}) {
           </AppText>
 
           <AppText color={Constants.white} bold size={16}>
-            {item.price + currency}
+            {item.price + ' ' + currency}
           </AppText>
         </View>
       </LinearGradient>

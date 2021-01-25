@@ -16,9 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const selectedType = 'fuel';
 
-export default function Fuel({item}) {
-  const currency = 'EUR';
-
+export default function Fuel({item, currency}) {
   return (
     <View style={styles.renderContainer}>
       <LinearGradient
@@ -40,7 +38,7 @@ export default function Fuel({item}) {
           </AppText>
 
           <AppText bold color={Constants.white} size={18}>
-            {item.price + currency}
+            {item.price + ' ' + currency}
           </AppText>
 
           <View

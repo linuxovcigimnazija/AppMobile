@@ -16,9 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const selectedType = 'crashes';
 
-export default function Crash({item}) {
-  const currency = 'KM';
-
+export default function Crash({item, currency}) {
   return (
     <View style={styles.renderContainer}>
       <LinearGradient
@@ -38,7 +36,7 @@ export default function Crash({item}) {
           <AppText bold color={Constants.white} size={14}>
             Ostecenje:{' '}
             <AppText size={16} bold color={Constants.white}>
-              {item.price + currency}
+              {item.price + ' ' + currency}
             </AppText>
           </AppText>
 

@@ -16,9 +16,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const selectedType = 'carWash';
 
-export default function CarWash({item}) {
-  const currency = 'KM';
-
+export default function CarWash({item, currency}) {
   return (
     <View style={styles.renderContainer}>
       <View
@@ -46,7 +44,7 @@ export default function CarWash({item}) {
             </AppText>
             <View style={{flex: 1, alignItems: 'center'}}>
               <AppText bold color={Constants.lightBlue} size={22}>
-                {item.price + currency}
+                {item.price + ' ' + currency}
               </AppText>
             </View>
           </View>
