@@ -179,7 +179,7 @@ const RegisterScreen = ({navigation, route}) => {
                   rules={{
                     required: {
                       value: true,
-                      message: 'Potvrda Šifre je obavezna',
+                      message: 'Potvrda šifre je obavezna',
                     },
 
                     validate: (value) =>
@@ -221,7 +221,7 @@ const RegisterScreen = ({navigation, route}) => {
                   )}
                   rules={{
                     validate: (value) =>
-                      value !== null || 'Odabir drazve je obavezan',
+                      value !== null || 'Odabir dražve je obavezan',
                   }}
                 />
                 {(errors.userName &&

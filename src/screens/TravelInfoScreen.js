@@ -31,7 +31,7 @@ const TravelInfoScreen = ({navigation, route}) => {
             }}
           />
           <View style={styles.numbersView}>
-            <AppText style={styles.titleText}>Pomoc na putu za...</AppText>
+            <AppText style={styles.titleText}>Pomoć na putu za...</AppText>
 
             <DropDownPicker
               items={TravellInfoData}
