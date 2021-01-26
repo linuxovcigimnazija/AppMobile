@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Modal,
+  Alert,
 } from 'react-native';
 import AppText from '../components/AppText';
 import Header from '../components/Header';
@@ -16,7 +17,7 @@ import FastImage from 'react-native-fast-image';
 import {getLogo, getFuelIcon} from '../utils/Functions';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CarModal from '../render/modals/CarModal';
-import {setUserData} from '../utils/firebaseUtils';
+import {setUserData, getUserData} from '../utils/firebaseUtils';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const HomeScreen = ({navigation, route}) => {
@@ -36,6 +37,7 @@ const HomeScreen = ({navigation, route}) => {
     for (let i = 0; i < data.data.length; i++) {
       for (let j = 0; j < data.data[i].data.registration.length; j++) {
         let ddif = Math.floor(dateDiff(data.data[i].data.registration[j].date));
+
         if (ddif < 15 && ddif > -1 && (ddif !== null || ddif !== undefined)) {
           list.push({
             value: ddif,
@@ -47,7 +49,7 @@ const HomeScreen = ({navigation, route}) => {
 
       for (let j = 0; j < data.data[i].data.insurance.length; j++) {
         let ddif = Math.floor(dateDiff(data.data[i].data.insurance[j].date));
-        if ((ddif < 15 && ddif > -1)(ddif !== null || ddif !== undefined)) {
+        if (ddif < 15 && ddif > -1 && (ddif !== null || ddif !== undefined)) {
           list.push({
             value: ddif,
             vozilo: data.data[i].name,
@@ -59,6 +61,9 @@ const HomeScreen = ({navigation, route}) => {
 
     for (let k = 0; k < data.data.length; k++) {
       let a = data.data[k].data.maintainance.length - 1;
+      if (a < 0) {
+        continue;
+      }
 
       let total =
         data.data[k].data.maintainance[a].mileage +
@@ -73,7 +78,6 @@ const HomeScreen = ({navigation, route}) => {
       }
     }
 
-    console.log(list);
     return list;
   }
 
@@ -85,7 +89,6 @@ const HomeScreen = ({navigation, route}) => {
   };
 
   const [cars, setCars] = useState(setIndexes(route.params.GDATA.data));
-  console.log(route.params.GDATA);
 
   const goToCar = (carId) => {
     navigation.navigate('Auto', {
@@ -133,6 +136,15 @@ const HomeScreen = ({navigation, route}) => {
     setUserData(JSON.stringify(pushData));
   };
 
+  const deleteItem = (id) => {
+    const data = route.params.GDATA;
+    data.data.splice(id, 1);
+    setCars(data.data);
+    //console.log(data.data);
+    console.log(cars);
+    //setUserData(JSON.stringify(data));
+  };
+
   const renderCar = (car) => {
     const item = car.item;
     const fuelIcon = getFuelIcon(item.fuel);
@@ -149,7 +161,27 @@ const HomeScreen = ({navigation, route}) => {
         ]}
         activeOpacity={0.5}
         underlayColor={Constants.lightBlue + 'F0'}
-        onPress={() => goToCar(item.id)}>
+        onPress={() => goToCar(item.id)}
+        onLongPress={() => {
+          Alert.alert(
+            'Upozorenje',
+            'Ovom opcijom ćete obrisati željenu stavku',
+            [
+              {
+                text: 'Nazad',
+                onPress: () => {},
+                style: 'cancel',
+              },
+              {
+                text: 'Obriši',
+                onPress: () => {
+                  deleteItem(item.id);
+                },
+              },
+            ],
+            {cancelable: false},
+          );
+        }}>
         <View
           style={[
             styles.carContainer,
