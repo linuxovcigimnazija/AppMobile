@@ -41,7 +41,17 @@ export default function CarModal({closeModal, addItem, id}) {
       id: id,
       mileage: 0,
       data: {
-        fuel: [],
+        fuel: [
+          {
+            price: 0,
+            volume: 0,
+            date: 1,
+            discount: 0,
+            mileage: 0,
+            pricePerLiter: 0,
+            tag: 'fuel',
+          }
+        ],
         registration: [],
         insurance: [],
         maintainance: [],

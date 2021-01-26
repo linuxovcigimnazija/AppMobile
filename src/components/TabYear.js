@@ -25,7 +25,7 @@ import {
 import CategoryCard from './CategoryCard';
 import Colors from '../constants/InputTypeColors';
 import { min } from 'react-native-reanimated';
-
+import InputTypeColors from "../constants/InputTypeColors";
 
 function calcPercent(item, total){
   return ((item/total)*100)
@@ -47,29 +47,39 @@ const TabYear = (props) => {
   var start=(Date.now()/1000)-31622400
   var step=2668760
   var totalFuel=0
-  var averageConsumption, kilometrage=0, totalConsumption=0, totalSpent=0;
+  var averageConsumption=0, kilometrage=0, totalConsumption=0, totalSpent=0;
   var totalRegistration=0, totalRepair=0, totalCrashes=0, totalOther=0, totalServis=0, totalDamage=0;
   var totalMaintenance=0, totalTickets=0, totalInsurance=0, totalEquipment=0, totalCarwash=0;
    
   var totalSpent=0
-  var minKM=props.data.data.fuel[0].km, count=0;
+  var minKM=100000000, count=0;
   
     for(var item in props.data.data.fuel){
       totalFuel=0
       if((props.data.data.fuel[item].date)>((Date.now()-31622400000)/1000)){
-        if(props.data.data.fuel[item].km<minKM) {
-          minKM=props.data.data.fuel[item].km
+        if(props.data.data.fuel[item].mileage<minKM) {
+          minKM=props.data.data.fuel[item].mileage
         }
           totalFuel+=props.data.data.fuel[item].price
           totalSpent+=totalFuel
           totalConsumption+=props.data.data.fuel[item].volume
-          kilometrage+=props.data.data.fuel[item].km
+          kilometrage+=props.data.data.fuel[item].mileage
           count+=1
         }
                
     }
+    if(count==0) {
+      count=1
+      kilometrage=0
+      averageConsumption=0
+    }
+    else{
     kilometrage-=(count*minKM)
     averageConsumption=Number(((totalConsumption/kilometrage)*100).toFixed(1))
+    }
+    if(kilometrage==0){
+      averageConsumption=0
+    }
 
     for(var item in props.data.data.maintainance){
       if((props.data.data.maintainance[item].date)>((Date.now()/1000)-31622400)){
@@ -141,64 +151,65 @@ const TabYear = (props) => {
     var pieOther=totalOther+totalCarwash+totalEquipment+totalTickets;
 
   
-    pieNumbers=[calcPercent(pieFuel, totalSpent), calcPercent(pieRegistration, totalSpent), calcPercent(pieServis, totalSpent), calcPercent(pieDamage, totalSpent), 
+    var pieNumbers=[calcPercent(pieFuel, totalSpent), calcPercent(pieRegistration, totalSpent), calcPercent(pieServis, totalSpent), calcPercent(pieDamage, totalSpent), 
     calcPercent(pieOther, totalSpent)];
     var pieColors=[InputTypeColors.fuel, InputTypeColors.registration, InputTypeColors.maintainance, InputTypeColors.crashes, InputTypeColors.equipment]
     for (var i = 1; i < 5; i++) {
       if(pieNumbers[i]==0) {
-        pieColors[i]=null
+        pieColors[i]=pieColors[i-1]
         pieNumbers[0]-=0.5
       }
     }
 
-      var chartArrayFuel=[];
-      var sum=0;
-      for(var i=start; i<(Date.now()/1000); i+=step){
+    var chartArrayFuel=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var sum=0, con=0;
+    for(var i=start; i<(Date.now()/1000); i+=step){
+    for(var item in props.data.data.fuel){
+      if((((props.data.data.fuel[item].date)>start)) && ((props.data.data.fuel[item].date)<(start+step))){
+        sum+=props.data.data.fuel[item].price;
+    }
+    chartArrayFuel[con]=sum;
+    con+=1;
+    }}
+
+    var chartArrayAll=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    sum=0, con=0;
+    for(var i=start; i<(Date.now()/1000); i+=step){
       for(var item in props.data.data.fuel){
         if((((props.data.data.fuel[item].date)>start)) && ((props.data.data.fuel[item].date)<(start+step))){
           sum+=props.data.data.fuel[item].price;
-      }
-      chartArrayFuel.push(sum);
       }}
-
-      var chartArrayAll=[];
-      sum=0;
-      for(var i=start; i<(Date.now()/1000); i+=step){
-        for(var item in props.data.data.fuel){
-          if((((props.data.data.fuel[item].date)>start)) && ((props.data.data.fuel[item].date)<(start+step))){
-            sum+=props.data.data.fuel[item].price;
-        }}
-        for(var item in props.data.data.maintainance){
-          if((((props.data.data.maintainance[item].date)>start)) && ((props.data.data.maintainance[item].date)<(start+step))){
-            sum+=props.data.data.maintainance[item].price;
-        }}
-        for(var item in props.data.data.registration){
-          if((((props.data.data.registration[item].date)>start)) && ((props.data.data.registration[item].date)<(start+step))){
-            sum+=props.data.data.registration[item].price;
-        }}
-        for(var item in props.data.data.insurance){
-          if((((props.data.data.insurance[item].date)>start)) && ((props.data.data.insurance[item].date)<(start+step))){
-            sum+=props.data.data.insurance[item].price;
-        }}
-        for(var item in props.data.data.equipment){
-          if((((props.data.data.equipment[item].date)>start)) && ((props.data.data.equipment[item].date)<(start+step))){
-            sum+=props.data.data.equipment[item].price;
-        }}
-        for(var item in props.data.data.crashes){
-          if((((props.data.data.crashes[item].date)>start)) && ((props.data.data.crashes[item].date)<(start+step))){
-            sum+=props.data.data.crashes[item].price;
-        }}
-        for(var item in props.data.data.carWash){
-          if((((props.data.data.carWash[item].date)>start)) && ((props.data.data.carWash[item].date)<(start+step))){
-            sum+=props.data.data.carWash[item].price;
-        }}
-        for(var item in props.data.data.other){
-          if((((props.data.data.other[item].date)>start)) && ((props.data.data.other[item].date)<(start+step))){
-            sum+=props.data.data.other[item].price;
-        }}
-        chartArrayAll.push(sum);
-        }
-      
+      for(var item in props.data.data.maintainance){
+        if((((props.data.data.maintainance[item].date)>start)) && ((props.data.data.maintainance[item].date)<(start+step))){
+          sum+=props.data.data.maintainance[item].price;
+      }}
+      for(var item in props.data.data.registration){
+        if((((props.data.data.registration[item].date)>start)) && ((props.data.data.registration[item].date)<(start+step))){
+          sum+=props.data.data.registration[item].price;
+      }}
+      for(var item in props.data.data.insurance){
+        if((((props.data.data.insurance[item].date)>start)) && ((props.data.data.insurance[item].date)<(start+step))){
+          sum+=props.data.data.insurance[item].price;
+      }}
+      for(var item in props.data.data.equipment){
+        if((((props.data.data.equipment[item].date)>start)) && ((props.data.data.equipment[item].date)<(start+step))){
+          sum+=props.data.data.equipment[item].price;
+      }}
+      for(var item in props.data.data.crashes){
+        if((((props.data.data.crashes[item].date)>start)) && ((props.data.data.crashes[item].date)<(start+step))){
+          sum+=props.data.data.crashes[item].price;
+      }}
+      for(var item in props.data.data.carWash){
+        if((((props.data.data.carWash[item].date)>start)) && ((props.data.data.carWash[item].date)<(start+step))){
+          sum+=props.data.data.carWash[item].price;
+      }}
+      for(var item in props.data.data.other){
+        if((((props.data.data.other[item].date)>start)) && ((props.data.data.other[item].date)<(start+step))){
+          sum+=props.data.data.other[item].price;
+      }}
+      chartArrayAll[con]=sum;
+      con+=1;
+      }
       
       
 
@@ -213,6 +224,12 @@ const TabYear = (props) => {
         //useShadowColorFromDataset: false // optional
       };
 
+      for(var i=0; i<5; i++){
+        if(pieNumbers[i]==null){
+        pieNumbers[i]=0
+        pieColors[i]="#123456"
+        }
+      }
   
     return (
       <View style={styles.wholeTab}>

@@ -23,7 +23,7 @@ import { useLinkProps } from '@react-navigation/native';
 
 const AutoScreen = ({navigation, route}) => {
 
-  var averageFuelPrice;
+  var averageFuelPrice=0;
   var totalFuel=0, totalConsumption=0;
 
 
@@ -38,7 +38,9 @@ const AutoScreen = ({navigation, route}) => {
       }
              
   }
+  if(totalConsumption!=0){
   averageFuelPrice=(Number(totalConsumption/totalFuel).toFixed(2))
+  }
   const currency = route.params.GDATA.country.valute;
 
   let scrollViewRef;

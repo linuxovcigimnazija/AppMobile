@@ -106,8 +106,8 @@ const InputScreen = ({navigation, route}) => {
     switch (item.tag) {
       case 'fuel':
         return (
-          <Fuel currency={route.params.GDATA.country.valute} item={item} />
-        );
+          (item.price ? 
+            <Fuel currency={route.params.GDATA.country.valute} item={item} /> : null))
       case 'registration':
         return (
           <Registration

@@ -17,6 +17,7 @@ import Constants from '../constants/Constants';
 import Colors from '../constants/InputTypeColors';
 import App from '../../App';
 import CategoryCard from './CategoryCard';
+import InputTypeColors from "../constants/InputTypeColors";
 
 function calcPercent(item, total){
   return ((item/total)*100)
@@ -26,31 +27,44 @@ function calcPercent(item, total){
 const TabMonth = (props) => {
   var currency=props.currency
   var totalFuel=0
-  var averageConsumption, kilometrage=0, totalConsumption=0, totalSpent=0;
+  var averageConsumption=0, kilometrage=0, totalConsumption=0, totalSpent=0;
   var totalRegistration=0, totalRepair=0, totalCrashes=0, totalOther=0, totalServis=0, totalDamage=0;
   var totalMaintenance=0, totalTickets=0, totalInsurance=0, totalEquipment=0, totalCarwash=0;
    
   var totalSpent=0
 
-  var minKM=props.data.data.fuel[0].km, count=0;
-  
+  var minKM=10000000, count=0;
+  if(props.data.data.fuel.length!=0){
     for(var item in props.data.data.fuel){
       totalFuel=0
       if((props.data.data.fuel[item].date)>((Date.now()-2668760000)/1000)){
-        if(props.data.data.fuel[item].km<minKM) {
-          minKM=props.data.data.fuel[item].km
+        if(props.data.data.fuel[item].mileage<minKM) {
+          minKM=props.data.data.fuel[item].mileage
         }
           totalFuel+=props.data.data.fuel[item].price
           totalSpent+=totalFuel
           totalConsumption+=props.data.data.fuel[item].volume
-          kilometrage+=props.data.data.fuel[item].km
-          count+=1          
+          if(props.data.data.fuel[item].mileage != null){
+          kilometrage+=props.data.data.fuel[item].mileage
+          }
+          count+=1       
+            
         }
                
     }
+    if(count==0) {
+      count=1
+      kilometrage=0
+      averageConsumption=0
+    }
+    else{
     kilometrage-=(count*minKM)
     averageConsumption=Number(((totalConsumption/kilometrage)*100).toFixed(1))
-
+    }
+    if(kilometrage==0){
+      averageConsumption=0
+    }
+  }
     for(var item in props.data.data.maintainance){
       if((props.data.data.maintainance[item].date)>((Date.now()/1000)-2668760)){
           totalMaintenance+=props.data.data.maintainance[item].price
@@ -123,13 +137,30 @@ const TabMonth = (props) => {
     var pieNumbers=[calcPercent(pieFuel, totalSpent), calcPercent(pieRegistration, totalSpent), calcPercent(pieServis, totalSpent), calcPercent(pieDamage, totalSpent), 
     calcPercent(pieOther, totalSpent)];
     var pieColors=[InputTypeColors.fuel, InputTypeColors.registration, InputTypeColors.maintainance, InputTypeColors.crashes, InputTypeColors.equipment]
+    if((pieFuel==null)&&(pieRegistration==null)&&(pieServis==null)&&(pieDamage==null)&&(pieOther==null)){
+      pieFuel=20;
+      pieRegistration=20;
+      pieServis=20;
+      pieDamage=20;
+      pieOther=20;
+      Alert.alert("Nema podataka");
+    }
+    else{
     for (var i = 1; i < 5; i++) {
       if(pieNumbers[i]==0) {
-        pieColors[i]=null
+        pieColors[i]=pieColors[i-1]
         pieNumbers[0]-=0.5
       }
     }
+  }
 
+ 
+  for(var i=0; i<5; i++){
+    if(isNaN(pieNumbers[i])){
+    pieNumbers[i]=0
+    pieColors[i]="#123456"
+    }
+  }
 
     return (
       <View style={styles.wholeTab}>
@@ -351,27 +382,27 @@ const styles = StyleSheet.create({
   firstsquareColor: {
     height: 16,
     width: 16,
-    backgroundColor: '#C70039'
+    backgroundColor: InputTypeColors.fuel
   },
   secondsquareColor: {
     height: 16,
     width: 16,
-    backgroundColor: '#44CD40'
+    backgroundColor: InputTypeColors.registration
   },
   thirdsquareColor: {
     height: 16,
     width: 16,
-    backgroundColor: '#404FCD'
+    backgroundColor: InputTypeColors.repair
   },
   fourthsquareColor: {
     height: 16,
     width: 16,
-    backgroundColor: '#EBD22F'
+    backgroundColor: InputTypeColors.crashes
   },
   fifthsquareColor: {
     height: 16,
     width: 16,
-    backgroundColor: '#EB55DF'
+    backgroundColor: InputTypeColors.equipment
   },
   categoriesTitle: {
     fontSize: 24,

@@ -24,7 +24,7 @@ import {
     StackedBarChart
 } from "react-native-chart-kit";
 import CategoryCard from './CategoryCard';
-import Colors from '../constants/InputTypeColors';
+import InputTypeColors from '../constants/InputTypeColors';
 
 function calcPercent(item, total){
   return ((item/total)*100)
@@ -77,22 +77,31 @@ const TabAll = (props) => {
   var totalMaintenance=0, totalTickets=0, totalInsurance=0, totalEquipment=0, totalCarwash=0;
    
   var totalSpent=0
-  var minKM=props.data.data.fuel[0].km, count=0;
+  var minKM=100000000, count=0;
 
     for(var item in props.data.data.fuel){
-      if(props.data.data.fuel[item].km<minKM) {
-        minKM=props.data.data.fuel[item].km
+      if(props.data.data.fuel[item].mileage<minKM) {
+        minKM=props.data.data.fuel[item].mileage
       }
       totalFuel=0
       totalFuel+=props.data.data.fuel[item].price
       totalSpent+=totalFuel
       totalConsumption+=props.data.data.fuel[item].volume
-      kilometrage+=props.data.data.fuel[item].km    
+      kilometrage+=props.data.data.fuel[item].mileage 
       count+=1
     }
+    if(count==0) {
+      count=1
+      kilometrage=0
+      averageConsumption=0
+    }
+    else{
     kilometrage-=(count*minKM)
     averageConsumption=Number(((totalConsumption/kilometrage)*100).toFixed(1))
-
+    }
+    if(kilometrage==0){
+      averageConsumption=0
+    }
     for(var item in props.data.data.maintainance){
       totalMaintenance+=props.data.data.maintainance[item].price
       totalSpent+=totalMaintenance
@@ -145,29 +154,30 @@ const TabAll = (props) => {
     var pieOther=totalOther+totalCarwash+totalEquipment+totalTickets;
 
   
-    pieNumbers=[calcPercent(pieFuel, totalSpent), calcPercent(pieRegistration, totalSpent), calcPercent(pieServis, totalSpent), calcPercent(pieDamage, totalSpent), 
+    var pieNumbers=[calcPercent(pieFuel, totalSpent), calcPercent(pieRegistration, totalSpent), calcPercent(pieServis, totalSpent), calcPercent(pieDamage, totalSpent), 
     calcPercent(pieOther, totalSpent)];
     var pieColors=[InputTypeColors.fuel, InputTypeColors.registration, InputTypeColors.maintainance, InputTypeColors.crashes, InputTypeColors.equipment]
     for (var i = 1; i < 5; i++) {
       if(pieNumbers[i]==0) {
-        pieColors[i]=null
+        pieColors[i]=pieColors[i-1]
         pieNumbers[0]-=0.5
       }
     }
 
 
-    var chartArrayFuel=[];
-    var sum=0;
+    var chartArrayFuel=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var sum=0, con=0;
     for(var i=start; i<(Date.now()/1000); i+=step){
     for(var item in props.data.data.fuel){
       if((((props.data.data.fuel[item].date)>start)) && ((props.data.data.fuel[item].date)<(start+step))){
         sum+=props.data.data.fuel[item].price;
     }
-    chartArrayFuel.push(sum);
+    chartArrayFuel[con]=sum;
+    con+=1;
     }}
 
-    var chartArrayAll=[];
-    sum=0;
+    var chartArrayAll=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    sum=0, con=0;
     for(var i=start; i<(Date.now()/1000); i+=step){
       for(var item in props.data.data.fuel){
         if((((props.data.data.fuel[item].date)>start)) && ((props.data.data.fuel[item].date)<(start+step))){
@@ -201,12 +211,17 @@ const TabAll = (props) => {
         if((((props.data.data.other[item].date)>start)) && ((props.data.data.other[item].date)<(start+step))){
           sum+=props.data.data.other[item].price;
       }}
-      chartArrayAll.push(sum);
+      chartArrayAll[con]=sum;
+      con+=1;
       }
-    
-
-
   
+      for(var i=0; i<5; i++){
+        if(pieNumbers[i]==null){
+        pieNumbers[i]=0
+        pieColors[i]="#123456"
+        }
+      }
+
     return (
       <View style={styles.wholeTab}>
       <ScrollView contentContainerStyle={styles.wholeTabScroll}>
@@ -254,22 +269,27 @@ const TabAll = (props) => {
               radius={75}
               innerRadius={55}
               sections={[{
+                key: 0,
                 percentage: pieNumbers[0],
                 color: pieColors[0],
                 },
                 {
+                key: 1,
                 percentage: pieNumbers[1],
                 color: pieColors[1],
                 },
                 {
+                key: 2,
                 percentage: pieNumbers[2],
                 color: pieColors[2],
                 },
                 {
+                key: 3,
                 percentage: pieNumbers[3],
                 color: pieColors[3],
                 },
                 {
+                key: 4,
                 percentage: pieNumbers[4],
                 color: pieColors[4],
                 }
@@ -304,37 +324,37 @@ const TabAll = (props) => {
           <View style={styles.categoriesContainer}>
             <AppText bold='true' style={styles.categoriesTitle}>Pogledajmo malo bolje...</AppText>
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard currency={props.currency} lightColor={Colors.fuel} darkColor={Colors.fuelAccent} iconName='gas-pump'
+                <CategoryCard currency={props.currency} lightColor={InputTypeColors.fuel} darkColor={InputTypeColors.fuelAccent} iconName='gas-pump'
                 categoryName='Gorivo' amount={totalFuel} classIcon={FontAwesome5Icon}/>
-                <CategoryCard currency={props.currency} lightColor={Colors.insurance} darkColor={Colors.insuranceAccent} iconName='hands-helping'
+                <CategoryCard currency={props.currency} lightColor={InputTypeColors.insurance} darkColor={InputTypeColors.insuranceAccent} iconName='hands-helping'
                 categoryName='Osiguranje' amount={totalInsurance} classIcon={FontAwesome5Icon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard currency={props.currency} lightColor={Colors.registration} darkColor={Colors.registrationAccent} iconName='clipboard'
+                <CategoryCard currency={props.currency} lightColor={InputTypeColors.registration} darkColor={InputTypeColors.registrationAccent} iconName='clipboard'
                 categoryName='Registracija' amount={totalRegistration} classIcon={EntypoIcon}/>
-                <CategoryCard currency={props.currency} lightColor={Colors.maintainance} darkColor={Colors.maintainanceAccent} iconName='miscellaneous-services'
+                <CategoryCard currency={props.currency} lightColor={InputTypeColors.maintainance} darkColor={InputTypeColors.maintainanceAccent} iconName='miscellaneous-services'
                 categoryName='Servis' amount={totalMaintenance} classIcon={MaterialIcon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard currency={props.currency} lightColor={Colors.repair} darkColor={Colors.repairAccent} iconName='car-repair'
+                <CategoryCard currency={props.currency} lightColor={InputTypeColors.repair} darkColor={InputTypeColors.repairAccent} iconName='car-repair'
                 categoryName='Popravke' amount={totalRepair} classIcon={MaterialIcon}/>
-                <CategoryCard currency={props.currency} lightColor={Colors.crashes} darkColor={Colors.crashesAccent} iconName='close'
+                <CategoryCard currency={props.currency} lightColor={InputTypeColors.crashes} darkColor={InputTypeColors.crashesAccent} iconName='close'
                 categoryName='Oštećenja' amount={totalCrashes} classIcon={FontAwesomeIcon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard currency={props.currency} lightColor={Colors.equipment} darkColor={Colors.equipmentAccent} iconName='shopping-cart'
+                <CategoryCard currency={props.currency} lightColor={InputTypeColors.equipment} darkColor={InputTypeColors.equipmentAccent} iconName='shopping-cart'
                 categoryName='Oprema' amount={totalEquipment} classIcon={FeatherIcon}/>
-                <CategoryCard currency={props.currency} lightColor={Colors.tickets} darkColor={Colors.ticketsAccent} iconName='mail'
+                <CategoryCard currency={props.currency} lightColor={InputTypeColors.tickets} darkColor={InputTypeColors.ticketsAccent} iconName='mail'
                 categoryName='Kazne' amount={totalTickets} classIcon={EntypoIcon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard currency={props.currency} lightColor={Colors.carWash} darkColor={Colors.carWashAccent} iconName='local-car-wash'
+                <CategoryCard currency={props.currency} lightColor={InputTypeColors.carWash} darkColor={InputTypeColors.carWashAccent} iconName='local-car-wash'
                 categoryName='Pranje' amount={totalCarwash} classIcon={MaterialIcon}/>
-                <CategoryCard currency={props.currency} lightColor={Colors.other} darkColor={Colors.otherAccent} iconName='dots-horizontal'
+                <CategoryCard currency={props.currency} lightColor={InputTypeColors.other} darkColor={InputTypeColors.otherAccent} iconName='dots-horizontal'
                 categoryName='Ostalo' amount={totalOther} classIcon={MaterialCommunityIcon}/>
             </View>
           </View>
