@@ -60,6 +60,8 @@ const HomeScreen = ({navigation, route}) => {
     for (let k = 0; k < data.data.length; k++) {
       let a = data.data[k].data.maintainance.length - 1;
 
+      if (a < 0) continue;
+
       let total =
         data.data[k].data.maintainance[a].mileage +
         data.data[k].data.maintainance[a].reminder -
