@@ -81,6 +81,7 @@ export default function CrashesModal({
                 </AppText>
                 <View style={inputStyles.inputContainer}>
                   <TextInput
+                    maxLength={25}
                     selectionColor={Constants.lightBlue}
                     style={[
                       inputStyles.input,

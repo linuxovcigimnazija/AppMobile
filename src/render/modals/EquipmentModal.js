@@ -121,6 +121,7 @@ export default function EquipmentModal({
               </AppText>
               <View style={inputStyles.inputContainer}>
                 <TextInput
+                  maxLength={selectedSubcategory === 'equipment' ? 20 : 25}
                   editable={selectedSubcategory === 'carWash' ? false : true}
                   selectionColor={Constants.lightBlue}
                   style={[

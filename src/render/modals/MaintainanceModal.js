@@ -365,6 +365,7 @@ export default function MaintainanceModal({
                   </AppText>
                   <View style={[inputStyles.inputContainer, {marginTop: 10}]}>
                     <TextInput
+                      maxLength={25}
                       selectionColor={Constants.lightBlue}
                       style={[
                         inputStyles.input,

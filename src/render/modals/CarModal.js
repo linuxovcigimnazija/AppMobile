@@ -153,6 +153,7 @@ export default function CarModal({closeModal, addItem, id}) {
                 </AppText>
                 <View style={inputStyles.inputContainer}>
                   <TextInput
+                    maxLength={15}
                     selectionColor={Constants.lightBlue}
                     style={[
                       inputStyles.input,

@@ -34,17 +34,17 @@ export default function Maintainance({item, currency}) {
         </View>
         <View style={styles.textContainer}>
           <AppText bold color={Constants.white} size={14}>
-            Servis:{' '}
+            Servis:{'\n'}
             <AppText size={16} bold color={Constants.white}>
               {item.price + ' ' + currency}
             </AppText>
           </AppText>
 
           <Text>
-            <AppText color={Constants.white} size={14}>
+            <AppText color={Constants.white} size={13}>
               Sljedeći za:{'\n'}
             </AppText>
-            <AppText color={Constants.white} size={14}>
+            <AppText color={Constants.white} size={13}>
               {item.reminder}km
             </AppText>
           </Text>
