@@ -21,7 +21,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const HomeScreen = ({navigation, route}) => {
   const [dataWarning, setDataWarning] = useState(
-    getClosestRegNortifiaction(route.params.GDATA),
+    route.params.GDATA ? getClosestRegNortifiaction(route.params.GDATA) : [],
   );
   const [warning, setWarning] = useState(
     dataWarning.length !== 0 ? true : false,
@@ -84,7 +84,9 @@ const HomeScreen = ({navigation, route}) => {
     return data;
   };
 
-  const [cars, setCars] = useState(setIndexes(route.params.GDATA.data));
+  const [cars, setCars] = useState(
+    route.params.GDATA ? setIndexes(route.params.GDATA.data) : [],
+  );
   console.log(route.params.GDATA);
 
   const goToCar = (carId) => {

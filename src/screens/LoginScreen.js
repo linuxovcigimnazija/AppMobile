@@ -86,7 +86,7 @@ const LoginScreen = ({navigation, route}) => {
                     rules={{
                       required: {
                         value: true,
-                        message: 'E-mail adresa je obavezna',
+                        message: 'E-mail adresa je obavezna.',
                       },
                       pattern: {
                         value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -117,7 +117,7 @@ const LoginScreen = ({navigation, route}) => {
                       },
                       minLength: {
                         value: 8,
-                        message: 'Šifra nije dovoljno dugačka',
+                        message: 'Šifra nije dovoljno dugačka.',
                       },
                     }}
                   />
@@ -148,7 +148,7 @@ const LoginScreen = ({navigation, route}) => {
                       marginVertical: '2%',
                       color: DashboardColors.white,
                     }}>
-                    Nemaš profil?{'\n'}https://link.com
+                    Nemate profil?{'\n'}https://link.com
                   </AppText>
                 </Hyperlink>
 
@@ -157,7 +157,7 @@ const LoginScreen = ({navigation, route}) => {
                   style={styles.loginButton}
                   onPress={handleSubmit(onNextStepHandler)}>
                   <AppText bold={true} style={styles.loginbuttonText}>
-                    Prijavi se
+                    Prijavite se
                   </AppText>
                 </TouchableOpacity>
               </View>

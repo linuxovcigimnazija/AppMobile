@@ -176,7 +176,14 @@ const App = () => {
               initialRouteName={iniRoute}
               screenOptions={{headerShown: false}}>
               <AppStack.Screen name="TabNavigation" component={TabNavigator} />
-              <AppStack.Screen name="Register" component={RegisterScreen} />
+              <AppStack.Screen
+                initialParams={{
+                  reRender: reRender,
+                  render: render,
+                }}
+                name="Register"
+                component={RegisterScreen}
+              />
               <AppStack.Screen
                 initialParams={{
                   reRender: reRender,
