@@ -29,7 +29,7 @@ export default {
   // primaryLight: '#a7c957',
 
   // COOLORS palette 14 (sea ship)
-  background: '#e9fff9',
+  background: '#fcf7f6',
   red: '#d64045',
   redDark: '#a32e30',
   primary: '#467559',
@@ -43,13 +43,8 @@ export default {
   fuelYellow: 'yellow',
 
   lightBlue: '#72bcd4',
-     background: '#e9fff9',
-     red: '#d64045',
-     primary: '#467559',
-     primaryDark: '#1d3354',
-     primaryLight: '#9ed8db',
 
   //analytics screen colors
-     boxcolorLight: '#345678', 
-     boxcolorDark: '#103056'
+  boxcolorLight: '#345678',
+  boxcolorDark: '#103056',
 };

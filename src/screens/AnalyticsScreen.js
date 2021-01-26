@@ -18,43 +18,77 @@ const AnalyticsScreen = ({navigation, route}) => {
         backButtonVisible
         analyticsWatermark
       />
-      <AppText style={styles.titleText}>Analitika</AppText>
+      <AppText style={styles.titleText}>Vasa Statistika</AppText>
 
       <View style={styles.tabContainer}>
         <TouchableOpacity
-          style={styles.singleTab}
+          activeOpacity={0.9}
+          style={[
+            styles.singleTab,
+            tab === 'month'
+              ? {backgroundColor: Constants.primaryDark}
+              : {backgroundColor: Constants.boxcolorLight},
+          ]}
           onPress={() => {
             setTab('month');
           }}>
-          <LinearGradient
-            colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
-            style={styles.smallboxGradient}>
+          <View
+            // colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
+
+            style={[
+              styles.smallBoxGradient,
+              tab === 'month'
+                ? {backgroundColor: Constants.primaryDark}
+                : {backgroundColor: Constants.boxcolorLight},
+            ]}>
             <AppText style={styles.tabText}>30 dana</AppText>
-          </LinearGradient>
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.singleTab}
+          activeOpacity={0.9}
+          style={[
+            styles.singleTab,
+            tab === 'year'
+              ? {backgroundColor: Constants.primaryDark}
+              : {backgroundColor: Constants.boxcolorLight},
+          ]}
           onPress={() => {
             setTab('year');
           }}>
-          <LinearGradient
-            colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
-            style={styles.smallboxGradient}>
-            <AppText style={styles.tabText}>godinu dana</AppText>
-          </LinearGradient>
+          <View
+            // colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
+            style={[
+              styles.smallBoxGradient,
+              tab === 'year'
+                ? {backgroundColor: Constants.primaryDark}
+                : {backgroundColor: Constants.boxcolorLight},
+            ]}>
+            <AppText style={styles.tabText}>Godinu dana</AppText>
+          </View>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.singleTab}
+          activeOpacity={0.9}
+          style={[
+            styles.singleTab,
+            tab === 'all'
+              ? {backgroundColor: Constants.primaryDark}
+              : {backgroundColor: Constants.boxcolorLight},
+          ]}
           onPress={() => {
             setTab('all');
           }}>
-          <LinearGradient
-            colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
-            style={styles.smallboxGradient}>
-            <AppText style={styles.tabText}>svi podaci</AppText>
-          </LinearGradient>
+          <View
+            // colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
+            style={[
+              styles.smallBoxGradient,
+              tab === 'all'
+                ? {backgroundColor: Constants.primaryDark}
+                : {backgroundColor: Constants.boxcolorLight},
+            ]}>
+            <AppText style={styles.tabText}>Svi podaci</AppText>
+          </View>
         </TouchableOpacity>
       </View>
 
@@ -67,35 +101,38 @@ const styles = StyleSheet.create({
   wholescreen: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#ffffff',
+    backgroundColor: Constants.background,
   },
   titleText: {
-    fontSize: 48,
+    fontSize: 36,
     alignContent: 'center',
     justifyContent: 'center',
     textAlign: 'center',
     textAlignVertical: 'center',
     margin: 10,
     marginBottom: -5,
+    fontWeight: 'bold',
+    color: Constants.primaryDark,
   },
   tabContainer: {
-    width: '100%',
+    marginTop: 10,
+    width: Constants.width - 40,
     height: '10%',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
   },
   singleTab: {
-    flex: 1,
+    width: '30%',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Constants.primaryDark,
     height: '50%',
     borderRadius: 10,
-    margin: 3,
   },
   tabText: {
     color: 'white',
+    fontSize: 16,
   },
   tabStyle: {
     width: '100%',

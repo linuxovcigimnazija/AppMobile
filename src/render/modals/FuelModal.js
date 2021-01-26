@@ -38,6 +38,7 @@ export default function FuelModal({
       pricePerLiter: discount
         ? pricePerLiter.toFixed(2)
         : (price / volume).toFixed(2),
+      mileage: mileage,
       tag: 'fuel',
     };
     addItem(data, 'fuel', mileage);

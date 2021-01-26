@@ -19,14 +19,14 @@ import CarModal from '../render/modals/CarModal';
 import {setUserData} from '../utils/firebaseUtils';
 
 const HomeScreen = ({navigation, route}) => {
-  console.log('aaa');
-
   const setIndexes = (data) => {
     for (let i = 0; i < data.length; i++) {
       data[i].id = i;
     }
     return data;
   };
+
+  const [warningModal, setWarningModal] = useState(false);
 
   const [cars, setCars] = useState(setIndexes(route.params.GDATA.data));
   console.log(route.params.GDATA);
