@@ -16,6 +16,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import InputCategories from '../constants/InputCategories';
 import InputTypeColors from '../constants/InputTypeColors';
 import {setUserData} from '../utils/firebaseUtils';
+import Toast from 'react-native-simple-toast';
 import {
   FontAwesomeIcon,
   getCategoryIcon,
@@ -196,6 +197,13 @@ const InputScreen = ({navigation, route}) => {
     pushData.data[route.params.carId].data = nextData;
 
     setUserData(JSON.stringify(pushData));
+
+    Toast.showWithGravity(
+      'Analitika će biti osvježena kada pokrenete aplikaciju ili postavite podatke na Cloud',
+      Toast.LONG,
+      Toast.TOP,
+      ['RCTModalHostViewController'],
+    );
   };
 
   return (
