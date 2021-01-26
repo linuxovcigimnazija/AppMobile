@@ -194,7 +194,6 @@ const InputScreen = ({navigation, route}) => {
     }
 
     pushData.data[route.params.carId].data = nextData;
-    console.log('PUSH DATA', pushData.data[1].data);
 
     setUserData(JSON.stringify(pushData));
   };

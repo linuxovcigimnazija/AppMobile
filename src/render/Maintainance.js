@@ -42,7 +42,7 @@ export default function Maintainance({item, currency}) {
 
           <Text>
             <AppText color={Constants.white} size={14}>
-              Sljedeci za:{'\n'}
+              Sljedeći za:{'\n'}
             </AppText>
             <AppText color={Constants.white} size={14}>
               {item.reminder}km

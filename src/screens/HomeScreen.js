@@ -28,31 +28,42 @@ const HomeScreen = ({navigation, route}) => {
   );
 
   function dateDiff(datum_sl_reg_unix) {
-    return (datum_sl_reg_unix - Date.now()) / 86400000;
+    return (datum_sl_reg_unix + 31556926000 - Date.now()) / 86400000;
   }
 
   function getClosestRegNortifiaction(data) {
     let list = [];
+    console.log('FUNCTION');
     for (let i = 0; i < data.data.length; i++) {
+      console.log('CAR');
       for (let j = 0; j < data.data[i].data.registration.length; j++) {
         let ddif = Math.floor(dateDiff(data.data[i].data.registration[j].date));
-        if (ddif < 15 && ddif > -1 && (ddif !== null || ddif !== undefined)) {
+        console.log(
+          'TEST',
+          ddif < 15 && ddif > -1 && ddif !== null && ddif !== undefined,
+        );
+        if (ddif < 15 && ddif > -1 && ddif !== null && ddif !== undefined) {
           list.push({
             value: ddif,
             vozilo: data.data[i].name,
             tag: 'registracije',
           });
+        } else {
+          console.log('ITS FALSE');
         }
       }
 
       for (let j = 0; j < data.data[i].data.insurance.length; j++) {
+        console.log('INSURANCE STARTED');
         let ddif = Math.floor(dateDiff(data.data[i].data.insurance[j].date));
-        if ((ddif < 15 && ddif > -1)(ddif !== null || ddif !== undefined)) {
+        if (ddif < 15 && ddif > -1 && (ddif !== null || ddif !== undefined)) {
           list.push({
             value: ddif,
             vozilo: data.data[i].name,
             tag: 'osiguranje',
           });
+        } else {
+          console.log('INSURANCE FALSE');
         }
       }
     }
