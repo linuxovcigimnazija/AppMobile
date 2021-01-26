@@ -32,20 +32,9 @@ import {
 import CategoryCard from './CategoryCard';
 import Colors from '../constants/InputTypeColors';
 
-var yearaverageConsumption,
-  yearkilometrage,
-  yeartotalConsumption,
-  yeartotalSpent;
-var yearpieFuel,
-  yearpieRegistration,
-  yearpieServis,
-  yearpieDamage,
-  yearpieOther;
-var yeartotalFuel,
-  yeartotalRegistration,
-  yeartotalServis,
-  yeartotalDamage,
-  yeartotalOther;
+function calcPercent(item, total) {
+  return (item / total) * 100;
+}
 
 var dateObj = new Date();
 var year = dateObj.getUTCFullYear();
@@ -75,27 +64,208 @@ for (var i = 0; i < 3; i++) {
   }
 }
 
-function data_function() {
-  yearaverageConsumption = 6.1;
-  yearkilometrage = 30510;
-  yeartotalConsumption = 1830;
-  yeartotalSpent = 4500;
-
-  pieNumbers = [55, 10, 15, 10, 10];
-  pieColors = ['#C70039', '#44CD40', '#404FCD', '#EBD22F', '#EB55DF'];
-  for (i = 1; i < 5; i++) {
-    if (pieNumbers[i] == 0) pieColors[i] = pieColors[i - 1];
-  }
-
-  yeartotalFuel = 2475;
-  yeartotalRegistration = 450;
-  yeartotalServis = 675;
-  yeartotalDamage = 450;
-  yeartotalOther = 450;
+pieNumbers = [55, 10, 15, 10, 10];
+pieColors = ['#C70039', '#44CD40', '#404FCD', '#EBD22F', '#EB55DF'];
+for (i = 1; i < 5; i++) {
+  if (pieNumbers[i] == 0) pieColors[i] = pieColors[i - 1];
 }
 
 const TabAll = (props) => {
-  data_function();
+  var start = Date.now() / 1000 - 94867200;
+  var step = 8006280;
+
+  var totalFuel = 0;
+  var averageConsumption,
+    kilometrage = 0,
+    totalConsumption = 0,
+    totalSpent = 0;
+  var totalRegistration = 0,
+    totalRepair = 0,
+    totalCrashes = 0,
+    totalOther = 0,
+    totalServis = 0,
+    totalDamage = 0;
+  var totalMaintenance = 0,
+    totalTickets = 0,
+    totalInsurance = 0,
+    totalEquipment = 0,
+    totalCarwash = 0;
+
+  var totalSpent = 0;
+  var minKM = props.data.data.fuel[0].km,
+    count = 0;
+
+  for (var item in props.data.data.fuel) {
+    if (props.data.data.fuel[item].km < minKM) {
+      minKM = props.data.data.fuel[item].km;
+    }
+    totalFuel = 0;
+    totalFuel += props.data.data.fuel[item].price;
+    totalSpent += totalFuel;
+    totalConsumption += props.data.data.fuel[item].volume;
+    kilometrage += props.data.data.fuel[item].km;
+    count += 1;
+  }
+  kilometrage -= count * minKM;
+  averageConsumption = Number(
+    ((totalConsumption / kilometrage) * 100).toFixed(1),
+  );
+
+  for (var item in props.data.data.maintainance) {
+    totalMaintenance += props.data.data.maintainance[item].price;
+    totalSpent += totalMaintenance;
+  }
+
+  for (var item in props.data.data.registration) {
+    totalRegistration += props.data.data.registration[item].price;
+    totalSpent += totalRegistration;
+  }
+
+  for (var item in props.data.data.insurance) {
+    totalInsurance += props.data.data.insurance[item].price;
+    totalSpent += totalInsurance;
+  }
+
+  for (var item in props.data.data.equipment) {
+    totalEquipment += props.data.data.equipment[item].price;
+    totalSpent += totalEquipment;
+  }
+
+  for (var item in props.data.data.crashes) {
+    totalCrashes += props.data.data.crashes[item].price;
+    totalSpent += totalCrashes;
+  }
+
+  for (var item in props.data.data.carWash) {
+    totalCarwash += props.data.data.carWash[item].price;
+    totalSpent += totalCarwash;
+  }
+
+  for (var item in props.data.data.tickets) {
+    totalTickets += props.data.data.tickets[item].price;
+    totalSpent += totalTickets;
+  }
+
+  for (var item in props.data.data.repair) {
+    totalRepair += props.data.data.repair[item].price;
+    totalSpent += totalRepair;
+  }
+
+  for (var item in props.data.data.other) {
+    totalOther += props.data.data.other[item].price;
+    totalSpent += totalOther;
+  }
+
+  var pieFuel = totalFuel;
+  var pieRegistration = totalRegistration + totalInsurance;
+  var pieServis = totalServis + totalRepair;
+  var pieDamage = totalCrashes;
+  var pieOther = totalOther + totalCarwash + totalEquipment + totalTickets;
+
+  pieNumbers = [
+    calcPercent(pieFuel, totalSpent),
+    calcPercent(pieRegistration, totalSpent),
+    calcPercent(pieServis, totalSpent),
+    calcPercent(pieDamage, totalSpent),
+    calcPercent(pieOther, totalSpent),
+  ];
+  var pieColors = [
+    InputTypeColors.fuel,
+    InputTypeColors.registration,
+    InputTypeColors.maintainance,
+    InputTypeColors.crashes,
+    InputTypeColors.equipment,
+  ];
+  for (var i = 1; i < 5; i++) {
+    if (pieNumbers[i] == 0) {
+      pieColors[i] = null;
+      pieNumbers[0] -= 0.5;
+    }
+  }
+
+  var chartArrayFuel = [];
+  var sum = 0;
+  for (var i = start; i < Date.now() / 1000; i += step) {
+    for (var item in props.data.data.fuel) {
+      if (
+        props.data.data.fuel[item].date > start &&
+        props.data.data.fuel[item].date < start + step
+      ) {
+        sum += props.data.data.fuel[item].price;
+      }
+      chartArrayFuel.push(sum);
+    }
+  }
+
+  var chartArrayAll = [];
+  sum = 0;
+  for (var i = start; i < Date.now() / 1000; i += step) {
+    for (var item in props.data.data.fuel) {
+      if (
+        props.data.data.fuel[item].date > start &&
+        props.data.data.fuel[item].date < start + step
+      ) {
+        sum += props.data.data.fuel[item].price;
+      }
+    }
+    for (var item in props.data.data.maintainance) {
+      if (
+        props.data.data.maintainance[item].date > start &&
+        props.data.data.maintainance[item].date < start + step
+      ) {
+        sum += props.data.data.maintainance[item].price;
+      }
+    }
+    for (var item in props.data.data.registration) {
+      if (
+        props.data.data.registration[item].date > start &&
+        props.data.data.registration[item].date < start + step
+      ) {
+        sum += props.data.data.registration[item].price;
+      }
+    }
+    for (var item in props.data.data.insurance) {
+      if (
+        props.data.data.insurance[item].date > start &&
+        props.data.data.insurance[item].date < start + step
+      ) {
+        sum += props.data.data.insurance[item].price;
+      }
+    }
+    for (var item in props.data.data.equipment) {
+      if (
+        props.data.data.equipment[item].date > start &&
+        props.data.data.equipment[item].date < start + step
+      ) {
+        sum += props.data.data.equipment[item].price;
+      }
+    }
+    for (var item in props.data.data.crashes) {
+      if (
+        props.data.data.crashes[item].date > start &&
+        props.data.data.crashes[item].date < start + step
+      ) {
+        sum += props.data.data.crashes[item].price;
+      }
+    }
+    for (var item in props.data.data.carWash) {
+      if (
+        props.data.data.carWash[item].date > start &&
+        props.data.data.carWash[item].date < start + step
+      ) {
+        sum += props.data.data.carWash[item].price;
+      }
+    }
+    for (var item in props.data.data.other) {
+      if (
+        props.data.data.other[item].date > start &&
+        props.data.data.other[item].date < start + step
+      ) {
+        sum += props.data.data.other[item].price;
+      }
+    }
+    chartArrayAll.push(sum);
+  }
 
   return (
     <View style={styles.wholeTab}>
@@ -110,13 +280,11 @@ const TabAll = (props) => {
                   Prosječna potrošnja
                 </AppText>
                 <View style={styles.averageConsumptionContainer}>
-                  <AppText>
-                    <AppText style={styles.boxbigText}>
-                      {yearaverageConsumption}
-                    </AppText>
-                    <AppText style={styles.averageconsumptionText}>
-                      l/100km
-                    </AppText>
+                  <AppText style={styles.boxbigText}>
+                    {averageConsumption}
+                  </AppText>
+                  <AppText style={styles.averageconsumptionText}>
+                    l/100km
                   </AppText>
                 </View>
               </LinearGradient>
@@ -129,7 +297,7 @@ const TabAll = (props) => {
                   Ukupno nasuto goriva
                 </AppText>
                 <AppText style={styles.boxbigText}>
-                  {yeartotalConsumption} l
+                  {totalConsumption} l
                 </AppText>
               </LinearGradient>
             </View>
@@ -140,9 +308,7 @@ const TabAll = (props) => {
                 colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
                 style={styles.smallboxGradient}>
                 <AppText style={styles.boxsmallText}>Ukupno pređeno</AppText>
-                <AppText style={styles.boxbigText}>
-                  {yearkilometrage} km
-                </AppText>
+                <AppText style={styles.boxbigText}>{kilometrage} km</AppText>
               </LinearGradient>
             </View>
             <View style={styles.smallBox}>
@@ -150,9 +316,29 @@ const TabAll = (props) => {
                 colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
                 style={styles.smallboxGradient}>
                 <AppText style={styles.boxsmallText}>Potrošeno novca</AppText>
-                <AppText style={styles.boxbigText}>{yeartotalSpent} KM</AppText>
+                <AppText style={styles.boxbigText}>
+                  {totalSpent} {props.currency}
+                </AppText>
               </LinearGradient>
             </View>
+          </View>
+        </View>
+        <View style={styles.twoboxContainer}>
+          <View style={styles.smallBox}>
+            <LinearGradient
+              colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
+              style={styles.smallboxGradient}>
+              <AppText style={styles.boxsmallText}>Ukupno pređeno</AppText>
+              <AppText style={styles.boxbigText}>{kilometrage} km</AppText>
+            </LinearGradient>
+          </View>
+          <View style={styles.smallBox}>
+            <LinearGradient
+              colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
+              style={styles.smallboxGradient}>
+              <AppText style={styles.boxsmallText}>Potrošeno novca</AppText>
+              <AppText style={styles.boxbigText}>{totalSpent} KM</AppText>
+            </LinearGradient>
           </View>
         </View>
         <View style={styles.bigBox}>

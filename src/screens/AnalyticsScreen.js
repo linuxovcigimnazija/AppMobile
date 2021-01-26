@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import AppText from '../components/AppText';
 import Tab from '../components/Tab';
 import {themes} from '../constants/colors';
@@ -9,6 +9,8 @@ import Header from '../components/Header';
 
 const AnalyticsScreen = ({navigation, route}) => {
   const [tab, setTab] = useState('month');
+
+  var currency=route.params.GDATA.country.valute
 
   return (
     <View style={styles.wholescreen}>
@@ -77,7 +79,7 @@ const AnalyticsScreen = ({navigation, route}) => {
         </TouchableOpacity>
       </View>
 
-      <Tab style={styles.tabStyle} page={tab}></Tab>
+      <Tab currency={currency} data={route.params.GDATA.data[route.params.carId]} style={styles.tabStyle} page={tab}></Tab>
     </View>
   );
 };

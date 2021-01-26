@@ -19,68 +19,148 @@ import {
   FeatherIcon,
 } from '../utils/Functions';
 import IconFA from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import Constants from '../constants/Constants';
 import Colors from '../constants/InputTypeColors';
 import App from '../../App';
 import CategoryCard from './CategoryCard';
-import File from './data.json';
 import InputTypeColors from '../constants/InputTypeColors';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-var averageConsumption,
-  kilometrage = 0,
-  totalConsumption = 0,
-  totalSpent = 0;
-var pieFuel, pieRegistration, pieServis, pieDamage, pieOther;
-var totalFuel = 0,
-  totalRegistration,
-  totalServis,
-  totalDamage,
-  totalOther = 0;
-
-for (var item in File.data) {
-  if (File.data[item].category == 'fuel') {
-    if (File.data[item].date > Date.now() / 1000 - 2668760) {
-      totalConsumption += File.data[item].liter;
-      kilometrage += File.data[item].km;
-      totalFuel += File.data[item].price;
-    }
-  } else if (File.data[item].category == 'other') {
-    if (File.data[item].date > Date.now() / 1000 - 2668760) {
-      totalOther += File.data[item].price;
-    }
-  }
-}
-
-totalSpent = totalFuel + totalOther;
-
-kilometrage /= 100; //remove
-kilometrage = Number(kilometrage.toFixed(0)); //remove
-averageConsumption = (totalConsumption / kilometrage) * 100;
-averageConsumption = Number(averageConsumption.toFixed(2));
-
-function data_function() {
-  //averageConsumption=6.7;
-  //kilometrage=879;
-  //totalConsumption=65;
-  //totalSpent=200;
-
-  pieNumbers = [70, 10, 10, 5, 5];
-  pieColors = ['#C70039', '#44CD40', '#404FCD', '#EBD22F', '#EB55DF'];
-  for (i = 1; i < 5; i++) {
-    if (pieNumbers[i] == 0) pieColors[i] = null;
-  }
-
-  //totalFuel=160;
-  totalRegistration = 0;
-  totalServis = 20;
-  totalDamage = 10;
-  //totalOther=10;
+function calcPercent(item, total) {
+  return (item / total) * 100;
 }
 
 const TabMonth = (props) => {
-  data_function();
+  var currency = props.currency;
+  var totalFuel = 0;
+  var averageConsumption,
+    kilometrage = 0,
+    totalConsumption = 0,
+    totalSpent = 0;
+  var totalRegistration = 0,
+    totalRepair = 0,
+    totalCrashes = 0,
+    totalOther = 0,
+    totalServis = 0,
+    totalDamage = 0;
+  var totalMaintenance = 0,
+    totalTickets = 0,
+    totalInsurance = 0,
+    totalEquipment = 0,
+    totalCarwash = 0;
+
+  var totalSpent = 0;
+
+  var minKM = props.data.data.fuel[0].km,
+    count = 0;
+
+  for (var item in props.data.data.fuel) {
+    totalFuel = 0;
+    if (props.data.data.fuel[item].date > (Date.now() - 2668760000) / 1000) {
+      if (props.data.data.fuel[item].km < minKM) {
+        minKM = props.data.data.fuel[item].km;
+      }
+      totalFuel += props.data.data.fuel[item].price;
+      totalSpent += totalFuel;
+      totalConsumption += props.data.data.fuel[item].volume;
+      kilometrage += props.data.data.fuel[item].km;
+      count += 1;
+    }
+  }
+  kilometrage -= count * minKM;
+  averageConsumption = Number(
+    ((totalConsumption / kilometrage) * 100).toFixed(1),
+  );
+
+  for (var item in props.data.data.maintainance) {
+    if (props.data.data.maintainance[item].date > Date.now() / 1000 - 2668760) {
+      totalMaintenance += props.data.data.maintainance[item].price;
+      totalSpent += totalMaintenance;
+    }
+  }
+
+  for (var item in props.data.data.registration) {
+    if (props.data.data.registration[item].date > Date.now() / 1000 - 2668760) {
+      totalRegistration += props.data.data.registration[item].price;
+      totalSpent += totalRegistration;
+    }
+  }
+
+  for (var item in props.data.data.insurance) {
+    if (props.data.data.insurance[item].date > Date.now() / 1000 - 2668760) {
+      totalInsurance += props.data.data.insurance[item].price;
+      totalSpent += totalInsurance;
+    }
+  }
+
+  for (var item in props.data.data.equipment) {
+    if (props.data.data.equipment[item].date > Date.now() / 1000 - 2668760) {
+      totalEquipment += props.data.data.equipment[item].price;
+      totalSpent += totalEquipment;
+    }
+  }
+  for (var item in props.data.data.tickets) {
+    if (props.data.data.tickets[item].date > Date.now() / 1000 - 2668760) {
+      totalTickets += props.data.data.tickets[item].price;
+      totalSpent += totalTickets;
+    }
+  }
+
+  for (var item in props.data.data.crashes) {
+    if (props.data.data.crashes[item].date > Date.now() / 1000 - 2668760) {
+      totalCrashes += props.data.data.crashes[item].price;
+      totalSpent += totalCrashes;
+    }
+  }
+
+  for (var item in props.data.data.carWash) {
+    if (props.data.data.carWash[item].date > Date.now() / 1000 - 2668760) {
+      totalCarwash += props.data.data.carWash[item].price;
+      totalSpent += totalCarwash;
+    }
+  }
+
+  for (var item in props.data.data.repair) {
+    if (props.data.data.repair[item].date > Date.now() / 1000 - 2668760) {
+      totalRepair += props.data.data.repair[item].price;
+      totalSpent += totalRepair;
+    }
+  }
+
+  for (var item in props.data.data.other) {
+    if (props.data.data.other[item].date > Date.now() / 1000 - 2668760) {
+      totalOther += props.data.data.other[item].price;
+      totalSpent += totalOther;
+    }
+  }
+
+  var pieFuel = totalFuel;
+  var pieRegistration = totalRegistration + totalInsurance;
+  var pieServis = totalServis + totalRepair;
+  var pieDamage = totalCrashes;
+  var pieOther = totalOther + totalCarwash + totalEquipment + totalTickets;
+
+  var pieNumbers = [
+    calcPercent(pieFuel, totalSpent),
+    calcPercent(pieRegistration, totalSpent),
+    calcPercent(pieServis, totalSpent),
+    calcPercent(pieDamage, totalSpent),
+    calcPercent(pieOther, totalSpent),
+  ];
+  var pieColors = [
+    InputTypeColors.fuel,
+    InputTypeColors.registration,
+    InputTypeColors.maintainance,
+    InputTypeColors.crashes,
+    InputTypeColors.equipment,
+  ];
+  for (var i = 1; i < 5; i++) {
+    if (pieNumbers[i] == 0) {
+      pieColors[i] = null;
+      pieNumbers[0] -= 0.5;
+    }
+  }
 
   return (
     <View style={styles.wholeTab}>

@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Text,
+  Alert,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import AppText from '../components/AppText';
@@ -18,13 +19,23 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import InputTypeColors from '../constants/InputTypeColors';
 import InputCategories from '../constants/InputCategories';
+import {useLinkProps} from '@react-navigation/native';
 
 const AutoScreen = ({navigation, route}) => {
+  var averageFuelPrice;
+  var totalFuel = 0,
+    totalConsumption = 0;
+
   const car = route.params.GDATA.data[route.params.carId];
 
-  const averageFuelConsumption = 16;
-  const totalFuel = 170;
-  const moneySpentLastMonth = 890;
+  for (var item in car.data.fuel) {
+    totalFuel = 0;
+    if (car.data.fuel[item].date > (Date.now() - 2668760000) / 1000) {
+      totalFuel += car.data.fuel[item].price;
+      totalConsumption += car.data.fuel[item].volume;
+    }
+  }
+  averageFuelPrice = Number(totalConsumption / totalFuel).toFixed(2);
   const currency = route.params.GDATA.country.valute;
 
   let scrollViewRef;
@@ -364,7 +375,7 @@ const AutoScreen = ({navigation, route}) => {
                       }}>
                       <View>
                         <AppText color={Constants.white} size={20}>
-                          Prosječna potrošnja goriva:
+                          Prosječna cijena po litru:
                         </AppText>
                         <View
                           style={{
@@ -376,10 +387,10 @@ const AutoScreen = ({navigation, route}) => {
                               color={Constants.background}
                               bold
                               size={26}>
-                              {averageFuelConsumption + ' '}
+                              {averageFuelPrice + ' '}
                             </AppText>
                             <AppText color={Constants.background} size={20}>
-                              l / 100km
+                              {currency}
                             </AppText>
                           </Text>
                         </View>
@@ -400,7 +411,7 @@ const AutoScreen = ({navigation, route}) => {
                               color={Constants.background}
                               bold
                               size={26}>
-                              {totalFuel + ' '}
+                              {totalConsumption + ' '}
                             </AppText>
                             <AppText color={Constants.background} size={20}>
                               litara
@@ -411,7 +422,7 @@ const AutoScreen = ({navigation, route}) => {
 
                       <View>
                         <AppText color={Constants.white} size={20}>
-                          Novca potrošeno zadnjih 30 dana:
+                          Novca potrošeno posljednjih 30 dana:
                         </AppText>
                         <View
                           style={{
@@ -420,7 +431,7 @@ const AutoScreen = ({navigation, route}) => {
                             alignItems: 'center',
                           }}>
                           <AppText color={Constants.background} size={26}>
-                            {moneySpentLastMonth + ' ' + currency}
+                            {totalFuel + ' ' + currency}
                           </AppText>
                         </View>
                       </View>

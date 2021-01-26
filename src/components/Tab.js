@@ -18,15 +18,33 @@ import TabAll from './TabAll';
 
 const Tab = (props) => {
   if (props.page == 'month') {
-    return <TabMonth style={styles.wholeTab} />;
+    return (
+      <TabMonth
+        currency={props.currency}
+        data={props.data}
+        style={styles.wholeTab}
+      />
+    );
   }
 
   if (props.page == 'year') {
-    return <TabYear style={styles.wholeTab} />;
+    return (
+      <TabYear
+        currency={props.currency}
+        data={props.data}
+        style={styles.wholeTab}
+      />
+    );
   }
 
   if (props.page == 'all') {
-    return <TabAll style={styles.wholeTab} />;
+    return (
+      <TabAll
+        currency={props.currency}
+        data={props.data}
+        style={styles.wholeTab}
+      />
+    );
   }
 };
 
