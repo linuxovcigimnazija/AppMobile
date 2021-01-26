@@ -18,12 +18,12 @@ const InputCategories = [
   },
   {
     value: 'maintainance',
-    label: 'Odrzavanje i Popravke',
+    label: 'Održavanje i Popravke',
     icon: () => getCategoryIcon('maintainance', Constants.gray, 20),
   },
   {
     value: 'crashes',
-    label: 'Ostecenja',
+    label: 'Oštećenja',
     icon: () => getCategoryIcon('crashes', Constants.gray, 20),
   },
   {

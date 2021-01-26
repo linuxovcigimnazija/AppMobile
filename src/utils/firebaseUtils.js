@@ -7,7 +7,7 @@ import {Alert} from 'react-native';
 export const onLogOut = (navigationFunction) => {
   Alert.alert(
     'Upozorenje',
-    'Ovom opcijom cete izaci iz vaseg profila, molimo Vas da sinhronizujete podatke sa Cloudom ili ce biti zauvijek izgubljeni',
+    'Ovom opcijom ćete izaći iz Vašeg profila, molimo Vas da sinhronizujete podatke sa Cloudom ili će biti zauvijek izgubljeni',
     [
       {
         text: 'Nazad',
