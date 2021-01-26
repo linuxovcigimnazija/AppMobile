@@ -76,7 +76,7 @@ export default function FuelModal({
                 },
               ]}>
               <AppText size={18} bold color={Constants.white}>
-                Ukupna kilometraza:
+                Ukupna kilometraža:
               </AppText>
               <View style={[inputStyles.inputContainer, {marginTop: 5}]}>
                 <TextInput

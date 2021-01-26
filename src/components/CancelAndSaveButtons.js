@@ -22,7 +22,7 @@ export default function CancelAndSaveButtons({
         onPress={closeModal}
         activeOpacity={0.7}>
         <AppText size={16} color={Constants.white}>
-          Otkazi
+          Otkaži
         </AppText>
       </TouchableOpacity>
 

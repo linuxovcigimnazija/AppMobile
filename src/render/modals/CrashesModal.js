@@ -55,7 +55,7 @@ export default function CrashesModal({
             color={Constants.white}
             size={28}
             bold>
-            Unesite Ostecenje
+            Unesite Oštećenje
           </AppText>
 
           <View style={styles.body}>

@@ -258,7 +258,7 @@ export default function CarModal({closeModal, addItem, id}) {
               onPress={() => closeModal()}
               activeOpacity={0.7}>
               <AppText size={16} color={Constants.white}>
-                Otkazi
+                Otkaži
               </AppText>
             </TouchableOpacity>
 

@@ -223,7 +223,7 @@ export default function MaintainanceModal({
             color={Constants.white}
             size={28}
             bold>
-            Unesite Podatak o Odrzavanju
+            Unesite Podatak o Održavanju
           </AppText>
 
           <DropDownPicker
@@ -312,7 +312,7 @@ export default function MaintainanceModal({
                     },
                   ]}>
                   <AppText size={18} bold color={Constants.white}>
-                    Sljedeci servis vozila:
+                    Sljedeći servis vozila:
                   </AppText>
                   <View style={[inputStyles.inputContainer, {marginTop: 10}]}>
                     <AppText color={Constants.white}>Za </AppText>

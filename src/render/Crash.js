@@ -34,7 +34,7 @@ export default function Crash({item, currency}) {
         </View>
         <View style={styles.textContainer}>
           <AppText bold color={Constants.white} size={14}>
-            Ostecenje:{' '}
+            Oštećenje:{' '}
             <AppText size={16} bold color={Constants.white}>
               {item.price + ' ' + currency}
             </AppText>
