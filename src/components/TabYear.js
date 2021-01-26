@@ -176,7 +176,7 @@ const TabYear = (props) => {
         </View>
         <View style={styles.bigBox}>
           <AppText color={Constants.white} size={24} bold>
-            Raspodjela troskova
+            Raspodjela troškova
           </AppText>
           <View
             style={{

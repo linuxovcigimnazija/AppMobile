@@ -439,7 +439,7 @@ const AutoScreen = ({navigation, route}) => {
                         },
                       ]}>
                       <AppText size={18} bold color={Constants.white}>
-                        Pogledajte jos...
+                        Pogledajte još...
                       </AppText>
 
                       {/* <View style={styles.dot} />
