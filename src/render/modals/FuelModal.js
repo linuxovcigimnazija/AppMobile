@@ -26,6 +26,7 @@ export default function FuelModal({
   const [mileage, setMileage] = useState();
   const [volume, setVolume] = useState();
   const [pricePerLiter, setPricePerLiter] = useState();
+  
 
   const onSavePressed = () => {
     let data;
@@ -35,6 +36,7 @@ export default function FuelModal({
       volume: volume,
       date: Date.now(),
       discount: discount,
+      mileage: mileage,
       pricePerLiter: discount
         ? pricePerLiter.toFixed(2)
         : (price / volume).toFixed(2),

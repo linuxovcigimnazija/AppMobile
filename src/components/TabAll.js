@@ -26,9 +26,11 @@ import {
 import CategoryCard from './CategoryCard';
 import Colors from '../constants/InputTypeColors';
 
-var yearaverageConsumption, yearkilometrage, yeartotalConsumption, yeartotalSpent;
-var yearpieFuel, yearpieRegistration, yearpieServis, yearpieDamage, yearpieOther;
-var yeartotalFuel, yeartotalRegistration, yeartotalServis, yeartotalDamage, yeartotalOther;
+function calcPercent(item, total){
+  return ((item/total)*100)
+}
+
+
 
 
 var dateObj = new Date();
@@ -64,31 +66,145 @@ for(var i = 0; i<3; i++){
 
 
 
-
-
-function data_function(){
-    yearaverageConsumption=6.1;
-    yearkilometrage=30510;
-    yeartotalConsumption=1830;
-    yeartotalSpent=4500;
-
-    pieNumbers=[55, 10, 15, 10, 10];
-    pieColors=['#C70039', '#44CD40', '#404FCD', '#EBD22F', '#EB55DF']
-    for (i = 1; i < 5; i++) {
-      if(pieNumbers[i]==0) pieColors[i]=pieColors[i-1]
-    }
-
-    yeartotalFuel=2475;
-    yeartotalRegistration=450;
-    yeartotalServis=675;
-    yeartotalDamage=450;
-    yeartotalOther=450;
-   
-}
-
 const TabAll = (props) => {
 
-    data_function();
+  var start=(Date.now()/1000)-94867200
+  var step=8006280
+
+  var totalFuel=0
+  var averageConsumption, kilometrage=0, totalConsumption=0, totalSpent=0;
+  var totalRegistration=0, totalRepair=0, totalCrashes=0, totalOther=0, totalServis=0, totalDamage=0;
+  var totalMaintenance=0, totalTickets=0, totalInsurance=0, totalEquipment=0, totalCarwash=0;
+   
+  var totalSpent=0
+  var minKM=props.data.data.fuel[0].km, count=0;
+
+    for(var item in props.data.data.fuel){
+      if(props.data.data.fuel[item].km<minKM) {
+        minKM=props.data.data.fuel[item].km
+      }
+      totalFuel=0
+      totalFuel+=props.data.data.fuel[item].price
+      totalSpent+=totalFuel
+      totalConsumption+=props.data.data.fuel[item].volume
+      kilometrage+=props.data.data.fuel[item].km    
+      count+=1
+    }
+    kilometrage-=(count*minKM)
+    averageConsumption=Number(((totalConsumption/kilometrage)*100).toFixed(1))
+
+    for(var item in props.data.data.maintainance){
+      totalMaintenance+=props.data.data.maintainance[item].price
+      totalSpent+=totalMaintenance
+    }
+
+    for(var item in props.data.data.registration){
+      totalRegistration+=props.data.data.registration[item].price
+      totalSpent+=totalRegistration
+    }
+
+    for(var item in props.data.data.insurance){
+      totalInsurance+=props.data.data.insurance[item].price
+      totalSpent+=totalInsurance
+     }
+
+    for(var item in props.data.data.equipment){
+      totalEquipment+=props.data.data.equipment[item].price
+      totalSpent+=totalEquipment
+    }
+
+    for(var item in props.data.data.crashes){
+      totalCrashes+=props.data.data.crashes[item].price
+      totalSpent+=totalCrashes
+    }
+
+    for(var item in props.data.data.carWash){
+      totalCarwash+=props.data.data.carWash[item].price
+      totalSpent+=totalCarwash
+    }
+
+    for(var item in props.data.data.tickets){
+      totalTickets+=props.data.data.tickets[item].price
+      totalSpent+=totalTickets
+    }
+
+    for(var item in props.data.data.repair){
+      totalRepair+=props.data.data.repair[item].price
+      totalSpent+=totalRepair
+    }
+
+    for(var item in props.data.data.other){
+      totalOther+=props.data.data.other[item].price
+      totalSpent+=totalOther
+    }
+
+    var pieFuel=totalFuel;
+    var pieRegistration=totalRegistration+totalInsurance;
+    var pieServis=totalServis+totalRepair;
+    var pieDamage=totalCrashes;
+    var pieOther=totalOther+totalCarwash+totalEquipment+totalTickets;
+
+  
+    pieNumbers=[calcPercent(pieFuel, totalSpent), calcPercent(pieRegistration, totalSpent), calcPercent(pieServis, totalSpent), calcPercent(pieDamage, totalSpent), 
+    calcPercent(pieOther, totalSpent)];
+    var pieColors=[InputTypeColors.fuel, InputTypeColors.registration, InputTypeColors.maintainance, InputTypeColors.crashes, InputTypeColors.equipment]
+    for (var i = 1; i < 5; i++) {
+      if(pieNumbers[i]==0) {
+        pieColors[i]=null
+        pieNumbers[0]-=0.5
+      }
+    }
+
+
+    var chartArrayFuel=[];
+    var sum=0;
+    for(var i=start; i<(Date.now()/1000); i+=step){
+    for(var item in props.data.data.fuel){
+      if((((props.data.data.fuel[item].date)>start)) && ((props.data.data.fuel[item].date)<(start+step))){
+        sum+=props.data.data.fuel[item].price;
+    }
+    chartArrayFuel.push(sum);
+    }}
+
+    var chartArrayAll=[];
+    sum=0;
+    for(var i=start; i<(Date.now()/1000); i+=step){
+      for(var item in props.data.data.fuel){
+        if((((props.data.data.fuel[item].date)>start)) && ((props.data.data.fuel[item].date)<(start+step))){
+          sum+=props.data.data.fuel[item].price;
+      }}
+      for(var item in props.data.data.maintainance){
+        if((((props.data.data.maintainance[item].date)>start)) && ((props.data.data.maintainance[item].date)<(start+step))){
+          sum+=props.data.data.maintainance[item].price;
+      }}
+      for(var item in props.data.data.registration){
+        if((((props.data.data.registration[item].date)>start)) && ((props.data.data.registration[item].date)<(start+step))){
+          sum+=props.data.data.registration[item].price;
+      }}
+      for(var item in props.data.data.insurance){
+        if((((props.data.data.insurance[item].date)>start)) && ((props.data.data.insurance[item].date)<(start+step))){
+          sum+=props.data.data.insurance[item].price;
+      }}
+      for(var item in props.data.data.equipment){
+        if((((props.data.data.equipment[item].date)>start)) && ((props.data.data.equipment[item].date)<(start+step))){
+          sum+=props.data.data.equipment[item].price;
+      }}
+      for(var item in props.data.data.crashes){
+        if((((props.data.data.crashes[item].date)>start)) && ((props.data.data.crashes[item].date)<(start+step))){
+          sum+=props.data.data.crashes[item].price;
+      }}
+      for(var item in props.data.data.carWash){
+        if((((props.data.data.carWash[item].date)>start)) && ((props.data.data.carWash[item].date)<(start+step))){
+          sum+=props.data.data.carWash[item].price;
+      }}
+      for(var item in props.data.data.other){
+        if((((props.data.data.other[item].date)>start)) && ((props.data.data.other[item].date)<(start+step))){
+          sum+=props.data.data.other[item].price;
+      }}
+      chartArrayAll.push(sum);
+      }
+    
+
 
   
     return (
@@ -101,7 +217,7 @@ const TabAll = (props) => {
                   style={styles.smallboxGradient}>
                       <AppText style={styles.boxsmallText}>Prosječna potrošnja</AppText>
                       <View style={styles.averageConsumptionContainer}>
-                          <AppText style={styles.boxbigText}>{yearaverageConsumption}</AppText>
+                          <AppText style={styles.boxbigText}>{averageConsumption}</AppText>
                           <AppText style={styles.averageconsumptionText}>l/100km</AppText>
                       </View>
                   </LinearGradient>
@@ -110,7 +226,7 @@ const TabAll = (props) => {
                   <LinearGradient colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
                   style={styles.smallboxGradient}>
                       <AppText style={styles.boxsmallText}>Ukupno nasuto goriva</AppText>
-                      <AppText style={styles.boxbigText}>{yeartotalConsumption} l</AppText>
+                      <AppText style={styles.boxbigText}>{totalConsumption} l</AppText>
                   </LinearGradient>
               </View>
             </View>
@@ -119,14 +235,14 @@ const TabAll = (props) => {
                   <LinearGradient colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
                   style={styles.smallboxGradient}>
                       <AppText style={styles.boxsmallText}>Ukupno pređeno</AppText>
-                      <AppText style={styles.boxbigText}>{yearkilometrage} km</AppText>
+                      <AppText style={styles.boxbigText}>{kilometrage} km</AppText>
                   </LinearGradient>
               </View>
               <View style={styles.smallBox}>
                   <LinearGradient colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
                   style={styles.smallboxGradient}>
                       <AppText style={styles.boxsmallText}>Potrošeno novca</AppText>
-                      <AppText style={styles.boxbigText}>{yeartotalSpent} KM</AppText>
+                      <AppText style={styles.boxbigText}>{totalSpent} {props.currency}</AppText>
                   </LinearGradient>
               </View>
             </View>
@@ -188,38 +304,38 @@ const TabAll = (props) => {
           <View style={styles.categoriesContainer}>
             <AppText bold='true' style={styles.categoriesTitle}>Pogledajmo malo bolje...</AppText>
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard lightColor={Colors.fuel} darkColor={Colors.fuelAccent} iconName='gas-pump'
-                categoryName='Gorivo' amount='300' classIcon={FontAwesome5Icon}/>
-                <CategoryCard lightColor={Colors.insurance} darkColor={Colors.insuranceAccent} iconName='hands-helping'
-                categoryName='Osiguranje' amount='300' classIcon={FontAwesome5Icon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.fuel} darkColor={Colors.fuelAccent} iconName='gas-pump'
+                categoryName='Gorivo' amount={totalFuel} classIcon={FontAwesome5Icon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.insurance} darkColor={Colors.insuranceAccent} iconName='hands-helping'
+                categoryName='Osiguranje' amount={totalInsurance} classIcon={FontAwesome5Icon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard lightColor={Colors.registration} darkColor={Colors.registrationAccent} iconName='clipboard'
-                categoryName='Registracija' amount='300' classIcon={EntypoIcon}/>
-                <CategoryCard lightColor={Colors.maintainance} darkColor={Colors.maintainanceAccent} iconName='miscellaneous-services'
-                categoryName='Servis' amount='300' classIcon={MaterialIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.registration} darkColor={Colors.registrationAccent} iconName='clipboard'
+                categoryName='Registracija' amount={totalRegistration} classIcon={EntypoIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.maintainance} darkColor={Colors.maintainanceAccent} iconName='miscellaneous-services'
+                categoryName='Servis' amount={totalMaintenance} classIcon={MaterialIcon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard lightColor={Colors.repair} darkColor={Colors.repairAccent} iconName='car-repair'
-                categoryName='Popravke' amount='300' classIcon={MaterialIcon}/>
-                <CategoryCard lightColor={Colors.crashes} darkColor={Colors.crashesAccent} iconName='close'
-                categoryName='Oštećenja' amount='300' classIcon={FontAwesomeIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.repair} darkColor={Colors.repairAccent} iconName='car-repair'
+                categoryName='Popravke' amount={totalRepair} classIcon={MaterialIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.crashes} darkColor={Colors.crashesAccent} iconName='close'
+                categoryName='Oštećenja' amount={totalCrashes} classIcon={FontAwesomeIcon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard lightColor={Colors.equipment} darkColor={Colors.equipmentAccent} iconName='shopping-cart'
-                categoryName='Oprema' amount='300' classIcon={FeatherIcon}/>
-                <CategoryCard lightColor={Colors.tickets} darkColor={Colors.ticketsAccent} iconName='mail'
-                categoryName='Kazne' amount='300' classIcon={EntypoIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.equipment} darkColor={Colors.equipmentAccent} iconName='shopping-cart'
+                categoryName='Oprema' amount={totalEquipment} classIcon={FeatherIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.tickets} darkColor={Colors.ticketsAccent} iconName='mail'
+                categoryName='Kazne' amount={totalTickets} classIcon={EntypoIcon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard lightColor={Colors.carWash} darkColor={Colors.carWashAccent} iconName='local-car-wash'
-                categoryName='Pranje' amount='300' classIcon={MaterialIcon}/>
-                <CategoryCard lightColor={Colors.other} darkColor={Colors.otherAccent} iconName='dots-horizontal'
-                categoryName='Ostalo' amount='300' classIcon={MaterialCommunityIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.carWash} darkColor={Colors.carWashAccent} iconName='local-car-wash'
+                categoryName='Pranje' amount={totalCarwash} classIcon={MaterialIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.other} darkColor={Colors.otherAccent} iconName='dots-horizontal'
+                categoryName='Ostalo' amount={totalOther} classIcon={MaterialCommunityIcon}/>
             </View>
           </View>
 
@@ -230,9 +346,7 @@ const TabAll = (props) => {
       labels: quarterLabels,
       datasets: [
         {
-          data: [
-            100, 200, 300, 400, 300, 200, 100, 200, 300, 400, 300, 200
-          ]
+          data: chartArrayAll
         }
       ]
     }}
@@ -240,7 +354,7 @@ const TabAll = (props) => {
     height={Constants.height*0.3}
     verticalLabelRotation={-30}
     yAxisLabel=""
-    yAxisSuffix="KM"
+    yAxisSuffix={props.currency}
     yAxisInterval={1} // optional, defaults to 1
     chartConfig={{
       backgroundGradientFrom: Constants.primaryDark,
@@ -282,9 +396,7 @@ const TabAll = (props) => {
       labels: quarterLabels,
       datasets: [
         {
-          data: [
-            80, 160, 200, 250, 220, 200, 190, 250, 300, 320, 300, 210
-          ]
+          data: chartArrayFuel
         }
       ]
     }}
@@ -292,7 +404,7 @@ const TabAll = (props) => {
     height={Constants.height*0.3}
     verticalLabelRotation={-30}
     yAxisLabel=""
-    yAxisSuffix="KM"
+    yAxisSuffix={props.currency}
     yAxisInterval={1} // optional, defaults to 1
     chartConfig={{
       backgroundGradientFrom: Constants.primaryDark,

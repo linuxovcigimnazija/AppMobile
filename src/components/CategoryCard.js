@@ -33,7 +33,7 @@ const CategoryCard = (props) => {
                 </View>
                 <View style={styles.categoryHolder}>
                     <AppText bold='true' style={styles.categoryboxbigText}>{props.categoryName}</AppText>
-                    <AppText style={styles.categoryboxsmallText}>{props.amount} KM</AppText>
+                    <AppText style={styles.categoryboxsmallText}>{props.amount} {props.currency}</AppText>
                 </View>
                 </LinearGradient>
             </View>

@@ -17,75 +17,120 @@ import Constants from '../constants/Constants';
 import Colors from '../constants/InputTypeColors';
 import App from '../../App';
 import CategoryCard from './CategoryCard';
-import File from './data.json'
 
-var averageConsumption, kilometrage=0, totalConsumption=0, totalSpent=0;
-var pieFuel, pieRegistration, pieServis, pieDamage, pieOther;
-var totalFuel=0, totalRegistration, totalServis, totalDamage, totalOther=0;
-
-
-
-for(var item in File.data){
-  if(File.data[item].category=="fuel"){
-    if((File.data[item].date)>((Date.now()/1000)-2668760)){
-      totalConsumption+=File.data[item].liter
-      kilometrage+=File.data[item].km
-      totalFuel+=File.data[item].price
-    }
-  }
-  else if(File.data[item].category =="other"){
-    if((File.data[item].date)>((Date.now()/1000)-2668760)){
-      totalOther+=File.data[item].price
-      
-  }
-}
+function calcPercent(item, total){
+  return ((item/total)*100)
 }
 
-
-totalSpent=totalFuel+totalOther
-
-kilometrage/=100    //remove
-kilometrage=Number((kilometrage).toFixed(0)); //remove
-averageConsumption=(totalConsumption/kilometrage)*100;
-averageConsumption=Number((averageConsumption).toFixed(2));
-
-
-
-
-
-
-
-
-
-
-
-
-
-function data_function(){
-    //averageConsumption=6.7;
-    //kilometrage=879;
-    //totalConsumption=65;
-    //totalSpent=200;
-
-    pieNumbers=[70, 10, 10, 5, 5];
-    pieColors=['#C70039', '#44CD40', '#404FCD', '#EBD22F', '#EB55DF']
-    for (i = 1; i < 5; i++) {
-      if(pieNumbers[i]==0) pieColors[i]=null
-    }
-
-    //totalFuel=160;
-    totalRegistration=0;
-    totalServis=20;
-    totalDamage=10;
-    //totalOther=10;
-   
-}
 
 const TabMonth = (props) => {
+  var currency=props.currency
+  var totalFuel=0
+  var averageConsumption, kilometrage=0, totalConsumption=0, totalSpent=0;
+  var totalRegistration=0, totalRepair=0, totalCrashes=0, totalOther=0, totalServis=0, totalDamage=0;
+  var totalMaintenance=0, totalTickets=0, totalInsurance=0, totalEquipment=0, totalCarwash=0;
+   
+  var totalSpent=0
 
-    data_function();
+  var minKM=props.data.data.fuel[0].km, count=0;
+  
+    for(var item in props.data.data.fuel){
+      totalFuel=0
+      if((props.data.data.fuel[item].date)>((Date.now()-2668760000)/1000)){
+        if(props.data.data.fuel[item].km<minKM) {
+          minKM=props.data.data.fuel[item].km
+        }
+          totalFuel+=props.data.data.fuel[item].price
+          totalSpent+=totalFuel
+          totalConsumption+=props.data.data.fuel[item].volume
+          kilometrage+=props.data.data.fuel[item].km
+          count+=1          
+        }
+               
+    }
+    kilometrage-=(count*minKM)
+    averageConsumption=Number(((totalConsumption/kilometrage)*100).toFixed(1))
+
+    for(var item in props.data.data.maintainance){
+      if((props.data.data.maintainance[item].date)>((Date.now()/1000)-2668760)){
+          totalMaintenance+=props.data.data.maintainance[item].price
+          totalSpent+=totalMaintenance
+        }
+    }
+
+    for(var item in props.data.data.registration){
+      if((props.data.data.registration[item].date)>((Date.now()/1000)-2668760)){
+          totalRegistration+=props.data.data.registration[item].price
+          totalSpent+=totalRegistration
+        }
+    }
+
+    for(var item in props.data.data.insurance){
+      if((props.data.data.insurance[item].date)>((Date.now()/1000)-2668760)){
+          totalInsurance+=props.data.data.insurance[item].price
+          totalSpent+=totalInsurance
+        }
+    }
+
+    for(var item in props.data.data.equipment){
+      if((props.data.data.equipment[item].date)>((Date.now()/1000)-2668760)){
+          totalEquipment+=props.data.data.equipment[item].price
+          totalSpent+=totalEquipment
+        }
+    }
+    for(var item in props.data.data.tickets){
+      if((props.data.data.tickets[item].date)>((Date.now()/1000)-2668760)){
+          totalTickets+=props.data.data.tickets[item].price
+          totalSpent+=totalTickets
+        }
+    }
+
+    for(var item in props.data.data.crashes){
+      if((props.data.data.crashes[item].date)>((Date.now()/1000)-2668760)){
+          totalCrashes+=props.data.data.crashes[item].price
+          totalSpent+=totalCrashes
+        }
+    }
+
+    for(var item in props.data.data.carWash){
+      if((props.data.data.carWash[item].date)>((Date.now()/1000)-2668760)){
+          totalCarwash+=props.data.data.carWash[item].price
+          totalSpent+=totalCarwash
+        }
+    }
+
+    for(var item in props.data.data.repair){
+      if((props.data.data.repair[item].date)>((Date.now()/1000)-2668760)){
+          totalRepair+=props.data.data.repair[item].price
+          totalSpent+=totalRepair
+        }
+    }
+
+    for(var item in props.data.data.other){
+      if((props.data.data.other[item].date)>((Date.now()/1000)-2668760)){
+          totalOther+=props.data.data.other[item].price
+          totalSpent+=totalOther
+        }
+    }
+
+    var pieFuel=totalFuel;
+    var pieRegistration=totalRegistration+totalInsurance;
+    var pieServis=totalServis+totalRepair;
+    var pieDamage=totalCrashes;
+    var pieOther=totalOther+totalCarwash+totalEquipment+totalTickets;
 
   
+    var pieNumbers=[calcPercent(pieFuel, totalSpent), calcPercent(pieRegistration, totalSpent), calcPercent(pieServis, totalSpent), calcPercent(pieDamage, totalSpent), 
+    calcPercent(pieOther, totalSpent)];
+    var pieColors=[InputTypeColors.fuel, InputTypeColors.registration, InputTypeColors.maintainance, InputTypeColors.crashes, InputTypeColors.equipment]
+    for (var i = 1; i < 5; i++) {
+      if(pieNumbers[i]==0) {
+        pieColors[i]=null
+        pieNumbers[0]-=0.5
+      }
+    }
+
+
     return (
       <View style={styles.wholeTab}>
       <ScrollView contentContainerStyle={styles.wholeTabScroll}>
@@ -121,7 +166,7 @@ const TabMonth = (props) => {
                   <LinearGradient colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
                   style={styles.smallboxGradient}>
                       <AppText style={styles.boxsmallText}>Potrošeno novca</AppText>
-                      <AppText style={styles.boxbigText}>{totalSpent} KM</AppText>
+                      <AppText style={styles.boxbigText}>{totalSpent} {props.currency}</AppText>
                   </LinearGradient>
               </View>
             </View>
@@ -184,37 +229,37 @@ const TabMonth = (props) => {
          <View style={styles.categoriesContainer}>
             <AppText bold='true' style={styles.categoriesTitle}>Pogledajmo malo bolje...</AppText>
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard lightColor={Colors.fuel} darkColor={Colors.fuelAccent} iconName='gas-pump'
+                <CategoryCard currency={props.currency} lightColor={Colors.fuel} darkColor={Colors.fuelAccent} iconName='gas-pump'
                 categoryName='Gorivo' amount={totalFuel} classIcon={FontAwesome5Icon}/>
-                <CategoryCard lightColor={Colors.insurance} darkColor={Colors.insuranceAccent} iconName='hands-helping'
-                categoryName='Osiguranje' amount='300' classIcon={FontAwesome5Icon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.insurance} darkColor={Colors.insuranceAccent} iconName='hands-helping'
+                categoryName='Osiguranje' amount={totalInsurance} classIcon={FontAwesome5Icon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard lightColor={Colors.registration} darkColor={Colors.registrationAccent} iconName='clipboard'
-                categoryName='Registracija' amount='300' classIcon={EntypoIcon}/>
-                <CategoryCard lightColor={Colors.maintainance} darkColor={Colors.maintainanceAccent} iconName='miscellaneous-services'
-                categoryName='Servis' amount='300' classIcon={MaterialIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.registration} darkColor={Colors.registrationAccent} iconName='clipboard'
+                categoryName='Registracija' amount={totalRegistration} classIcon={EntypoIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.maintainance} darkColor={Colors.maintainanceAccent} iconName='miscellaneous-services'
+                categoryName='Servis' amount={totalMaintenance} classIcon={MaterialIcon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard lightColor={Colors.repair} darkColor={Colors.repairAccent} iconName='car-repair'
-                categoryName='Popravke' amount='300' classIcon={MaterialIcon}/>
-                <CategoryCard lightColor={Colors.crashes} darkColor={Colors.crashesAccent} iconName='close'
-                categoryName='Oštećenja' amount='300' classIcon={FontAwesomeIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.repair} darkColor={Colors.repairAccent} iconName='car-repair'
+                categoryName='Popravke' amount={totalRepair} classIcon={MaterialIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.crashes} darkColor={Colors.crashesAccent} iconName='close'
+                categoryName='Oštećenja' amount={totalCrashes} classIcon={FontAwesomeIcon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard lightColor={Colors.equipment} darkColor={Colors.equipmentAccent} iconName='shopping-cart'
-                categoryName='Oprema' amount='300' classIcon={FeatherIcon}/>
-                <CategoryCard lightColor={Colors.tickets} darkColor={Colors.ticketsAccent} iconName='mail'
-                categoryName='Kazne' amount='300' classIcon={EntypoIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.equipment} darkColor={Colors.equipmentAccent} iconName='shopping-cart'
+                categoryName='Oprema' amount={totalEquipment} classIcon={FeatherIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.tickets} darkColor={Colors.ticketsAccent} iconName='mail'
+                categoryName='Kazne' amount={totalTickets} classIcon={EntypoIcon}/>
             </View>
 
             <View style={styles.twoboxContainerCategory}>
-                <CategoryCard lightColor={Colors.carWash} darkColor={Colors.carWashAccent} iconName='local-car-wash'
-                categoryName='Pranje' amount='300' classIcon={MaterialIcon}/>
-                <CategoryCard lightColor={Colors.other} darkColor={Colors.otherAccent} iconName='dots-horizontal'
+                <CategoryCard currency={props.currency} lightColor={Colors.carWash} darkColor={Colors.carWashAccent} iconName='local-car-wash'
+                categoryName='Pranje' amount={totalCarwash} classIcon={MaterialIcon}/>
+                <CategoryCard currency={props.currency} lightColor={Colors.other} darkColor={Colors.otherAccent} iconName='dots-horizontal'
                 categoryName='Ostalo' amount={totalOther} classIcon={MaterialCommunityIcon}/>
             </View>
           </View>
