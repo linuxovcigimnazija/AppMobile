@@ -243,7 +243,7 @@ const AutoScreen = ({navigation, route}) => {
                             bold
                             color={Constants.white}
                             size={16}>
-                            Odrzavanje i Popravke
+                            Održavanje i Popravke
                           </AppText>
                         </View>
                       </Button>
@@ -284,7 +284,7 @@ const AutoScreen = ({navigation, route}) => {
                             bold
                             color={Constants.white}
                             size={18}>
-                            Ostecenja
+                            Oštećenja
                           </AppText>
                         </View>
                       </Button>
@@ -364,7 +364,7 @@ const AutoScreen = ({navigation, route}) => {
                       }}>
                       <View>
                         <AppText color={Constants.white} size={20}>
-                          Prosjecna potrosnja goriva:
+                          Prosječna potrošnja goriva:
                         </AppText>
                         <View
                           style={{
@@ -411,7 +411,7 @@ const AutoScreen = ({navigation, route}) => {
 
                       <View>
                         <AppText color={Constants.white} size={20}>
-                          Novca potroseno zadnjih 30 dana:
+                          Novca potrošeno zadnjih 30 dana:
                         </AppText>
                         <View
                           style={{

@@ -19,7 +19,7 @@ const Header = ({
 
   const headerText =
     route.name === 'Auto' || route.name === 'Input'
-      ? 'Vase Vozilo'
+      ? 'Vaše Vozilo'
       : route.name === 'Analytics'
       ? 'Analitika'
       : 'AppMobile';

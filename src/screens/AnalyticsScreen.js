@@ -18,7 +18,7 @@ const AnalyticsScreen = ({navigation, route}) => {
         backButtonVisible
         analyticsWatermark
       />
-      <AppText style={styles.titleText}>Vasa Statistika</AppText>
+      <AppText style={styles.titleText}>Vaša Statistika</AppText>
 
       <View style={styles.tabContainer}>
         <TouchableOpacity

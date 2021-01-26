@@ -161,7 +161,7 @@ const MyProfileScreen = ({route, navigation}) => {
 
               <View style={styles.bigBox}>
                 <AppText color={Constants.white} size={24} bold>
-                  Raspodjela potrosnje
+                  Raspodjela potrošnje
                 </AppText>
                 <View
                   style={{
