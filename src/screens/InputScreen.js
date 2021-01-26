@@ -187,13 +187,15 @@ const InputScreen = ({navigation, route}) => {
 
     let pushData = route.params.GDATA;
 
-    if (mileage) {
+    if (mileage && tag !== 'maintainance') {
       if (pushData.data[route.params.carId].mileage < mileage) {
         pushData.data[route.params.carId].mileage = mileage;
       }
     }
 
     pushData.data[route.params.carId].data = nextData;
+    console.log('PUSH DATA', pushData.data[1].data);
+
     setUserData(JSON.stringify(pushData));
   };
 
@@ -349,6 +351,9 @@ const InputScreen = ({navigation, route}) => {
             />
           ) : selectedCategoryValue === 'maintainance' ? (
             <MaintainanceModal
+              currentMileage={
+                route.params.GDATA.data[route.params.carId].mileage
+              }
               currency={route.params.GDATA.country.valute}
               addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}

@@ -35,12 +35,7 @@ const AnalyticsScreen = ({navigation, route}) => {
           <View
             // colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
 
-            style={[
-              styles.smallBoxGradient,
-              tab === 'month'
-                ? {backgroundColor: Constants.primaryDark}
-                : {backgroundColor: Constants.boxcolorLight},
-            ]}>
+            style={[styles.smallBoxGradient]}>
             <AppText style={styles.tabText}>30 dana</AppText>
           </View>
         </TouchableOpacity>
@@ -58,12 +53,7 @@ const AnalyticsScreen = ({navigation, route}) => {
           }}>
           <View
             // colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
-            style={[
-              styles.smallBoxGradient,
-              tab === 'year'
-                ? {backgroundColor: Constants.primaryDark}
-                : {backgroundColor: Constants.boxcolorLight},
-            ]}>
+            style={[styles.smallBoxGradient]}>
             <AppText style={styles.tabText}>Godinu dana</AppText>
           </View>
         </TouchableOpacity>
@@ -81,12 +71,7 @@ const AnalyticsScreen = ({navigation, route}) => {
           }}>
           <View
             // colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
-            style={[
-              styles.smallBoxGradient,
-              tab === 'all'
-                ? {backgroundColor: Constants.primaryDark}
-                : {backgroundColor: Constants.boxcolorLight},
-            ]}>
+            style={[styles.smallBoxGradient]}>
             <AppText style={styles.tabText}>Svi podaci</AppText>
           </View>
         </TouchableOpacity>
