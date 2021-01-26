@@ -113,11 +113,11 @@ const LoginScreen = ({navigation, route}) => {
                     rules={{
                       required: {
                         value: true,
-                        message: 'Sifra je obavezna',
+                        message: 'Šifra je obavezna',
                       },
                       minLength: {
                         value: 8,
-                        message: 'Sifra nije dovoljno dugacka',
+                        message: 'Šifra nije dovoljno dugačka',
                       },
                     }}
                   />

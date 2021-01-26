@@ -17,9 +17,64 @@ import {getLogo, getFuelIcon} from '../utils/Functions';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CarModal from '../render/modals/CarModal';
 import {setUserData} from '../utils/firebaseUtils';
+import {FA5Style} from 'react-native-vector-icons/FontAwesome5';
 
 const HomeScreen = ({navigation, route}) => {
-  console.log('aaa');
+  const [dataWarning, setDataWarning] = useState(
+    getClosestRegNortifiaction(route.params.GDATA),
+  );
+  const [warning, setWarning] = useState(
+    dataWarning.length !== 0 ? true : false,
+  );
+
+  function dateDiff(datum_sl_reg_unix) {
+    return (datum_sl_reg_unix - Date.now()) / 86400000;
+  }
+
+  function getClosestRegNortifiaction(data) {
+    let list = [];
+    for (let i = 0; i < data.data.length; i++) {
+      for (let j = 0; j < data.data[i].data.registration.length; j++) {
+        let ddif = Math.floor(dateDiff(data.data[i].data.registration[j].date));
+        if (ddif < 15 && ddif > -1 && (ddif !== null || diff !== undefined)) {
+          list.push({
+            value: ddif,
+            vozilo: data.data[i].brand,
+            tag: 'registraciju',
+          });
+        }
+      }
+
+      for (let j = 0; j < data.data[i].data.insurance.length; j++) {
+        let ddif = Math.floor(dateDiff(data.data[i].data.insurance[j].date));
+        if ((ddif < 15 && ddif > -1)(ddif !== null || diff !== undefined)) {
+          list.push({
+            value: ddif,
+            vozilo: data.data[i].brand,
+            tag: 'osiguranje',
+          });
+        }
+      }
+    }
+
+    for (let i = 0; i < data.data.length; i++) {
+      let a = data.data[i].data.maintainance.length - 1;
+
+      let total =
+        data.data[i].data.maintainance[a].millage +
+        data.data[i].data.maintainance[a].reminder -
+        data.data[i].mileage;
+      if (total > 0 && total < 500 && total !== null && total !== undefined) {
+        list.push({
+          value: total,
+          vozilo: data.data[i].brand,
+          tag: 'servis',
+        });
+      }
+      console.log(list);
+      return list;
+    }
+  }
 
   const setIndexes = (data) => {
     for (let i = 0; i < data.length; i++) {
@@ -142,7 +197,7 @@ const HomeScreen = ({navigation, route}) => {
       <View style={styles.body}>
         <FlatList
           data={cars}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item.id.toString()} // ovdje je bio problem
           style={styles.carList}
           renderItem={(item) => renderCar(item)}
           ListFooterComponent={
@@ -187,6 +242,41 @@ const HomeScreen = ({navigation, route}) => {
             id={cars.length}
           />
         </View>
+      </Modal>
+
+      <Modal
+        visible={warning}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={() => setWarning(false)}>
+        <TouchableWithoutFeedback
+          styel={{marginVertical: 10}}
+          onPress={() => setWarning(false)}>
+          <View
+            style={{
+              backgroundColor: Constants.red,
+              width: Constants.screenWidth * 0.9,
+              alignSelf: 'center',
+            }}>
+            {dataWarning.map((object) => {
+              return (
+                <View
+                  //key={object.findIndex()}
+                  style={{
+                    alignItems: 'center',
+
+                    height: 30,
+                    justifyContent: 'space-between',
+                  }}>
+                  <AppText color={Constants.white}>
+                    {object.vozilo} treba ići na {object.tag} za {object.value}
+                    dana/dan
+                  </AppText>
+                </View>
+              );
+            })}
+          </View>
+        </TouchableWithoutFeedback>
       </Modal>
     </View>
   );
@@ -251,13 +341,6 @@ const styles = StyleSheet.create({
     width: Constants.width * 0.75 - 40, // -40 just so it matches the padding of flatlist
     marginTop: 15,
     marginBottom: Constants.height * 0.08,
-  },
-
-  modalContainer: {
-    flex: 1,
-    backgroundColor: '#000000' + '80',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 
