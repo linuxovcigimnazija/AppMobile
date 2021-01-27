@@ -75,7 +75,7 @@ const TabAll = (props) => {
   var step = 8006280;
 
   var totalFuel = 0;
-  var averageConsumption,
+  var averageConsumption = 0,
     kilometrage = 0,
     totalConsumption = 0,
     totalSpent = 0;
@@ -85,76 +85,85 @@ const TabAll = (props) => {
     totalOther = 0,
     totalServis = 0,
     totalDamage = 0;
-  var totalMaintenance = 0,
+  var totalMaintainance = 0,
     totalTickets = 0,
     totalInsurance = 0,
     totalEquipment = 0,
     totalCarwash = 0;
 
   var totalSpent = 0;
-  var minKM = props.data.data.fuel[0].km,
+  var minKM = 100000000,
     count = 0;
 
   for (var item in props.data.data.fuel) {
-    if (props.data.data.fuel[item].km < minKM) {
-      minKM = props.data.data.fuel[item].km;
+    if (props.data.data.fuel[item].mileage < minKM) {
+      minKM = props.data.data.fuel[item].mileage;
     }
-    totalFuel = 0;
     totalFuel += props.data.data.fuel[item].price;
-    totalSpent += totalFuel;
     totalConsumption += props.data.data.fuel[item].volume;
-    kilometrage += props.data.data.fuel[item].km;
+    kilometrage += props.data.data.fuel[item].mileage;
     count += 1;
   }
-  kilometrage -= count * minKM;
-  averageConsumption = Number(
-    ((totalConsumption / kilometrage) * 100).toFixed(1),
-  );
+  if (count == 0) {
+    count = 1;
+    kilometrage = 0;
+    averageConsumption = 0;
+  } else {
+    kilometrage -= count * minKM;
+    averageConsumption = Number(
+      ((totalConsumption / kilometrage) * 100).toFixed(1),
+    );
+  }
+  if (kilometrage == 0) {
+    averageConsumption = 0;
+  }
+
+  totalSpent += totalFuel;
 
   for (var item in props.data.data.maintainance) {
-    totalMaintenance += props.data.data.maintainance[item].price;
-    totalSpent += totalMaintenance;
+    totalMaintainance += props.data.data.maintainance[item].price;
   }
+  totalSpent += totalMaintainance;
 
   for (var item in props.data.data.registration) {
     totalRegistration += props.data.data.registration[item].price;
-    totalSpent += totalRegistration;
   }
+  totalSpent += totalRegistration;
 
   for (var item in props.data.data.insurance) {
     totalInsurance += props.data.data.insurance[item].price;
-    totalSpent += totalInsurance;
   }
+  totalSpent += totalInsurance;
 
   for (var item in props.data.data.equipment) {
     totalEquipment += props.data.data.equipment[item].price;
-    totalSpent += totalEquipment;
   }
+  totalSpent += totalEquipment;
 
   for (var item in props.data.data.crashes) {
     totalCrashes += props.data.data.crashes[item].price;
-    totalSpent += totalCrashes;
   }
+  totalSpent += totalCrashes;
 
   for (var item in props.data.data.carWash) {
     totalCarwash += props.data.data.carWash[item].price;
-    totalSpent += totalCarwash;
   }
+  totalSpent += totalCarwash;
 
   for (var item in props.data.data.tickets) {
     totalTickets += props.data.data.tickets[item].price;
-    totalSpent += totalTickets;
   }
+  totalSpent += totalTickets;
 
   for (var item in props.data.data.repair) {
     totalRepair += props.data.data.repair[item].price;
-    totalSpent += totalRepair;
   }
+  totalSpent += totalRepair;
 
   for (var item in props.data.data.other) {
     totalOther += props.data.data.other[item].price;
-    totalSpent += totalOther;
   }
+  totalSpent += totalOther;
 
   var pieFuel = totalFuel;
   var pieRegistration = totalRegistration + totalInsurance;
@@ -176,14 +185,9 @@ const TabAll = (props) => {
     InputTypeColors.crashes,
     InputTypeColors.equipment,
   ];
-  for (var i = 1; i < 5; i++) {
-    if (pieNumbers[i] == 0) {
-      pieColors[i] = null;
-      pieNumbers[0] -= 0.5;
-    }
-  }
 
-  var chartArrayFuel = [];
+  var chartArrayFuel = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  var counting = 0;
   var sum = 0;
   for (var i = start; i < Date.now() / 1000; i += step) {
     for (var item in props.data.data.fuel) {
@@ -193,11 +197,15 @@ const TabAll = (props) => {
       ) {
         sum += props.data.data.fuel[item].price;
       }
-      chartArrayFuel.push(sum);
+      if (isNaN(sum) != true) {
+        chartArrayFuel[counting] = sum;
+        counting += 1;
+      }
     }
   }
 
-  var chartArrayAll = [];
+  var chartArrayAll = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  var counting = 0;
   sum = 0;
   for (var i = start; i < Date.now() / 1000; i += step) {
     for (var item in props.data.data.fuel) {
@@ -264,7 +272,14 @@ const TabAll = (props) => {
         sum += props.data.data.other[item].price;
       }
     }
-    chartArrayAll.push(sum);
+    if (isNaN(sum) != true) {
+      chartArrayFuel[counting] = sum;
+      counting += 1;
+    }
+  }
+
+  for (var i = 0; i < 5; i += 1) {
+    if (isNaN(pieNumbers[i])) pieNumbers[i] = 0;
   }
 
   return (
@@ -300,26 +315,6 @@ const TabAll = (props) => {
                 </AppText>
                 <AppText style={styles.boxbigText}>
                   {totalConsumption} l
-                </AppText>
-              </LinearGradient>
-            </View>
-          </View>
-          <View style={styles.twoboxContainer}>
-            <View style={styles.smallBox}>
-              <LinearGradient
-                colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
-                style={styles.smallboxGradient}>
-                <AppText style={styles.boxsmallText}>Ukupno pređeno</AppText>
-                <AppText style={styles.boxbigText}>{kilometrage} km</AppText>
-              </LinearGradient>
-            </View>
-            <View style={styles.smallBox}>
-              <LinearGradient
-                colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
-                style={styles.smallboxGradient}>
-                <AppText style={styles.boxsmallText}>Potrošeno novca</AppText>
-                <AppText style={styles.boxbigText}>
-                  {totalSpent} {props.currency}
                 </AppText>
               </LinearGradient>
             </View>
@@ -462,7 +457,7 @@ const TabAll = (props) => {
               darkColor={Colors.fuelAccent}
               iconName="gas-pump"
               categoryName="Gorivo"
-              amount="300"
+              amount={totalFuel}
               classIcon={FontAwesome5Icon}
             />
             <CategoryCard
@@ -471,7 +466,7 @@ const TabAll = (props) => {
               darkColor={Colors.insuranceAccent}
               iconName="hands-helping"
               categoryName="Osiguranje"
-              amount="300"
+              amount={totalInsurance}
               classIcon={FontAwesome5Icon}
             />
           </View>
@@ -483,7 +478,7 @@ const TabAll = (props) => {
               darkColor={Colors.registrationAccent}
               iconName="clipboard"
               categoryName="Registracija"
-              amount="300"
+              amount={totalRegistration}
               classIcon={EntypoIcon}
             />
             <CategoryCard
@@ -492,7 +487,7 @@ const TabAll = (props) => {
               darkColor={Colors.maintainanceAccent}
               iconName="miscellaneous-services"
               categoryName="Servis"
-              amount="300"
+              amount={totalMaintainance}
               classIcon={MaterialIcon}
             />
           </View>
@@ -504,7 +499,7 @@ const TabAll = (props) => {
               darkColor={Colors.repairAccent}
               iconName="car-repair"
               categoryName="Popravke"
-              amount="300"
+              amount={totalRepair}
               classIcon={MaterialIcon}
             />
             <CategoryCard
@@ -513,7 +508,7 @@ const TabAll = (props) => {
               darkColor={Colors.crashesAccent}
               iconName="close"
               categoryName="Oštećenja"
-              amount="300"
+              amount={totalDamage}
               classIcon={FontAwesomeIcon}
             />
           </View>
@@ -525,7 +520,7 @@ const TabAll = (props) => {
               darkColor={Colors.equipmentAccent}
               iconName="shopping-cart"
               categoryName="Oprema"
-              amount="300"
+              amount={totalEquipment}
               classIcon={FeatherIcon}
             />
             <CategoryCard
@@ -534,7 +529,7 @@ const TabAll = (props) => {
               darkColor={Colors.ticketsAccent}
               iconName="mail"
               categoryName="Kazne"
-              amount="300"
+              amount={totalTickets}
               classIcon={EntypoIcon}
             />
           </View>
@@ -546,7 +541,7 @@ const TabAll = (props) => {
               darkColor={Colors.carWashAccent}
               iconName="local-car-wash"
               categoryName="Pranje"
-              amount="300"
+              amount={totalCarwash}
               classIcon={MaterialIcon}
             />
             <CategoryCard
@@ -555,7 +550,7 @@ const TabAll = (props) => {
               darkColor={Colors.otherAccent}
               iconName="dots-horizontal"
               categoryName="Ostalo"
-              amount="300"
+              amount={totalOther}
               classIcon={MaterialCommunityIcon}
             />
           </View>
@@ -570,20 +565,7 @@ const TabAll = (props) => {
               labels: quarterLabels,
               datasets: [
                 {
-                  data: [
-                    100,
-                    200,
-                    300,
-                    400,
-                    300,
-                    200,
-                    100,
-                    200,
-                    300,
-                    400,
-                    300,
-                    200,
-                  ],
+                  chartArrayAll,
                 },
               ],
             }}
@@ -634,20 +616,7 @@ const TabAll = (props) => {
               labels: quarterLabels,
               datasets: [
                 {
-                  data: [
-                    80,
-                    160,
-                    200,
-                    250,
-                    220,
-                    200,
-                    190,
-                    250,
-                    300,
-                    320,
-                    300,
-                    210,
-                  ],
+                  data: [chartArrayFuel],
                 },
               ],
             }}
@@ -750,6 +719,7 @@ const styles = StyleSheet.create({
   boxbigText: {
     fontSize: 28,
     color: Constants.white,
+    textAlign: 'center',
   },
   pieTitle: {
     fontSize: 18,

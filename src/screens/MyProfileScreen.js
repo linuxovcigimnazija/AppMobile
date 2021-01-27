@@ -94,6 +94,9 @@ const MyProfileScreen = ({route, navigation}) => {
     InputTypeColors.crashes,
     InputTypeColors.equipment,
   ];
+  for (var i = 0; i < 5; i += 1) {
+    if (isNaN(pieNumbers[i])) pieNumbers[i] = 0;
+  }
 
   const logOut = () => {
     navigation.reset({

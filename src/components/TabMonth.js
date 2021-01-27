@@ -32,9 +32,8 @@ function calcPercent(item, total) {
 }
 
 const TabMonth = (props) => {
-  var currency = props.currency;
   var totalFuel = 0;
-  var averageConsumption,
+  var averageConsumption = 0,
     kilometrage = 0,
     totalConsumption = 0,
     totalSpent = 0;
@@ -44,7 +43,7 @@ const TabMonth = (props) => {
     totalOther = 0,
     totalServis = 0,
     totalDamage = 0;
-  var totalMaintenance = 0,
+  var totalMaintainance = 0,
     totalTickets = 0,
     totalInsurance = 0,
     totalEquipment = 0,
@@ -52,92 +51,107 @@ const TabMonth = (props) => {
 
   var totalSpent = 0;
 
-  var minKM = props.data.data.fuel[0].km,
+  var minKM = 100000000,
+    count = 0;
+
+  var minKM = 10000000,
     count = 0;
 
   for (var item in props.data.data.fuel) {
-    totalFuel = 0;
     if (props.data.data.fuel[item].date > (Date.now() - 2668760000) / 1000) {
-      if (props.data.data.fuel[item].km < minKM) {
-        minKM = props.data.data.fuel[item].km;
+      if (props.data.data.fuel[item].mileage < minKM) {
+        minKM = props.data.data.fuel[item].mileage;
       }
       totalFuel += props.data.data.fuel[item].price;
-      totalSpent += totalFuel;
       totalConsumption += props.data.data.fuel[item].volume;
-      kilometrage += props.data.data.fuel[item].km;
+      if (props.data.data.fuel[item].mileage != null) {
+        kilometrage += props.data.data.fuel[item].mileage;
+      }
       count += 1;
     }
   }
-  kilometrage -= count * minKM;
-  averageConsumption = Number(
-    ((totalConsumption / kilometrage) * 100).toFixed(1),
-  );
+  if (count == 0) {
+    count = 1;
+    kilometrage = 0;
+    averageConsumption = 0;
+  } else {
+    kilometrage -= count * minKM;
+    averageConsumption = Number(
+      ((totalConsumption / kilometrage) * 100).toFixed(1),
+    );
+  }
+  if (kilometrage == 0) {
+    averageConsumption = 0;
+  }
+
+  totalSpent += totalFuel;
 
   for (var item in props.data.data.maintainance) {
     if (props.data.data.maintainance[item].date > Date.now() / 1000 - 2668760) {
-      totalMaintenance += props.data.data.maintainance[item].price;
-      totalSpent += totalMaintenance;
+      totalMaintainance += props.data.data.maintainance[item].price;
     }
   }
+  totalSpent += totalMaintainance;
 
   for (var item in props.data.data.registration) {
     if (props.data.data.registration[item].date > Date.now() / 1000 - 2668760) {
       totalRegistration += props.data.data.registration[item].price;
-      totalSpent += totalRegistration;
     }
   }
+  totalSpent += totalRegistration;
 
   for (var item in props.data.data.insurance) {
     if (props.data.data.insurance[item].date > Date.now() / 1000 - 2668760) {
       totalInsurance += props.data.data.insurance[item].price;
-      totalSpent += totalInsurance;
     }
   }
+  totalSpent += totalInsurance;
 
   for (var item in props.data.data.equipment) {
     if (props.data.data.equipment[item].date > Date.now() / 1000 - 2668760) {
       totalEquipment += props.data.data.equipment[item].price;
-      totalSpent += totalEquipment;
     }
   }
+  totalSpent += totalEquipment;
+
   for (var item in props.data.data.tickets) {
     if (props.data.data.tickets[item].date > Date.now() / 1000 - 2668760) {
       totalTickets += props.data.data.tickets[item].price;
-      totalSpent += totalTickets;
     }
   }
+  totalSpent += totalTickets;
 
   for (var item in props.data.data.crashes) {
     if (props.data.data.crashes[item].date > Date.now() / 1000 - 2668760) {
       totalCrashes += props.data.data.crashes[item].price;
-      totalSpent += totalCrashes;
     }
   }
+  totalSpent += totalCrashes;
 
   for (var item in props.data.data.carWash) {
     if (props.data.data.carWash[item].date > Date.now() / 1000 - 2668760) {
       totalCarwash += props.data.data.carWash[item].price;
-      totalSpent += totalCarwash;
     }
   }
+  totalSpent += totalCarwash;
 
   for (var item in props.data.data.repair) {
     if (props.data.data.repair[item].date > Date.now() / 1000 - 2668760) {
       totalRepair += props.data.data.repair[item].price;
-      totalSpent += totalRepair;
     }
   }
+  totalSpent += totalRepair;
 
   for (var item in props.data.data.other) {
     if (props.data.data.other[item].date > Date.now() / 1000 - 2668760) {
       totalOther += props.data.data.other[item].price;
-      totalSpent += totalOther;
     }
   }
+  totalSpent += totalOther;
 
   var pieFuel = totalFuel;
   var pieRegistration = totalRegistration + totalInsurance;
-  var pieServis = totalServis + totalRepair;
+  var pieServis = totalMaintainance + totalRepair;
   var pieDamage = totalCrashes;
   var pieOther = totalOther + totalCarwash + totalEquipment + totalTickets;
 
@@ -155,11 +169,9 @@ const TabMonth = (props) => {
     InputTypeColors.crashes,
     InputTypeColors.equipment,
   ];
-  for (var i = 1; i < 5; i++) {
-    if (pieNumbers[i] == 0) {
-      pieColors[i] = null;
-      pieNumbers[0] -= 0.5;
-    }
+
+  for (var i = 0; i < 5; i += 1) {
+    if (isNaN(pieNumbers[i])) pieNumbers[i] = 0;
   }
 
   return (
@@ -214,7 +226,7 @@ const TabMonth = (props) => {
                 style={styles.smallboxGradient}>
                 <AppText style={styles.boxsmallText}>Potrošeno novca</AppText>
                 <AppText style={styles.boxbigText}>
-                  {totalSpent + ' ' + currency}
+                  {totalSpent + ' ' + props.currency}
                 </AppText>
               </LinearGradient>
             </View>
@@ -357,7 +369,7 @@ const TabMonth = (props) => {
               darkColor={Colors.fuelAccent}
               iconName="gas-pump"
               categoryName="Gorivo"
-              amount="300"
+              amount={totalFuel}
               classIcon={FontAwesome5Icon}
             />
             <CategoryCard
@@ -366,7 +378,7 @@ const TabMonth = (props) => {
               darkColor={Colors.insuranceAccent}
               iconName="hands-helping"
               categoryName="Osiguranje"
-              amount="300"
+              amount={totalInsurance}
               classIcon={FontAwesome5Icon}
             />
           </View>
@@ -378,7 +390,7 @@ const TabMonth = (props) => {
               darkColor={Colors.registrationAccent}
               iconName="clipboard"
               categoryName="Registracija"
-              amount="300"
+              amount={totalRegistration}
               classIcon={EntypoIcon}
             />
             <CategoryCard
@@ -387,7 +399,7 @@ const TabMonth = (props) => {
               darkColor={Colors.maintainanceAccent}
               iconName="miscellaneous-services"
               categoryName="Servis"
-              amount="300"
+              amount={totalMaintainance}
               classIcon={MaterialIcon}
             />
           </View>
@@ -399,7 +411,7 @@ const TabMonth = (props) => {
               darkColor={Colors.repairAccent}
               iconName="car-repair"
               categoryName="Popravke"
-              amount="300"
+              amount={totalRepair}
               classIcon={MaterialIcon}
             />
             <CategoryCard
@@ -408,7 +420,7 @@ const TabMonth = (props) => {
               darkColor={Colors.crashesAccent}
               iconName="close"
               categoryName="Oštećenja"
-              amount="300"
+              amount={totalDamage}
               classIcon={FontAwesomeIcon}
             />
           </View>
@@ -420,7 +432,7 @@ const TabMonth = (props) => {
               darkColor={Colors.equipmentAccent}
               iconName="shopping-cart"
               categoryName="Oprema"
-              amount="300"
+              amount={totalEquipment}
               classIcon={FeatherIcon}
             />
             <CategoryCard
@@ -429,7 +441,7 @@ const TabMonth = (props) => {
               darkColor={Colors.ticketsAccent}
               iconName="mail"
               categoryName="Kazne"
-              amount="300"
+              amount={totalTickets}
               classIcon={EntypoIcon}
             />
           </View>
@@ -441,7 +453,7 @@ const TabMonth = (props) => {
               darkColor={Colors.carWashAccent}
               iconName="local-car-wash"
               categoryName="Pranje"
-              amount="300"
+              amount={totalCarwash}
               classIcon={MaterialIcon}
             />
             <CategoryCard
@@ -450,7 +462,7 @@ const TabMonth = (props) => {
               darkColor={Colors.otherAccent}
               iconName="dots-horizontal"
               categoryName="Ostalo"
-              amount="300"
+              amount={totalOther}
               classIcon={MaterialCommunityIcon}
             />
           </View>
@@ -517,6 +529,7 @@ const styles = StyleSheet.create({
   boxbigText: {
     fontSize: 28,
     color: Constants.white,
+    textAlign: 'center',
   },
   pieTitle: {
     fontSize: 18,
