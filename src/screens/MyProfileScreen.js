@@ -34,7 +34,6 @@ const MyProfileScreen = ({route, navigation}) => {
     navigation.navigate('Login');
   };
 
-  route.params.GDATA.data[route.params];
 
   var totalConsumption = 0,
     totalSpent = 0;
@@ -95,6 +94,9 @@ const MyProfileScreen = ({route, navigation}) => {
     InputTypeColors.crashes,
     InputTypeColors.equipment,
   ];
+  for(var i=0; i<5; i+=1){
+    if(isNaN(pieNumbers[i])) pieNumbers[i]=0
+  }
 
   const logOut = () => {
     navigation.reset({
