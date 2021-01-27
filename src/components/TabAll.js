@@ -280,11 +280,13 @@ const TabAll = (props) => {
                   Prosječna potrošnja
                 </AppText>
                 <View style={styles.averageConsumptionContainer}>
-                  <AppText style={styles.boxbigText}>
-                    {averageConsumption}
-                  </AppText>
-                  <AppText style={styles.averageconsumptionText}>
-                    l/100km
+                  <AppText>
+                    <AppText style={styles.boxbigText}>
+                      {averageConsumption}
+                    </AppText>
+                    <AppText style={styles.averageconsumptionText}>
+                      l/100km
+                    </AppText>
                   </AppText>
                 </View>
               </LinearGradient>
@@ -321,24 +323,6 @@ const TabAll = (props) => {
                 </AppText>
               </LinearGradient>
             </View>
-          </View>
-        </View>
-        <View style={styles.twoboxContainer}>
-          <View style={styles.smallBox}>
-            <LinearGradient
-              colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
-              style={styles.smallboxGradient}>
-              <AppText style={styles.boxsmallText}>Ukupno pređeno</AppText>
-              <AppText style={styles.boxbigText}>{kilometrage} km</AppText>
-            </LinearGradient>
-          </View>
-          <View style={styles.smallBox}>
-            <LinearGradient
-              colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
-              style={styles.smallboxGradient}>
-              <AppText style={styles.boxsmallText}>Potrošeno novca</AppText>
-              <AppText style={styles.boxbigText}>{totalSpent} KM</AppText>
-            </LinearGradient>
           </View>
         </View>
         <View style={styles.bigBox}>
@@ -748,6 +732,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 3,
   },
   averageConsumptionContainer: {
     flexDirection: 'row',

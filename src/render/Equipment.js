@@ -59,7 +59,7 @@ export default function Equipment({item, currency}) {
       </LinearGradient>
       <View style={styles.dateContainer}>
         <AppText
-          style={{textAlign: 'center'}}
+          style={{textAlign: 'left'}}
           color={Constants.gray}
           bold
           size={14}>

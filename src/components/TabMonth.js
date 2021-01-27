@@ -213,7 +213,9 @@ const TabMonth = (props) => {
                 colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
                 style={styles.smallboxGradient}>
                 <AppText style={styles.boxsmallText}>Potrošeno novca</AppText>
-                <AppText style={styles.boxbigText}>{totalSpent} KM</AppText>
+                <AppText style={styles.boxbigText}>
+                  {totalSpent + ' ' + currency}
+                </AppText>
               </LinearGradient>
             </View>
           </View>
@@ -497,6 +499,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 3,
   },
   averageConsumptionContainer: {
     flexDirection: 'row',

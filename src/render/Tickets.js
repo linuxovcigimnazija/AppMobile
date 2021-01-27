@@ -47,7 +47,7 @@ export default function Tickets({item, currency}) {
       </LinearGradient>
       <View style={styles.dateContainer}>
         <AppText
-          style={{textAlign: 'center'}}
+          style={{textAlign: 'left'}}
           color={Constants.gray}
           bold
           size={14}>

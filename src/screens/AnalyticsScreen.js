@@ -10,7 +10,7 @@ import Header from '../components/Header';
 const AnalyticsScreen = ({navigation, route}) => {
   const [tab, setTab] = useState('month');
 
-  var currency=route.params.GDATA.country.valute
+  var currency = route.params.GDATA.country.valute;
 
   return (
     <View style={styles.wholescreen}>
@@ -79,7 +79,11 @@ const AnalyticsScreen = ({navigation, route}) => {
         </TouchableOpacity>
       </View>
 
-      <Tab currency={currency} data={route.params.GDATA.data[route.params.carId]} style={styles.tabStyle} page={tab}></Tab>
+      <Tab
+        currency={currency}
+        data={route.params.GDATA.data[route.params.carId]}
+        style={styles.tabStyle}
+        page={tab}></Tab>
     </View>
   );
 };
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   singleTab: {
-    width: '30%',
+    width: '32%',
     alignItems: 'center',
     justifyContent: 'center',
     height: '50%',

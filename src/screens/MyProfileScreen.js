@@ -220,12 +220,21 @@ const MyProfileScreen = ({route, navigation}) => {
                 <View style={[styles.smallBox, {marginRight: 10}]}>
                   <Icon name="fuel" size={38} color={Constants.white} />
                   <AppText color={Constants.white}>Ukupno nasuto</AppText>
-                  <AppText style={styles.boxText}>{totalConsumption}</AppText>
+                  <AppText style={styles.boxText}>
+                    {totalConsumption}
+                    <AppText
+                      style={{fontWeight: '300'}}
+                      color={Constants.white}
+                      size={22}>
+                      {' '}
+                      l
+                    </AppText>
+                  </AppText>
                 </View>
                 <View style={styles.smallBox}>
                   <Icon name="cash" size={40} color={Constants.white} />
                   <AppText color={Constants.white}>Ukupno potrošeno</AppText>
-                  <AppText style={styles.boxText}>
+                  <AppText style={[styles.boxText, {textAlign: 'center'}]}>
                     {totalSpent + ' ' + currency}
                   </AppText>
                 </View>
