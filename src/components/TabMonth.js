@@ -503,6 +503,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 3,
   },
   averageConsumptionContainer: {
     flexDirection: 'row',
@@ -520,6 +521,7 @@ const styles = StyleSheet.create({
   boxbigText: {
     fontSize: 28,
     color: Constants.white,
+    textAlign: 'center',
   },
   pieTitle: {
     fontSize: 18,

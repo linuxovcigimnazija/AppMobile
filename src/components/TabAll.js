@@ -114,7 +114,15 @@ const TabAll = (props) => {
       ((totalConsumption / kilometrage) * 100).toFixed(1),
     );
   }
+  if (isNaN(kilometrage)) {
+    kilometrage = 0;
+  }
+
   if (kilometrage == 0) {
+    averageConsumption = 0;
+  }
+
+  if (isNaN(averageConsumption)) {
     averageConsumption = 0;
   }
 
@@ -280,7 +288,6 @@ const TabAll = (props) => {
 
   for (var i = 0; i < 5; i += 1) {
     if (isNaN(pieNumbers[i])) pieNumbers[i] = 0;
-    console.log(pieNumbers[i], pieColors[i]);
   }
 
   return (
@@ -319,6 +326,26 @@ const TabAll = (props) => {
                 </AppText>
               </LinearGradient>
             </View>
+          </View>
+        </View>
+        <View style={styles.twoboxContainer}>
+          <View style={styles.smallBox}>
+            <LinearGradient
+              colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
+              style={styles.smallboxGradient}>
+              <AppText style={styles.boxsmallText}>Ukupno pređeno</AppText>
+              <AppText style={styles.boxbigText}>{kilometrage} km</AppText>
+            </LinearGradient>
+          </View>
+          <View style={styles.smallBox}>
+            <LinearGradient
+              colors={[Constants.boxcolorLight, Constants.boxcolorDark]}
+              style={styles.smallboxGradient}>
+              <AppText style={styles.boxsmallText}>Potrošeno novca</AppText>
+              <AppText style={styles.boxbigText}>
+                {totalSpent} {props.currency}
+              </AppText>
+            </LinearGradient>
           </View>
         </View>
         <View style={styles.bigBox}>
