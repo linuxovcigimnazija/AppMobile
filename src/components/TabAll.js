@@ -71,8 +71,8 @@ for (i = 1; i < 5; i++) {
 }
 
 const TabAll = (props) => {
-  var start = Date.now() / 1000 - 94867200;
-  var step = 8006280;
+  var start = Date.now()   - 94867200000;
+  var step = 8006280000;
 
   var totalFuel = 0;
   var averageConsumption=0,
@@ -189,7 +189,7 @@ totalSpent += totalFuel;
   var chartArrayFuel = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   var counting=0;
   var sum = 0;
-  for (var i = start; i < Date.now() / 1000; i += step) {
+  for (var i = start; i < (Date.now()  ); i += step) {
     for (var item in props.data.data.fuel) {
       if (
         props.data.data.fuel[item].date > start &&
@@ -207,7 +207,7 @@ totalSpent += totalFuel;
   var chartArrayAll = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   var counting=0;
   sum = 0;
-  for (var i = start; i < Date.now() / 1000; i += step) {
+  for (var i = start; i < Date.now()  ; i += step) {
     for (var item in props.data.data.fuel) {
       if (
         props.data.data.fuel[item].date > start &&
@@ -572,109 +572,7 @@ totalSpent += totalFuel;
           </View>
         </View>
 
-        <View>
-          <AppText style={[styles.linechartText, {marginTop: 30}]}>
-            Pregled potrošnje novca po kvartalima
-          </AppText>
-          <LineChart
-            data={{
-              labels: quarterLabels,
-              datasets: [
-                {
-                  chartArrayAll
-                },
-              ],
-            }}
-            width={Constants.width * 0.9} // from react-native
-            height={Constants.height * 0.3}
-            verticalLabelRotation={-30}
-            yAxisLabel=""
-            yAxisSuffix="KM"
-            yAxisInterval={1} // optional, defaults to 1
-            chartConfig={{
-              backgroundGradientFrom: Constants.primaryDark,
-              backgroundGradientTo: Constants.primary,
-              decimalPlaces: 0, // optional, defaults to 2dp
-              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              style: {
-                borderRadius: 16,
-              },
-              propsForDots: {
-                r: '4',
-                strokeWidth: '2',
-                stroke: Constants.primaryLight,
-              },
-              propsForVerticalLabels: {
-                fontSize: 7.5,
-              },
-              propsForHorizontalLabels: {
-                fontSize: 11,
-              },
-            }}
-            bezier
-            style={{
-              marginVertical: 8,
-              borderRadius: 16,
-              justifyContent: 'center',
-              alignItems: 'center',
-              fontSize: 1,
-            }}
-          />
-        </View>
-
-        <View>
-          <AppText style={styles.linechartText}>
-            Pregled potrošnje goriva po kvartalima
-          </AppText>
-          <LineChart
-            data={{
-              labels: quarterLabels,
-              datasets: [
-                {
-                  data: [
-                    chartArrayFuel
-                  ],
-                },
-              ],
-            }}
-            width={Constants.width * 0.9} // from react-native
-            height={Constants.height * 0.3}
-            verticalLabelRotation={-30}
-            yAxisLabel=""
-            yAxisSuffix="KM"
-            yAxisInterval={1} // optional, defaults to 1
-            chartConfig={{
-              backgroundGradientFrom: Constants.primaryDark,
-              backgroundGradientTo: Constants.primary,
-              decimalPlaces: 0, // optional, defaults to 2dp
-              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              style: {
-                borderRadius: 16,
-              },
-              propsForDots: {
-                r: '4',
-                strokeWidth: '2',
-                stroke: Constants.primaryLight,
-              },
-              propsForVerticalLabels: {
-                fontSize: 7.5,
-              },
-              propsForHorizontalLabels: {
-                fontSize: 11,
-              },
-            }}
-            bezier
-            style={{
-              marginVertical: 8,
-              borderRadius: 16,
-              justifyContent: 'center',
-              alignItems: 'center',
-              fontSize: 1,
-            }}
-          />
-        </View>
+        
       </ScrollView>
     </View>
   );
