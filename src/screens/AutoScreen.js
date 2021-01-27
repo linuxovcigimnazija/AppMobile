@@ -30,7 +30,7 @@ const AutoScreen = ({navigation, route}) => {
 
   for (var item in car.data.fuel) {
     totalFuel = 0;
-    if (car.data.fuel[item].date > (Date.now() - 2668760000) / 1000) {
+    if (car.data.fuel[item].date > (Date.now() - 2668760000)  ) {
       totalFuel += car.data.fuel[item].price;
       totalConsumption += car.data.fuel[item].volume;
     }

@@ -62,8 +62,8 @@ secondArray = labels.splice(0, month);
 yearLabels = firstArray.concat(secondArray);
 
 const TabYear = (props) => {
-  var start = Date.now() / 1000 - 31622400;
-  var step = 2668760;
+  var start = Date.now() - 31622400000;
+  var step = 2668760000;
   var totalFuel = 0;
   var averageConsumption = 0,
     kilometrage = 0,
@@ -87,7 +87,7 @@ const TabYear = (props) => {
 
   if (props.data.data.fuel.length != 0) {
     for (var item in props.data.data.fuel) {
-      if (props.data.data.fuel[item].date > (Date.now() - 31622400000) / 1000) {
+      if (props.data.data.fuel[item].date > Date.now() - 31622400000) {
         if (props.data.data.fuel[item].mileage < minKM) {
           minKM = props.data.data.fuel[item].mileage;
         }
@@ -113,14 +113,24 @@ const TabYear = (props) => {
       averageConsumption = 0;
     }
   }
+  if (count == 0) {
+    count = 1;
+    kilometrage = 0;
+    averageConsumption = 0;
+  } else {
+    kilometrage -= count * minKM;
+    averageConsumption = Number(
+      ((totalConsumption / kilometrage) * 100).toFixed(1),
+    );
+  }
+  if (kilometrage == 0) {
+    averageConsumption = 0;
+  }
 
   totalSpent += totalFuel;
 
   for (var item in props.data.data.maintainance) {
-    if (
-      props.data.data.maintainance[item].date >
-      Date.now() / 1000 - 31622400
-    ) {
+    if (props.data.data.maintainance[item].date > Date.now() - 31622400000) {
       totalMaintenance += props.data.data.maintainance[item].price;
     }
   }
@@ -128,59 +138,56 @@ const TabYear = (props) => {
   totalSpent += totalMaintenance;
 
   for (var item in props.data.data.registration) {
-    if (
-      props.data.data.registration[item].date >
-      Date.now() / 1000 - 31622400
-    ) {
+    if (props.data.data.registration[item].date > Date.now() - 31622400000) {
       totalRegistration += props.data.data.registration[item].price;
     }
   }
   totalSpent += totalRegistration;
 
   for (var item in props.data.data.insurance) {
-    if (props.data.data.insurance[item].date > Date.now() / 1000 - 31622400) {
+    if (props.data.data.insurance[item].date > Date.now() - 31622400000) {
       totalInsurance += props.data.data.insurance[item].price;
     }
   }
   totalSpent += totalInsurance;
 
   for (var item in props.data.data.equipment) {
-    if (props.data.data.equipment[item].date > Date.now() / 1000 - 31622400) {
+    if (props.data.data.equipment[item].date > Date.now() - 31622400000) {
       totalEquipment += props.data.data.equipment[item].price;
     }
   }
   totalSpent += totalEquipment;
 
   for (var item in props.data.data.crashes) {
-    if (props.data.data.crashes[item].date > Date.now() / 1000 - 31622400) {
+    if (props.data.data.crashes[item].date > Date.now() - 31622400000) {
       totalCrashes += props.data.data.crashes[item].price;
     }
   }
   totalSpent += totalCrashes;
 
   for (var item in props.data.data.carWash) {
-    if (props.data.data.carWash[item].date > Date.now() / 1000 - 31622400) {
+    if (props.data.data.carWash[item].date > Date.now() - 31622400000) {
       totalCarwash += props.data.data.carWash[item].price;
     }
   }
   totalSpent += totalCarwash;
 
   for (var item in props.data.data.repair) {
-    if (props.data.data.repair[item].date > Date.now() / 1000 - 31622400) {
+    if (props.data.data.repair[item].date > Date.now() - 31622400000) {
       totalRepair += props.data.data.repair[item].price;
     }
   }
   totalSpent += totalRepair;
 
   for (var item in props.data.data.tickets) {
-    if (props.data.data.tickets[item].date > Date.now() / 1000 - 31622400) {
+    if (props.data.data.tickets[item].date > Date.now() - 31622400000) {
       totalTickets += props.data.data.tickets[item].price;
     }
   }
   totalSpent += totalTickets;
 
   for (var item in props.data.data.other) {
-    if (props.data.data.other[item].date > Date.now() / 1000 - 31622400) {
+    if (props.data.data.other[item].date > Date.now() - 31622400000) {
       totalOther += props.data.data.other[item].price;
     }
   }
@@ -214,11 +221,11 @@ const TabYear = (props) => {
   var chartArrayFuel = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   var sum = 0;
   var counting = 0;
-  for (var i = start; i < Date.now() / 1000; i += step) {
+  for (var i = start; i < Date.now(); i += step) {
     for (var item in props.data.data.fuel) {
       if (
-        props.data.data.fuel[item].date > start &&
-        props.data.data.fuel[item].date < start + step
+        props.data.data.fuel[item].date > i &&
+        props.data.data.fuel[item].date < i + step
       ) {
         sum += props.data.data.fuel[item].price;
       }
@@ -232,67 +239,67 @@ const TabYear = (props) => {
   var chartArrayAll = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   var counting = 0;
   sum = 0;
-  for (var i = start; i < Date.now() / 1000; i += step) {
+  for (var i = start; i < Date.now(); i += step) {
     for (var item in props.data.data.fuel) {
       if (
-        props.data.data.fuel[item].date > start &&
-        props.data.data.fuel[item].date < start + step
+        props.data.data.fuel[item].date > i &&
+        props.data.data.fuel[item].date < i + step
       ) {
         sum += props.data.data.fuel[item].price;
       }
     }
     for (var item in props.data.data.maintainance) {
       if (
-        props.data.data.maintainance[item].date > start &&
-        props.data.data.maintainance[item].date < start + step
+        props.data.data.maintainance[item].date > i &&
+        props.data.data.maintainance[item].date < i + step
       ) {
         sum += props.data.data.maintainance[item].price;
       }
     }
     for (var item in props.data.data.registration) {
       if (
-        props.data.data.registration[item].date > start &&
-        props.data.data.registration[item].date < start + step
+        props.data.data.registration[item].date > i &&
+        props.data.data.registration[item].date < i + step
       ) {
         sum += props.data.data.registration[item].price;
       }
     }
     for (var item in props.data.data.insurance) {
       if (
-        props.data.data.insurance[item].date > start &&
-        props.data.data.insurance[item].date < start + step
+        props.data.data.insurance[item].date > i &&
+        props.data.data.insurance[item].date < i + step
       ) {
         sum += props.data.data.insurance[item].price;
       }
     }
     for (var item in props.data.data.equipment) {
       if (
-        props.data.data.equipment[item].date > start &&
-        props.data.data.equipment[item].date < start + step
+        props.data.data.equipment[item].date > i &&
+        props.data.data.equipment[item].date < i + step
       ) {
         sum += props.data.data.equipment[item].price;
       }
     }
     for (var item in props.data.data.crashes) {
       if (
-        props.data.data.crashes[item].date > start &&
-        props.data.data.crashes[item].date < start + step
+        props.data.data.crashes[item].date > i &&
+        props.data.data.crashes[item].date < i + step
       ) {
         sum += props.data.data.crashes[item].price;
       }
     }
     for (var item in props.data.data.carWash) {
       if (
-        props.data.data.carWash[item].date > start &&
-        props.data.data.carWash[item].date < start + step
+        props.data.data.carWash[item].date > i &&
+        props.data.data.carWash[item].date < i + step
       ) {
         sum += props.data.data.carWash[item].price;
       }
     }
     for (var item in props.data.data.other) {
       if (
-        props.data.data.other[item].date > start &&
-        props.data.data.other[item].date < start + step
+        props.data.data.other[item].date > i &&
+        props.data.data.other[item].date < i + step
       ) {
         sum += props.data.data.other[item].price;
       }
@@ -559,7 +566,7 @@ const TabYear = (props) => {
               darkColor={Colors.crashesAccent}
               iconName="close"
               categoryName="Oštećenja"
-              amount={totalDamage}
+              amount={totalCrashes}
               classIcon={FontAwesomeIcon}
             />
           </View>
@@ -607,7 +614,7 @@ const TabYear = (props) => {
           </View>
         </View>
 
-        {/* <View>
+        <View>
           <AppText style={[styles.linechartText, {marginTop: 30}]}>
             Pregled potrošnje novca po mjesecima
           </AppText>
@@ -616,7 +623,7 @@ const TabYear = (props) => {
               labels: yearLabels,
               datasets: [
                 {
-                  data: chartArrayAll,
+                  data: chartArrayFuel,
                 },
               ],
             }}
@@ -667,7 +674,7 @@ const TabYear = (props) => {
               labels: yearLabels,
               datasets: [
                 {
-                  data: chartArrayFuel,
+                  data: chartArrayAll,
                 },
               ],
             }}
@@ -707,7 +714,7 @@ const TabYear = (props) => {
               fontSize: 1,
             }}
           />
-        </View> */}
+        </View>
       </ScrollView>
     </View>
   );

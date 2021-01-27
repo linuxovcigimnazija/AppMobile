@@ -28,7 +28,8 @@ import CategoryCard from './CategoryCard';
 import InputTypeColors from '../constants/InputTypeColors';
 
 function calcPercent(item, total) {
-  return (item / total) * 100;
+  var x = (item / total) * 100;
+  return x;
 }
 
 const TabMonth = (props) => {
@@ -58,7 +59,7 @@ const TabMonth = (props) => {
     count = 0;
 
   for (var item in props.data.data.fuel) {
-    if (props.data.data.fuel[item].date > (Date.now() - 2668760000) / 1000) {
+    if (props.data.data.fuel[item].date > Date.now() - 2668760000) {
       if (props.data.data.fuel[item].mileage < minKM) {
         minKM = props.data.data.fuel[item].mileage;
       }
@@ -84,82 +85,73 @@ const TabMonth = (props) => {
     averageConsumption = 0;
   }
 
-  totalSpent += totalFuel;
-
   for (var item in props.data.data.maintainance) {
-    if (props.data.data.maintainance[item].date > Date.now() / 1000 - 2668760) {
+    if (props.data.data.maintainance[item].date > Date.now() - 2668760000) {
       totalMaintainance += props.data.data.maintainance[item].price;
     }
   }
-  totalSpent += totalMaintainance;
 
   for (var item in props.data.data.registration) {
-    if (props.data.data.registration[item].date > Date.now() / 1000 - 2668760) {
+    if (props.data.data.registration[item].date > Date.now() - 2668760000) {
       totalRegistration += props.data.data.registration[item].price;
     }
   }
-  totalSpent += totalRegistration;
 
   for (var item in props.data.data.insurance) {
-    if (props.data.data.insurance[item].date > Date.now() / 1000 - 2668760) {
+    if (props.data.data.insurance[item].date > Date.now() - 2668760000) {
       totalInsurance += props.data.data.insurance[item].price;
     }
   }
-  totalSpent += totalInsurance;
 
   for (var item in props.data.data.equipment) {
-    if (props.data.data.equipment[item].date > Date.now() / 1000 - 2668760) {
+    if (props.data.data.equipment[item].date > Date.now() - 2668760000) {
       totalEquipment += props.data.data.equipment[item].price;
     }
   }
-  totalSpent += totalEquipment;
 
   for (var item in props.data.data.tickets) {
-    if (props.data.data.tickets[item].date > Date.now() / 1000 - 2668760) {
+    if (props.data.data.tickets[item].date > Date.now() - 2668760000) {
       totalTickets += props.data.data.tickets[item].price;
     }
   }
-  totalSpent += totalTickets;
 
   for (var item in props.data.data.crashes) {
-    if (props.data.data.crashes[item].date > Date.now() / 1000 - 2668760) {
+    if (props.data.data.crashes[item].date > Date.now() - 2668760000) {
       totalCrashes += props.data.data.crashes[item].price;
     }
   }
-  totalSpent += totalCrashes;
 
   for (var item in props.data.data.carWash) {
-    if (props.data.data.carWash[item].date > Date.now() / 1000 - 2668760) {
+    if (props.data.data.carWash[item].date > Date.now() - 2668760000) {
       totalCarwash += props.data.data.carWash[item].price;
     }
   }
-  totalSpent += totalCarwash;
 
   for (var item in props.data.data.repair) {
-    if (props.data.data.repair[item].date > Date.now() / 1000 - 2668760) {
+    if (props.data.data.repair[item].date > Date.now() - 2668760000) {
       totalRepair += props.data.data.repair[item].price;
     }
   }
-  totalSpent += totalRepair;
 
   for (var item in props.data.data.other) {
-    if (props.data.data.other[item].date > Date.now() / 1000 - 2668760) {
+    if (props.data.data.other[item].date > Date.now() - 2668760000) {
       totalOther += props.data.data.other[item].price;
     }
   }
-  totalSpent += totalOther;
 
   var pieFuel = totalFuel;
   var pieRegistration = totalRegistration + totalInsurance;
   var pieServis = totalMaintainance + totalRepair;
-  var pieDamage = totalCrashes;
+  var pieCrashes = totalCrashes;
   var pieOther = totalOther + totalCarwash + totalEquipment + totalTickets;
+  totalSpent = 0;
+  totalSpent = pieFuel + pieRegistration + pieServis + pieCrashes + pieOther;
 
   var pieNumbers = [
     calcPercent(pieFuel, totalSpent),
     calcPercent(pieRegistration, totalSpent),
     calcPercent(pieServis, totalSpent),
-    calcPercent(pieDamage, totalSpent),
+    calcPercent(pieCrashes, totalSpent),
     calcPercent(pieOther, totalSpent),
   ];
   var pieColors = [
@@ -226,7 +218,7 @@ const TabMonth = (props) => {
                 style={styles.smallboxGradient}>
                 <AppText style={styles.boxsmallText}>Potrošeno novca</AppText>
                 <AppText style={styles.boxbigText}>
-                  {totalSpent + ' ' + props.currency}
+                  {totalSpent} {props.currency}
                 </AppText>
               </LinearGradient>
             </View>
@@ -420,7 +412,7 @@ const TabMonth = (props) => {
               darkColor={Colors.crashesAccent}
               iconName="close"
               categoryName="Oštećenja"
-              amount={totalDamage}
+              amount={totalCrashes}
               classIcon={FontAwesomeIcon}
             />
           </View>
@@ -511,7 +503,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 3,
   },
   averageConsumptionContainer: {
     flexDirection: 'row',
@@ -529,7 +520,6 @@ const styles = StyleSheet.create({
   boxbigText: {
     fontSize: 28,
     color: Constants.white,
-    textAlign: 'center',
   },
   pieTitle: {
     fontSize: 18,
