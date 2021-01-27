@@ -34,8 +34,6 @@ const MyProfileScreen = ({route, navigation}) => {
     navigation.navigate('Login');
   };
 
-  route.params.GDATA.data[route.params];
-
   var totalConsumption = 0,
     totalSpent = 0;
   var totalFuel = 0,
@@ -44,6 +42,7 @@ const MyProfileScreen = ({route, navigation}) => {
     totalDamage = 0,
     totalOther = 0;
 
+  console.log('RUNNING PIE ANALYTICS');
   for (var item in data.data) {
     for (var note in data.data[item].data.fuel) {
       totalConsumption += data.data[item].data.fuel[note].volume;

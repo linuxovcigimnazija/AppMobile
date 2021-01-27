@@ -38,13 +38,14 @@ const App = () => {
   const [render, reRender] = useState(false);
 
   useEffect(() => {
+    console.log('AUTH USER', auth().currentUser);
+    setIniRoute(auth().currentUser ? 'TabNavigation' : 'Login');
     setVisible(false);
     const getIndex = async () => {
       const object = await getUserData();
       setData(object);
     };
     getIndex();
-    setIniRoute(auth().currentUser ? 'TabNavigation' : 'Login');
   }, [render]);
 
   useEffect(() => {
