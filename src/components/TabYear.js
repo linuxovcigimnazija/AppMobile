@@ -607,9 +607,9 @@ const TabYear = (props) => {
           </View>
         </View>
 
-        <View>
+        {/* <View>
           <AppText style={[styles.linechartText, {marginTop: 30}]}>
-            Pregled potrošnje novca po kvartalima
+            Pregled potrošnje novca po mjesecima
           </AppText>
           <LineChart
             data={{
@@ -660,7 +660,7 @@ const TabYear = (props) => {
 
         <View>
           <AppText style={styles.linechartText}>
-            Pregled potrošnje goriva po kvartalima
+            Pregled potrošnje goriva po mjesecima
           </AppText>
           <LineChart
             data={{
@@ -707,7 +707,7 @@ const TabYear = (props) => {
               fontSize: 1,
             }}
           />
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );

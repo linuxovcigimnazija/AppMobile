@@ -280,6 +280,7 @@ const TabAll = (props) => {
 
   for (var i = 0; i < 5; i += 1) {
     if (isNaN(pieNumbers[i])) pieNumbers[i] = 0;
+    console.log(pieNumbers[i], pieColors[i]);
   }
 
   return (
@@ -573,7 +574,7 @@ const TabAll = (props) => {
             height={Constants.height * 0.3}
             verticalLabelRotation={-30}
             yAxisLabel=""
-            yAxisSuffix="KM"
+            yAxisSuffix={props.currency}
             yAxisInterval={1} // optional, defaults to 1
             chartConfig={{
               backgroundGradientFrom: Constants.primaryDark,
@@ -624,7 +625,7 @@ const TabAll = (props) => {
             height={Constants.height * 0.3}
             verticalLabelRotation={-30}
             yAxisLabel=""
-            yAxisSuffix="KM"
+            yAxisSuffix={props.currency}
             yAxisInterval={1} // optional, defaults to 1
             chartConfig={{
               backgroundGradientFrom: Constants.primaryDark,
