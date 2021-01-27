@@ -130,6 +130,10 @@ const MyProfileScreen = ({route, navigation}) => {
 
   data_function();
 
+  for (var i = 0; i < 5; i += 1) {
+    if (isNaN(pieNumbers[i])) pieNumbers[i] = 0;
+  }
+
   return (
     <View style={styles.wholescreen}>
       <Header route={route} />
