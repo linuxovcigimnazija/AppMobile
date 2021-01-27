@@ -186,7 +186,8 @@ totalSpent += totalFuel;
     InputTypeColors.equipment,
   ];
 
-  var chartArrayFuel = [];
+  var chartArrayFuel = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  var counting=0;
   var sum = 0;
   for (var i = start; i < Date.now() / 1000; i += step) {
     for (var item in props.data.data.fuel) {
@@ -196,11 +197,15 @@ totalSpent += totalFuel;
       ) {
         sum += props.data.data.fuel[item].price;
       }
-      chartArrayFuel.push(sum);
+      if(isNaN(sum)!=true){
+        chartArrayFuel[counting]=sum;
+        counting+=1;
+      }
     }
   }
 
-  var chartArrayAll = [];
+  var chartArrayAll = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  var counting=0;
   sum = 0;
   for (var i = start; i < Date.now() / 1000; i += step) {
     for (var item in props.data.data.fuel) {
@@ -267,7 +272,10 @@ totalSpent += totalFuel;
         sum += props.data.data.other[item].price;
       }
     }
-    chartArrayAll.push(sum);
+    if(isNaN(sum)!=true){
+      chartArrayFuel[counting]=sum;
+      counting+=1;
+    }
   }
 
   for(var i=0; i<5; i+=1){

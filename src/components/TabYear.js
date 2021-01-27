@@ -215,6 +215,7 @@ const TabYear = (props) => {
   
   var chartArrayFuel = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   var sum = 0;
+  var counting=0;
   for (var i = start; i < Date.now() / 1000; i += step) {
     for (var item in props.data.data.fuel) {
       if (
@@ -223,11 +224,15 @@ const TabYear = (props) => {
       ) {
         sum += props.data.data.fuel[item].price;
       }
-      chartArrayFuel.push(sum);
+      if(isNaN(sum)!=true){
+        chartArrayFuel[counting]=sum;
+        counting+=1;
+      }
     }
   }
 
   var chartArrayAll = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  var counting=0;
   sum = 0;
   for (var i = start; i < Date.now() / 1000; i += step) {
     for (var item in props.data.data.fuel) {
@@ -294,7 +299,10 @@ const TabYear = (props) => {
         sum += props.data.data.other[item].price;
       }
     }
-    chartArrayAll.push(sum);
+    if(isNaN(sum)!=true){
+      chartArrayFuel[counting]=sum;
+      counting+=1;
+    }
   }
 
   const chartConfig = {
@@ -898,3 +906,8 @@ const styles = StyleSheet.create({
   },
   dot: {
     width: 8,
+    height: 8,
+    borderRadius: 100,
+    marginRight: 5,
+  },
+});
