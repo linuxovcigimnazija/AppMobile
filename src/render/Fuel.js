@@ -37,7 +37,7 @@ export default function Fuel({item, currency}) {
             Uneseno gorivo:
           </AppText>
 
-          <AppText bold color={Constants.white} size={18}>
+          <AppText bold color={Constants.white} size={17}>
             {item.price + ' ' + currency}
           </AppText>
 
@@ -93,13 +93,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: InputTypeColors[selectedType],
     elevation: 2,
-    shadowColor: Constants.gray,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.4,
     padding: 13,
   },
   iconContainer: {

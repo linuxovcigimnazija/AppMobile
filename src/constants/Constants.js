@@ -45,6 +45,6 @@ export default {
   lightBlue: '#72bcd4',
 
   //analytics screen colors
-  boxcolorLight: '#345678',
-  boxcolorDark: '#103056',
+  boxcolorLight: '#234567',
+  boxcolorDark: '#1d3354',
 };

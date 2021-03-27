@@ -92,7 +92,7 @@ const TravelInfoScreen = ({navigation, route}) => {
             />
             <AppText style={styles.titleText}>Želite da putujete?</AppText>
             <AppText style={styles.textStyle}>
-              NAJNOVIJE informacije vezane za Putovanje u Pandemiji za...
+              NAJNOVIJE informacije vezane za putovanje u pandemiji za...
             </AppText>
             <DropDownPicker
               items={TravellInfoData}

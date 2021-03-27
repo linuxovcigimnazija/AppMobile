@@ -16,6 +16,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import InputCategories from '../constants/InputCategories';
 import InputTypeColors from '../constants/InputTypeColors';
 import {setUserData} from '../utils/firebaseUtils';
+import Toast from 'react-native-simple-toast';
 import {
   FontAwesomeIcon,
   getCategoryIcon,
@@ -187,14 +188,22 @@ const InputScreen = ({navigation, route}) => {
 
     let pushData = route.params.GDATA;
 
-    if (mileage) {
+    if (mileage && tag !== 'maintainance') {
       if (pushData.data[route.params.carId].mileage < mileage) {
         pushData.data[route.params.carId].mileage = mileage;
       }
     }
 
     pushData.data[route.params.carId].data = nextData;
+
     setUserData(JSON.stringify(pushData));
+
+    Toast.showWithGravity(
+      'Analitika će biti osvježena kada pokrenete aplikaciju ili postavite podatke na Cloud',
+      Toast.LONG,
+      Toast.TOP,
+      ['RCTModalHostViewController'],
+    );
   };
 
   return (
@@ -349,6 +358,9 @@ const InputScreen = ({navigation, route}) => {
             />
           ) : selectedCategoryValue === 'maintainance' ? (
             <MaintainanceModal
+              currentMileage={
+                route.params.GDATA.data[route.params.carId].mileage
+              }
               currency={route.params.GDATA.country.valute}
               addItem={addItemToArray}
               closeModal={() => setModalVisible(false)}

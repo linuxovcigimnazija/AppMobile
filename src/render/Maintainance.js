@@ -34,17 +34,17 @@ export default function Maintainance({item, currency}) {
         </View>
         <View style={styles.textContainer}>
           <AppText bold color={Constants.white} size={14}>
-            Servis:{' '}
+            Servis:{'\n'}
             <AppText size={16} bold color={Constants.white}>
               {item.price + ' ' + currency}
             </AppText>
           </AppText>
 
           <Text>
-            <AppText color={Constants.white} size={14}>
-              Sljedeci za:{'\n'}
+            <AppText color={Constants.white} size={13}>
+              Sljedeći za:{'\n'}
             </AppText>
-            <AppText color={Constants.white} size={14}>
+            <AppText color={Constants.white} size={13}>
               {item.reminder}km
             </AppText>
           </Text>
@@ -74,7 +74,7 @@ export default function Maintainance({item, currency}) {
       </LinearGradient>
       <View style={styles.dateContainer}>
         <AppText
-          style={{textAlign: 'center'}}
+          style={{textAlign: 'left'}}
           color={Constants.gray}
           bold
           size={14}>
@@ -101,13 +101,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: InputTypeColors[selectedType],
     elevation: 2,
-    shadowColor: Constants.gray,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.4,
     padding: 13,
   },
   iconContainer: {

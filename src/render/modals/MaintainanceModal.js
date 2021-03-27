@@ -23,6 +23,7 @@ export default function MaintainanceModal({
   closeModal,
   addItem,
   currency,
+  currentMileage,
 }) {
   const [selectedSubcategory, setSelectedSubcategory] = useState(
     'maintainance',
@@ -44,6 +45,7 @@ export default function MaintainanceModal({
         big: big,
         date: Date.now(),
         reminder: reminder,
+        mileage: currentMileage,
         tag: selectedSubcategory,
       };
     } else {
@@ -363,6 +365,7 @@ export default function MaintainanceModal({
                   </AppText>
                   <View style={[inputStyles.inputContainer, {marginTop: 10}]}>
                     <TextInput
+                      maxLength={25}
                       selectionColor={Constants.lightBlue}
                       style={[
                         inputStyles.input,

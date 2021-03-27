@@ -25,7 +25,6 @@ import Colors from '../constants/InputTypeColors';
 
 const CategoryCard = (props) => {
   const Icon = props.classIcon;
-  const currency = 'EUR';
 
   return (
     <View style={styles.smallBoxCategory}>
@@ -46,7 +45,7 @@ const CategoryCard = (props) => {
               />
             </View>
             <AppText style={styles.categoryboxsmallText}>
-              {props.amount + ' ' + currency}
+              {props.amount + ' ' + props.currency}
             </AppText>
           </View>
         </View>

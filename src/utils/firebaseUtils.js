@@ -77,12 +77,17 @@ export const setUserData = async (data) => {
   }
 };
 
-export const onSingUp = async (email, password, data, navigatorFunc) => {
+export const onSingUp = async (
+  email,
+  password,
+  data,
+  navigatorFunc,
+  render,
+) => {
   auth()
     .createUserWithEmailAndPassword(email, password)
     .then(() => {
-      setUser(data, email);
-      navigatorFunc();
+      setUser(data, email, navigatorFunc, render);
     })
     .catch((error) => {
       if (error.code === 'auth/email-already-in-use') {
@@ -113,11 +118,14 @@ export const onLogIn = async (email, password, navigatorFunc, render) => {
   }
 };
 
-export const setUser = async (data, email) => {
+export const setUser = async (data, email, navigatorFunc, render) => {
   const userId = await firestore().collection('Users').add(data);
   firestore().collection('id').doc(email).set({id: userId.id});
   await setUserID(userId);
+  console.log('CREATING USER WITH', data);
   await setUserData(JSON.stringify(data));
+
+  navigatorFunc(!render);
 };
 
 export const updateBase = async (reRender, render) => {

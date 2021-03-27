@@ -34,7 +34,7 @@ export default function Crash({item, currency}) {
         </View>
         <View style={styles.textContainer}>
           <AppText bold color={Constants.white} size={14}>
-            Oštećenje:{' '}
+            Ostecenje:{' '}
             <AppText size={16} bold color={Constants.white}>
               {item.price + ' ' + currency}
             </AppText>
@@ -47,7 +47,7 @@ export default function Crash({item, currency}) {
       </LinearGradient>
       <View style={styles.dateContainer}>
         <AppText
-          style={{textAlign: 'center'}}
+          style={{textAlign: 'left'}}
           color={Constants.gray}
           bold
           size={14}>
@@ -74,13 +74,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: InputTypeColors[selectedType],
     elevation: 2,
-    shadowColor: Constants.gray,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.4,
     padding: 13,
   },
   iconContainer: {

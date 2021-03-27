@@ -55,7 +55,13 @@ const RegisterScreen = ({navigation, route}) => {
       data: [],
     };
 
-    onSingUp(user.email, user.password, user, goToHome);
+    onSingUp(
+      user.email,
+      user.password,
+      user,
+      route.params.reRender,
+      route.params.render,
+    );
   };
 
   return (
@@ -66,7 +72,7 @@ const RegisterScreen = ({navigation, route}) => {
         <View style={styles.body}>
           <View style={styles.background}>
             <Image
-              source={require('../assets/images/backgroundphoto.png')}
+              source={require('../assets/images/backgroundphoto.jpg')}
               resizeMode="stretch"
               style={{
                 height: Constants.height,
@@ -94,7 +100,7 @@ const RegisterScreen = ({navigation, route}) => {
                   render={({onChange, value}) => (
                     <DashboardInput
                       placeholder="Ime i prezime"
-                      maxLength={12}
+                      maxLength={25}
                       onChangeText={(value) => onChange(value)}
                       value={value}
                       error={errors.userName}
@@ -103,7 +109,7 @@ const RegisterScreen = ({navigation, route}) => {
                   rules={{
                     required: {
                       value: true,
-                      message: 'Ime je obavezno',
+                      message: 'Ime je obavezno.',
                     },
                   }}
                 />
@@ -124,7 +130,7 @@ const RegisterScreen = ({navigation, route}) => {
                   rules={{
                     required: {
                       value: true,
-                      message: 'Email je obavezan',
+                      message: 'Email je obavezan.',
                     },
                     pattern: {
                       value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -168,7 +174,7 @@ const RegisterScreen = ({navigation, route}) => {
                     <DashboardInput
                       text="Šifra"
                       textContentType={'oneTimeCode'}
-                      placeholder="Unesi ponovo Šifru"
+                      placeholder="Unesite ponovo Šifru"
                       secureTextEntry={true}
                       maxLength={16}
                       onChangeText={(value) => onChange(value)}
@@ -179,11 +185,12 @@ const RegisterScreen = ({navigation, route}) => {
                   rules={{
                     required: {
                       value: true,
-                      message: 'Potvrda šifre je obavezna',
+                      message: 'Potvrda šifre je obavezna.',
                     },
 
                     validate: (value) =>
-                      value === userPassword.current || 'Šifre se ne poklapaju',
+                      value === userPassword.current ||
+                      'Šifre se ne poklapaju.',
                   }}
                 />
               </View>
@@ -277,7 +284,7 @@ const RegisterScreen = ({navigation, route}) => {
                       marginVertical: '2%',
                       color: DashboardColors.white,
                     }}>
-                    Već si registrovan?{'\n'}https://link.com
+                    Već ste registrovan?{'\n'}https://link.com
                   </AppText>
                 </Hyperlink>
 
@@ -286,7 +293,7 @@ const RegisterScreen = ({navigation, route}) => {
                   activeOpacity={0.9}
                   onPress={handleSubmit(onNextStepHandler)}>
                   <AppText bold={true} style={styles.loginbuttonText}>
-                    Registruj se
+                    Registrujte se
                   </AppText>
                 </TouchableOpacity>
               </View>
@@ -389,6 +396,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 7.5,
     borderBottomRightRadius: 7.5,
     paddingStart: 0,
+    marginTop: 5,
   },
   dropDownStyle: {
     backgroundColor: Constants.primaryDark,

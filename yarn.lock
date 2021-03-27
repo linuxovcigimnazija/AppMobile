@@ -1577,12 +1577,7 @@
   "resolved" "https://registry.npmjs.org/@types/long/-/long-4.0.1.tgz"
   "version" "4.0.1"
 
-"@types/node@*":
-  "integrity" "sha512-4nhBPStMK04rruRVtVc6cDqhu7S9GZai0fpXgPXrFpcPX6Xul8xnrjSdGB4KPBVYG/R5+fXWdCM8qBoiULWGPQ=="
-  "resolved" "https://registry.npmjs.org/@types/node/-/node-14.14.19.tgz"
-  "version" "14.14.19"
-
-"@types/node@^12.12.47":
+"@types/node@*", "@types/node@^12.12.47":
   "integrity" "sha512-lowukE3GUI+VSYSu6VcBXl14d61Rp5hA1D+61r16qnwC0lYNSqdxcvRh0pswejorHfS+HgwBasM8jLXz0/aOsw=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-12.19.15.tgz"
   "version" "12.19.15"
@@ -2585,7 +2580,12 @@
   "resolved" "https://registry.npmjs.org/core-js-pure/-/core-js-pure-3.8.1.tgz"
   "version" "3.8.1"
 
-"core-js@^2.2.2", "core-js@^2.4.1":
+"core-js@^2.2.2":
+  "integrity" "sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ=="
+  "resolved" "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz"
+  "version" "2.6.12"
+
+"core-js@^2.4.1":
   "integrity" "sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ=="
   "resolved" "https://registry.npmjs.org/core-js/-/core-js-2.6.12.tgz"
   "version" "2.6.12"
@@ -7946,12 +7946,12 @@
   dependencies:
     "iconv-lite" "0.4.24"
 
-"whatwg-fetch@^3.0.0", "whatwg-fetch@>=0.10.0":
+"whatwg-fetch@^3.0.0":
   "integrity" "sha512-jXkLtsR42xhXg7akoDKvKWE40eJeI+2KZqcp2h3NsOrRnDvtWX36KcKl30dy+hxECivdk2BVUHVNrPtoMBUx6A=="
   "resolved" "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-3.5.0.tgz"
   "version" "3.5.0"
 
-"whatwg-fetch@2.0.4":
+"whatwg-fetch@>=0.10.0", "whatwg-fetch@2.0.4":
   "integrity" "sha512-dcQ1GWpOD/eEQ97k66aiEVpNnapVj90/+R+SXTPYGHpYBBypfKJEQjLrvMZ7YXbKm21gXd4NcuxUTjiv1YtLng=="
   "resolved" "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-2.0.4.tgz"
   "version" "2.0.4"

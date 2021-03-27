@@ -17,63 +17,77 @@ import {getLogo, getFuelIcon} from '../utils/Functions';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CarModal from '../render/modals/CarModal';
 import {setUserData} from '../utils/firebaseUtils';
-import {FA5Style} from 'react-native-vector-icons/FontAwesome5';
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const HomeScreen = ({navigation, route}) => {
   const [dataWarning, setDataWarning] = useState(
-    getClosestRegNortifiaction(route.params.GDATA),
+    route.params.GDATA ? getClosestRegNortifiaction(route.params.GDATA) : [],
   );
   const [warning, setWarning] = useState(
     dataWarning.length !== 0 ? true : false,
   );
 
   function dateDiff(datum_sl_reg_unix) {
-    return (datum_sl_reg_unix - Date.now()) / 86400000;
+    return (datum_sl_reg_unix + 31556926000 - Date.now()) / 86400000;
   }
 
   function getClosestRegNortifiaction(data) {
     let list = [];
+    console.log('FUNCTION');
     for (let i = 0; i < data.data.length; i++) {
+      console.log('CAR');
       for (let j = 0; j < data.data[i].data.registration.length; j++) {
         let ddif = Math.floor(dateDiff(data.data[i].data.registration[j].date));
-        if (ddif < 15 && ddif > -1 && (ddif !== null || ddif !== undefined)) {
+        console.log(
+          'TEST',
+          ddif < 15 && ddif > -1 && ddif !== null && ddif !== undefined,
+        );
+        if (ddif < 15 && ddif > -1 && ddif !== null && ddif !== undefined) {
           list.push({
             value: ddif,
             vozilo: data.data[i].name,
-            tag: 'registraciju',
+            tag: 'registracije',
           });
+        } else {
+          console.log('ITS FALSE');
         }
       }
 
       for (let j = 0; j < data.data[i].data.insurance.length; j++) {
+        console.log('INSURANCE STARTED');
         let ddif = Math.floor(dateDiff(data.data[i].data.insurance[j].date));
-        if ((ddif < 15 && ddif > -1)(ddif !== null || ddif !== undefined)) {
+        if (ddif < 15 && ddif > -1 && (ddif !== null || ddif !== undefined)) {
           list.push({
             value: ddif,
             vozilo: data.data[i].name,
             tag: 'osiguranje',
           });
+        } else {
+          console.log('INSURANCE FALSE');
         }
       }
     }
 
-    for (let i = 0; i < data.data.length; i++) {
-      let a = data.data[i].data.maintainance.length - 1;
+    for (let k = 0; k < data.data.length; k++) {
+      let a = data.data[k].data.maintainance.length - 1;
+
+      if (a < 0) continue;
 
       let total =
-        data.data[i].data.maintainance[a].millage +
-        data.data[i].data.maintainance[a].reminder -
-        data.data[i].mileage;
+        data.data[k].data.maintainance[a].mileage +
+        data.data[k].data.maintainance[a].reminder -
+        data.data[k].mileage;
       if (total > 0 && total < 500 && total !== null && total !== undefined) {
         list.push({
           value: total,
-          vozilo: data.data[i].name,
+          vozilo: data.data[k].name,
           tag: 'servis',
         });
       }
-      console.log(list);
-      return list;
     }
+
+    console.log(list);
+    return list;
   }
 
   const setIndexes = (data) => {
@@ -83,7 +97,9 @@ const HomeScreen = ({navigation, route}) => {
     return data;
   };
 
-  const [cars, setCars] = useState(setIndexes(route.params.GDATA.data));
+  const [cars, setCars] = useState(
+    route.params.GDATA ? setIndexes(route.params.GDATA.data) : [],
+  );
   console.log(route.params.GDATA);
 
   const goToCar = (carId) => {
@@ -268,19 +284,61 @@ const HomeScreen = ({navigation, route}) => {
               {
                 backgroundColor: Constants.primary,
                 borderColor: Constants.primaryDark,
+                alignItems: 'flex-start',
               },
             ]}>
-            <AppText size={28} color={Constants.white} bold>
+            <AppText
+              size={28}
+              color={Constants.white}
+              bold
+              style={{marginBottom: 25}}>
               Podsjetnik
             </AppText>
             {dataWarning.map((object) => {
-              return (
-                <AppText key={Math.random() * 1000} color={Constants.white}>
-                  {object.vozilo} treba ići na {object.tag} za {object.value}
-                  dana/dan
+              return object.tag === 'servis' ? (
+                <AppText
+                  color={Constants.white}
+                  style={{textAlign: 'left', marginVertical: 5}}>
+                  Uskoro trebate poslati vozilo{' '}
+                  <AppText bold size={18} color={Constants.lightBlue}>
+                    {object.vozilo}
+                  </AppText>{' '}
+                  na servis. (za{' '}
+                  <AppText bold size={18} color={Constants.primaryLight}>
+                    {object.value}
+                  </AppText>{' '}
+                  kilometara).
+                </AppText>
+              ) : (
+                <AppText
+                  key={Math.random() * 1000}
+                  color={Constants.white}
+                  style={{textAlign: 'left', marginVertical: 5}}>
+                  <AppText bold size={18} color={Constants.lightBlue}>
+                    {object.vozilo}
+                  </AppText>
+                  -u je potrebna obnova {object.tag} za{' '}
+                  <AppText bold size={18} color={Constants.primaryLight}>
+                    {object.value}
+                  </AppText>{' '}
+                  dana.
                 </AppText>
               );
             })}
+
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                right: 20,
+                top: 20,
+              }}
+              onPress={() => setWarning(false)}>
+              <FontAwesomeIcon
+                name="close"
+                size={Constants.height * 0.03}
+                color={Constants.black}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>

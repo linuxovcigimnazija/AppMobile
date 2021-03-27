@@ -153,6 +153,7 @@ export default function CarModal({closeModal, addItem, id}) {
                 </AppText>
                 <View style={inputStyles.inputContainer}>
                   <TextInput
+                    maxLength={15}
                     selectionColor={Constants.lightBlue}
                     style={[
                       inputStyles.input,
@@ -227,7 +228,7 @@ export default function CarModal({closeModal, addItem, id}) {
 
             <View style={inputStyles.inputHolder}>
               <AppText size={18} bold color={Constants.white}>
-                Velicina motora:
+                Veličina motora:
               </AppText>
               <View style={inputStyles.inputContainer}>
                 <TextInput

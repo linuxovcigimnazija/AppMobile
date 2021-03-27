@@ -47,7 +47,7 @@ export default function Maintainance({item, currency}) {
       </LinearGradient>
       <View style={styles.dateContainer}>
         <AppText
-          style={{textAlign: 'center'}}
+          style={{textAlign: 'left'}}
           color={Constants.gray}
           bold
           size={14}>
@@ -74,13 +74,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: InputTypeColors[selectedType],
     elevation: 2,
-    shadowColor: Constants.gray,
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.4,
     padding: 13,
   },
   iconContainer: {

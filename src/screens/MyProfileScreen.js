@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import AppText from '../components/AppText';
 import Constants from '../constants/Constants';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,12 +23,80 @@ var name, email, numberOfCars, online;
 var fuelConsumption, moneySpent, currency;
 var pieFuel, pieRegistration, pieServis, pieDamage, pieOther;
 
+function calcPercent(item, total) {
+  return (item / total) * 100;
+}
+
 const MyProfileScreen = ({route, navigation}) => {
   const [color, setColor] = useState(themes.seaship);
   const [data, setData] = useState(route.params.GDATA);
   const goToLogin = () => {
     navigation.navigate('Login');
   };
+
+  var totalConsumption = 0,
+    totalSpent = 0;
+  var totalFuel = 0,
+    totalRegistration = 0,
+    totalServis = 0,
+    totalDamage = 0,
+    totalOther = 0;
+
+  console.log('RUNNING PIE ANALYTICS');
+  for (var item in data.data) {
+    for (var note in data.data[item].data.fuel) {
+      totalConsumption += data.data[item].data.fuel[note].volume;
+      totalFuel += data.data[item].data.fuel[note].price;
+    }
+    for (var note in data.data[item].data.carWash) {
+      totalOther += data.data[item].data.carWash[note].price;
+    }
+    for (var note in data.data[item].data.equipment) {
+      totalOther += data.data[item].data.equipment[note].price;
+    }
+    for (var note in data.data[item].data.tickets) {
+      totalOther += data.data[item].data.tickets[note].price;
+    }
+    for (var note in data.data[item].data.other) {
+      totalOther += data.data[item].data.other[note].price;
+    }
+    for (var note in data.data[item].data.maintainance) {
+      totalServis += data.data[item].data.maintainance[note].price;
+    }
+    for (var note in data.data[item].data.repair) {
+      totalServis += data.data[item].data.repair[note].price;
+    }
+    for (var note in data.data[item].data.crashes) {
+      totalDamage += data.data[item].data.crashes[note].price;
+    }
+    for (var note in data.data[item].data.insurance) {
+      totalRegistration += data.data[item].data.insurance[note].price;
+    }
+    for (var note in data.data[item].data.registration) {
+      totalRegistration += data.data[item].data.registration[note].price;
+    }
+  }
+
+  totalSpent =
+    totalFuel + totalRegistration + totalServis + totalDamage + totalOther;
+
+  var pieNumbers = [
+    calcPercent(totalFuel, totalSpent),
+    calcPercent(totalRegistration, totalSpent),
+    calcPercent(totalServis, totalSpent),
+    calcPercent(totalDamage, totalSpent),
+    calcPercent(totalOther, totalSpent),
+  ];
+  var pieColors = [
+    InputTypeColors.fuel,
+    InputTypeColors.registration,
+    InputTypeColors.maintainance,
+    InputTypeColors.crashes,
+    InputTypeColors.equipment,
+  ];
+  for (var i = 0; i < 5; i += 1) {
+    if (isNaN(pieNumbers[i])) pieNumbers[i] = 0;
+  }
 
   const logOut = () => {
     navigation.reset({
@@ -58,6 +132,10 @@ const MyProfileScreen = ({route, navigation}) => {
   }
 
   data_function();
+
+  for (var i = 0; i < 5; i += 1) {
+    if (isNaN(pieNumbers[i])) pieNumbers[i] = 0;
+  }
 
   return (
     <View style={styles.wholescreen}>
@@ -102,7 +180,7 @@ const MyProfileScreen = ({route, navigation}) => {
                   onPress={() => {
                     onLogOut(logOut);
                   }}>
-                  <AppText style={styles.logoutbuttonText}>Izadji</AppText>
+                  <AppText style={styles.logoutbuttonText}>Izađi</AppText>
                 </TouchableOpacity>
               </View>
             </View>
@@ -148,13 +226,22 @@ const MyProfileScreen = ({route, navigation}) => {
                 <View style={[styles.smallBox, {marginRight: 10}]}>
                   <Icon name="fuel" size={38} color={Constants.white} />
                   <AppText color={Constants.white}>Ukupno nasuto</AppText>
-                  <AppText style={styles.boxText}>{fuelConsumption}</AppText>
+                  <AppText style={styles.boxText}>
+                    {totalConsumption}
+                    <AppText
+                      style={{fontWeight: '300'}}
+                      color={Constants.white}
+                      size={22}>
+                      {' '}
+                      l
+                    </AppText>
+                  </AppText>
                 </View>
                 <View style={styles.smallBox}>
                   <Icon name="cash" size={40} color={Constants.white} />
                   <AppText color={Constants.white}>Ukupno potrošeno</AppText>
-                  <AppText style={styles.boxText}>
-                    {moneySpent + ' ' + currency}
+                  <AppText style={[styles.boxText, {textAlign: 'center'}]}>
+                    {totalSpent + ' ' + currency}
                   </AppText>
                 </View>
               </View>
@@ -176,24 +263,24 @@ const MyProfileScreen = ({route, navigation}) => {
                       innerRadius={30}
                       sections={[
                         {
-                          percentage: pieFuel,
-                          color: InputTypeColors.fuel,
+                          percentage: pieNumbers[0],
+                          color: pieColors[0],
                         },
                         {
-                          percentage: pieRegistration,
-                          color: InputTypeColors.registration,
+                          percentage: pieNumbers[1],
+                          color: pieColors[1],
                         },
                         {
-                          percentage: pieServis,
-                          color: InputTypeColors.maintainance,
+                          percentage: pieNumbers[2],
+                          color: pieColors[2],
                         },
                         {
-                          percentage: pieDamage,
-                          color: InputTypeColors.crashes,
+                          percentage: pieNumbers[3],
+                          color: pieColors[3],
                         },
                         {
-                          percentage: pieOther,
-                          color: InputTypeColors.equipment,
+                          percentage: pieNumbers[4],
+                          color: pieColors[4],
                         },
                       ]}
                     />
